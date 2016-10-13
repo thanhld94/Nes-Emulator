@@ -1,0 +1,7 @@
+# objects and executable files
+*.o
+*.a
+*.out
+
+# mac os files
+.DS_STORE
