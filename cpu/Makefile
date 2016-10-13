@@ -62,6 +62,8 @@ TESTS = cpu_test
 
 cpu_test: cpu_test.cc cpu.o gtest_main.a
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -I$(USER_DIR) $^ -o $@ && ./$@
+	rm -f $(TESTS) gtest.a gtest_main.a *.o
+
 
 test: $(TESTS)
 
