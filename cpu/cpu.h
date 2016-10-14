@@ -4,6 +4,11 @@
 class CPU {
   public:
     CPU();
+
+    /* Addressing Mode */
+    int get_addressing_mode(uint8_t opcode);
+
+    /* Getters & Setters*/
     uint16_t get_pc();
     uint8_t get_sp();
     uint8_t get_rx();
@@ -18,4 +23,6 @@ class CPU {
     uint8_t r_y;
     uint8_t r_acc;
     uint8_t r_st;
+
+    static const int mode_table[256]; 
 };
