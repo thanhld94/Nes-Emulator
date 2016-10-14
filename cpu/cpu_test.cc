@@ -124,3 +124,30 @@ TEST (AddressingModeTest, CLV_ClearOverflowFlag) {
   CPU cpu;
   EXPECT_EQ(cpu.get_addressing_mode(0xB8), IMPLIED);
 }
+
+TEST (AddressingModeTest, CMP_Compare) {
+  CPU cpu;
+  EXPECT_EQ(cpu.get_addressing_mode(0xC9), IMMEDIATE);
+  EXPECT_EQ(cpu.get_addressing_mode(0xC5), ZEROPAGE);
+  EXPECT_EQ(cpu.get_addressing_mode(0xD5), ZEROPAGEX);
+  EXPECT_EQ(cpu.get_addressing_mode(0xCD), ABSOLUTE);
+  EXPECT_EQ(cpu.get_addressing_mode(0xDD), ABSOLUTEX);
+  EXPECT_EQ(cpu.get_addressing_mode(0xD9), ABSOLUTEY);
+  EXPECT_EQ(cpu.get_addressing_mode(0xC1), INDIRECTX);
+  EXPECT_EQ(cpu.get_addressing_mode(0xD1), INDIRECTY);
+}
+
+TEST (AddressingModeTest, CPX_CompareXRegister) {
+  CPU cpu;
+  EXPECT_EQ(cpu.get_addressing_mode(0xE0), IMMEDIATE);
+  EXPECT_EQ(cpu.get_addressing_mode(0xE4), ZEROPAGE);
+  EXPECT_EQ(cpu.get_addressing_mode(0xEC), ABSOLUTE);
+}
+
+TEST (AddressingModeTest, CPY_CompareYRegister) {
+  CPU cpu;
+  EXPECT_EQ(cpu.get_addressing_mode(0xC0), IMMEDIATE);
+  EXPECT_EQ(cpu.get_addressing_mode(0xC4), ZEROPAGE);
+  EXPECT_EQ(cpu.get_addressing_mode(0xCC), ABSOLUTE);
+
+}
