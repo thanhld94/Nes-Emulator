@@ -104,3 +104,23 @@ TEST (AddressingModeTest, BVS_BranchIfOverFlowSet) {
   CPU cpu;
   EXPECT_EQ(cpu.get_addressing_mode(0x70), RELATIVE);
 }
+
+TEST (AddressingModeTest, CLC_ClearCarryFlag) {
+  CPU cpu;
+  EXPECT_EQ(cpu.get_addressing_mode(0x18), IMPLIED);
+}
+
+TEST (AddressingModeTest, CLD_ClearDecimalMode) {
+  CPU cpu;
+  EXPECT_EQ(cpu.get_addressing_mode(0xD8), IMPLIED);
+}
+
+TEST (AddressingModeTest, CLI_ClearInterruptDisable) {
+  CPU cpu;
+  EXPECT_EQ(cpu.get_addressing_mode(0x58), IMPLIED);
+}
+
+TEST (AddressingModeTest, CLV_ClearOverflowFlag) {
+  CPU cpu;
+  EXPECT_EQ(cpu.get_addressing_mode(0xB8), IMPLIED);
+}
