@@ -258,4 +258,146 @@ TEST (AddressingModeTest, LSR_LogicalShiftRight) {
   EXPECT_EQ(cpu.get_addressing_mode(0x5E), ABSOLUTEX);
 }
 
+TEST (AddressingModeTest, NOP_NoOpoeration) {
+  CPU cpu;
+  EXPECT_EQ(cpu.get_addressing_mode(0xEA), IMPLIED);
+}
+
+TEST (AddressingModeTest, ORA_LogicalInculsiveOR) {
+  CPU cpu;
+  EXPECT_EQ(cpu.get_addressing_mode(0x09), IMMEDIATE);
+  EXPECT_EQ(cpu.get_addressing_mode(0x05), ZEROPAGE);
+  EXPECT_EQ(cpu.get_addressing_mode(0x15), ZEROPAGEX);
+  EXPECT_EQ(cpu.get_addressing_mode(0x0D), ABSOLUTE);
+  EXPECT_EQ(cpu.get_addressing_mode(0x1D), ABSOLUTEX);
+  EXPECT_EQ(cpu.get_addressing_mode(0x19), ABSOLUTEY);
+  EXPECT_EQ(cpu.get_addressing_mode(0x01), INDIRECTX);
+  EXPECT_EQ(cpu.get_addressing_mode(0x11), INDIRECTY);
+}
+
+TEST (AddressingModeTest, PHA_PushAccumulator) {
+  CPU cpu;
+  EXPECT_EQ(cpu.get_addressing_mode(0x48), IMPLIED);
+}
+
+TEST (AddressingModeTest, PHP_PushProcessorStatus) {
+  CPU cpu;
+  EXPECT_EQ(cpu.get_addressing_mode(0x08), IMPLIED);
+}
+
+TEST (AddressingModeTest, PLP_PullPorcessorStatus) {
+  CPU cpu;
+  EXPECT_EQ(cpu.get_addressing_mode(0x28), IMPLIED);
+}
+
+TEST (AddressingModeTest, ROL_RotateLeft) {
+  CPU cpu;
+  EXPECT_EQ(cpu.get_addressing_mode(0x2A), ACCUMULATOR);
+  EXPECT_EQ(cpu.get_addressing_mode(0x26), ZEROPAGE);
+  EXPECT_EQ(cpu.get_addressing_mode(0x36), ZEROPAGEX);
+  EXPECT_EQ(cpu.get_addressing_mode(0x2E), ABSOLUTE);
+  EXPECT_EQ(cpu.get_addressing_mode(0x3E), ABSOLUTEX);
+}
+
+TEST (AddressingModeTest, ROR_RotateRight) {
+  CPU cpu;
+  EXPECT_EQ(cpu.get_addressing_mode(0x6A), ACCUMULATOR);
+  EXPECT_EQ(cpu.get_addressing_mode(0x66), ZEROPAGE);
+  EXPECT_EQ(cpu.get_addressing_mode(0x76), ZEROPAGEX);
+  EXPECT_EQ(cpu.get_addressing_mode(0x6E), ABSOLUTE);
+  EXPECT_EQ(cpu.get_addressing_mode(0x7E), ABSOLUTEX);
+}
+
+TEST (AddressingModeTest, RTI_ReturnFromInterrupt) {
+  CPU cpu;
+  EXPECT_EQ(cpu.get_addressing_mode(0x40), IMPLIED);
+}
+
+TEST (AddressingModeTest, RTS_ReturnFromSubroutine) {
+  CPU cpu;
+  EXPECT_EQ(cpu.get_addressing_mode(0x60), IMPLIED);
+}
+
+TEST (AddressingModeTest, SBC_SubtractWithCarry) {
+  CPU cpu;
+  EXPECT_EQ(cpu.get_addressing_mode(0xE9), IMMEDIATE);
+  EXPECT_EQ(cpu.get_addressing_mode(0xE5), ZEROPAGE);
+  EXPECT_EQ(cpu.get_addressing_mode(0xF5), ZEROPAGEX);
+  EXPECT_EQ(cpu.get_addressing_mode(0xED), ABSOLUTE);
+  EXPECT_EQ(cpu.get_addressing_mode(0xFD), ABSOLUTEX);
+  EXPECT_EQ(cpu.get_addressing_mode(0xF9), ABSOLUTEY);
+  EXPECT_EQ(cpu.get_addressing_mode(0xE1), INDIRECTX);
+  EXPECT_EQ(cpu.get_addressing_mode(0xF1), INDIRECTY);
+}
+
+TEST (AddressingModeTest, SEC_SetCarryFlag) {
+  CPU cpu;
+  EXPECT_EQ(cpu.get_addressing_mode(0x38), IMPLIED);
+}
+
+TEST (AddressingModeTest, SED_SetDecimalFlag) {
+  CPU cpu;
+  EXPECT_EQ(cpu.get_addressing_mode(0xF8), IMPLIED);
+}
+
+TEST (AddressingModeTest, SEI_SetInterruptDecimal) {
+  CPU cpu;
+  EXPECT_EQ(cpu.get_addressing_mode(0x78), IMPLIED);
+}
+
+TEST (AddressingModeTest, STA_StoreAccumulator) {
+  CPU cpu;
+  EXPECT_EQ(cpu.get_addressing_mode(0x85), ZEROPAGE);
+  EXPECT_EQ(cpu.get_addressing_mode(0x95), ZEROPAGEX);
+  EXPECT_EQ(cpu.get_addressing_mode(0x8D), ABSOLUTE);
+  EXPECT_EQ(cpu.get_addressing_mode(0x9D), ABSOLUTEX);
+  EXPECT_EQ(cpu.get_addressing_mode(0x99), ABSOLUTEY);
+  EXPECT_EQ(cpu.get_addressing_mode(0x81), INDIRECTX);
+  EXPECT_EQ(cpu.get_addressing_mode(0x91), INDIRECTY);
+}
+
+TEST (AddressingModeTest, STX_StoreXRegister) {
+  CPU cpu;
+  EXPECT_EQ(cpu.get_addressing_mode(0x86), ZEROPAGE);
+  EXPECT_EQ(cpu.get_addressing_mode(0x96), ZEROPAGEY);
+  EXPECT_EQ(cpu.get_addressing_mode(0x8E), ABSOLUTE);
+}
+
+TEST (AddressingModeTest, STY_StoreYRegister) {
+  CPU cpu;
+  EXPECT_EQ(cpu.get_addressing_mode(0x84), ZEROPAGE);
+  EXPECT_EQ(cpu.get_addressing_mode(0x94), ZEROPAGEX);
+  EXPECT_EQ(cpu.get_addressing_mode(0x8C), ABSOLUTE);
+}
+
+TEST (AddressingModeTest, TAX_TransferAccumulatorToX) {
+  CPU cpu;
+  EXPECT_EQ(cpu.get_addressing_mode(0xAA), IMPLIED);
+}
+
+TEST (AddressingModeTest, TAY_TransferAccumulatorToY) {
+  CPU cpu;
+  EXPECT_EQ(cpu.get_addressing_mode(0xA8), IMPLIED);
+}
+
+TEST (AddressingModeTest, TSX_TransferStackPointerToX) {
+  CPU cpu;
+  EXPECT_EQ(cpu.get_addressing_mode(0xBA), IMPLIED);
+}
+
+TEST (AddressingModeTest, TXA_TransferXToAccumulator) {
+  CPU cpu;
+  EXPECT_EQ(cpu.get_addressing_mode(0x8A), IMPLIED);
+}
+
+TEST (AddressingModeTest, TXS_TransferXToStackPointer) {
+  CPU cpu;
+  EXPECT_EQ(cpu.get_addressing_mode(0x9A), IMPLIED);
+}
+
+TEST (AddressingModeTest, TYA_TransferYToAccumulator) {
+  CPU cpu;
+  EXPECT_EQ(cpu.get_addressing_mode(0x98), IMPLIED);
+}
+
 } // namespace nesemu
