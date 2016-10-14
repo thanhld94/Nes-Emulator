@@ -74,3 +74,33 @@ TEST (AddressingModeTest, BEQ_BranchIfEqual) {
   EXPECT_EQ(cpu.get_addressing_mode(0xF0), RELATIVE);
 }
 
+TEST (AddressingModeTest, BIT_BitTest) {
+  CPU cpu;
+  EXPECT_EQ(cpu.get_addressing_mode(0x24), ZEROPAGE);
+  EXPECT_EQ(cpu.get_addressing_mode(0x2C), ABSOLUTE);
+}
+
+TEST (AddressingModeTest, BMI_BranchIfMinus) {
+  CPU cpu;
+  EXPECT_EQ(cpu.get_addressing_mode(0x30), RELATIVE);
+}
+
+TEST (AddressingModeTest, BNE_BranchIfNotEqual) {
+  CPU cpu;
+  EXPECT_EQ(cpu.get_addressing_mode(0xD0), RELATIVE);
+}
+
+TEST (AddressingModeTest, BRK_ForceInterrupt) {
+  CPU cpu;
+  EXPECT_EQ(cpu.get_addressing_mode(0x00), IMPLIED);
+}
+
+TEST (AddressingModeTest, BVC_BranchIfOverflowClear) {
+  CPU cpu;
+  EXPECT_EQ(cpu.get_addressing_mode(0x50), RELATIVE);
+}
+
+TEST (AddressingModeTest, BVS_BranchIfOverFlowSet) {
+  CPU cpu;
+  EXPECT_EQ(cpu.get_addressing_mode(0x70), RELATIVE);
+}
