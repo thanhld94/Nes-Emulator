@@ -16,6 +16,8 @@
 #define IMPLIED     11
 #define INDIRECT    12
 
+namespace nesemu {
+
 TEST (InitializeTest, FirstState) {
   CPU cpu;
   EXPECT_EQ(cpu.get_pc(), 0) << "initial program counter should be zero";
@@ -255,3 +257,5 @@ TEST (AddressingModeTest, LSR_LogicalShiftRight) {
   EXPECT_EQ(cpu.get_addressing_mode(0x4E), ABSOLUTE);
   EXPECT_EQ(cpu.get_addressing_mode(0x5E), ABSOLUTEX);
 }
+
+} // namespace nesemu

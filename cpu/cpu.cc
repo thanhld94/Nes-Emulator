@@ -3,6 +3,8 @@
 #include <iostream>
 #include <string>
 
+namespace nesemu {
+
 CPU::CPU() {
   pc = 0;
   sp = 0;
@@ -49,32 +51,34 @@ const int CPU::mode_table[256] = {
  10, 8, 0, 0, 0, 2, 2, 0,11, 6, 0, 0, 0, 5, 5, 0  //F
 };
 
-int CPU::get_addressing_mode(uint8_t opcode) {
+int CPU::get_addressing_mode(uint8_t opcode) const {
   return mode_table[opcode];
 }
 
 /* Getter & Setter*/
 
-uint16_t CPU::get_pc() {
+uint16_t CPU::get_pc() const {
   return pc;
 }
 
-uint8_t CPU::get_sp() {
+uint8_t CPU::get_sp() const {
   return sp;
 }
 
-uint8_t CPU::get_rx() {
+uint8_t CPU::get_rx() const {
   return r_x;
 }
 
-uint8_t CPU::get_ry() {
+uint8_t CPU::get_ry() const {
   return r_y;
 }
 
-uint8_t CPU::get_acc() {
+uint8_t CPU::get_acc() const {
   return r_acc;
 }
 
-uint8_t CPU::get_st() {
+uint8_t CPU::get_st() const {
   return r_st;
 }
+
+} // namespace nesemu
