@@ -37,3 +37,16 @@ TEST (AddressingModeTest, ADC_AddWithCarry) {
   EXPECT_EQ(cpu.get_addressing_mode(0x61), INDIRECTX);
   EXPECT_EQ(cpu.get_addressing_mode(0x71), INDIRECTY);
 }
+
+TEST (AddressingModeTest, AND_LogicalAnd) {
+  CPU cpu;
+  EXPECT_EQ(cpu.get_addressing_mode(0x29), IMMEDIATE);
+  EXPECT_EQ(cpu.get_addressing_mode(0x25), ZEROPAGE);
+  EXPECT_EQ(cpu.get_addressing_mode(0x35), ZEROPAGEX);
+  EXPECT_EQ(cpu.get_addressing_mode(0x2D), ABSOLUTE);
+  EXPECT_EQ(cpu.get_addressing_mode(0x3D), ABSOLUTEX);
+  EXPECT_EQ(cpu.get_addressing_mode(0x39), ABSOLUTEY);
+  EXPECT_EQ(cpu.get_addressing_mode(0x21), INDIRECTX);
+  EXPECT_EQ(cpu.get_addressing_mode(0x31), INDIRECTY);
+}
+
