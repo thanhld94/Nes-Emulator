@@ -59,3 +59,18 @@ TEST (AddressingModeTest, ASL_ArithmeticShiftLeft) {
   EXPECT_EQ(cpu.get_addressing_mode(0x1E), ABSOLUTEX);
 }
 
+TEST (AddressingModeTest, BCC_BranchIfCarryClear) {
+  CPU cpu;
+  EXPECT_EQ(cpu.get_addressing_mode(0x90), RELATIVE);
+}
+
+TEST (AddressingModeTest, BCS_BranchIfCarrySet) {
+  CPU cpu;
+  EXPECT_EQ(cpu.get_addressing_mode(0xB0), RELATIVE);
+}
+
+TEST (AddressingModeTest, BEQ_BranchIfEqual) {
+  CPU cpu;
+  EXPECT_EQ(cpu.get_addressing_mode(0xF0), RELATIVE);
+}
+
