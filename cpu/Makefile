@@ -65,7 +65,7 @@ cpu_test: cpu_test.cc cpu.o gtest_main.a
 	rm -f $(TESTS) gtest.a gtest_main.a *.o
 
 
-test: $(TESTS)
+test: clean $(TESTS)
 
 clean :
 	rm -f $(TESTS) gtest.a gtest_main.a *.o
