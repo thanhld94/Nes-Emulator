@@ -50,3 +50,12 @@ TEST (AddressingModeTest, AND_LogicalAnd) {
   EXPECT_EQ(cpu.get_addressing_mode(0x31), INDIRECTY);
 }
 
+TEST (AddressingModeTest, ASL_ArithmeticShiftLeft) {
+  CPU cpu;
+  EXPECT_EQ(cpu.get_addressing_mode(0x0A), ACCUMULATOR);
+  EXPECT_EQ(cpu.get_addressing_mode(0x06), ZEROPAGE);
+  EXPECT_EQ(cpu.get_addressing_mode(0x16), ZEROPAGEX);
+  EXPECT_EQ(cpu.get_addressing_mode(0x0E), ABSOLUTE);
+  EXPECT_EQ(cpu.get_addressing_mode(0x1E), ABSOLUTEX);
+}
+
