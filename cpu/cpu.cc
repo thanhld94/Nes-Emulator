@@ -93,12 +93,22 @@ uint16_t CPU::get_operand(uint8_t opcode) const {
       address += r_y;
       break;
     case 9: // Accumulator
+      // ignore
       break;
     case 10: // Relative
+      address = memory[pc + 1];
+      if (address < 80) {
+        address = pc + address + 2;
+      } else {
+        address = pc + address + 2 - 0x100;
+      }
       break;
     case 11: // Implied
+      // ignore
       break;
     case 12: // Indirect 
+      address = (uint16_t(memory[pc + 2]) << 8) | memory[pc + 1];
+      address = (uint16_t(memory[address + 1]) << 8) | memory[address];
       break;
     default:
       std::cerr << "Bad operand!" << std::endl;

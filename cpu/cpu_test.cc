@@ -482,10 +482,39 @@ TEST (AddressingModeOperand, GetOperandIndirectYAddress) {
   EXPECT_EQ(indiry_op, 0x1279);
 }
 
-//TODO accum
-//TODO relative
-//TODO Implied
-//TODO indirect
+TEST (AddressingModeOperand, GetOperandAccumulatorAddress) {
+  CPU cpu;
+  EXPECT_EQ(cpu.get_operand(0x0A), 0); 
+}
+
+TEST (AddressingModeOperand, GetOperandRelativeAddress) {
+  CPU cpu;
+  cpu.set_memory(cpu.get_pc() + 1, 0x3F);
+  uint16_t rel_op = cpu.get_operand(0x90);
+  EXPECT_EQ(rel_op, cpu.get_pc() + 2 + 0x3F);
+}
+
+TEST (AddressingModeOperand, GetOperandRelativeNegativeAddress) {
+  CPU cpu;
+  cpu.set_memory(cpu.get_pc() + 1, int8_t(-3));
+  uint16_t rel_op = cpu.get_operand(0x90);
+  EXPECT_EQ(rel_op, cpu.get_pc() - 1);
+}
+
+TEST (AddressingModeOperand, GetOperandImpliedAddress) {
+  CPU cpu;
+  EXPECT_EQ(cpu.get_operand(0x18), 0);
+}
+
+TEST (AddressingModeOperand, GetOperandIndirectAddress) {
+  CPU cpu;
+  cpu.set_memory(cpu.get_pc() + 1, 0x34);
+  cpu.set_memory(cpu.get_pc() + 2, 0x12);
+  cpu.set_memory(0x1234, 0x76);
+  cpu.set_memory(0x1235, 0x98);
+  uint16_t indir_op = cpu.get_operand(0x6C);
+  EXPECT_EQ(indir_op, 0x9876);
+}
 
 //TODO Adding test for Instructions testing
 //TODO Adding test for ADC instruction
