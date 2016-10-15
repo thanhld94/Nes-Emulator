@@ -20,12 +20,15 @@ namespace nesemu {
 
 TEST (InitializeTest, FirstState) {
   CPU cpu;
-  EXPECT_EQ(cpu.get_pc(), 0) << "initial program counter should be zero";
-  EXPECT_EQ(cpu.get_sp(), 0) << "initial stack pointer should be zero";
-  EXPECT_EQ(cpu.get_rx(), 0) << "initial value of Register X shoud be zero";
-  EXPECT_EQ(cpu.get_ry(), 0) << "initial value of Register Y should be zero";
-  EXPECT_EQ(cpu.get_acc(), 0) << "initial value of accumulator should be zero";
-  EXPECT_EQ(cpu.get_st(), 0) << "inital state of status register should all be cleared";
+  EXPECT_EQ(cpu.get_pc(), 0x34);
+  EXPECT_EQ(cpu.get_sp(), 0xFD); // stack is top-down, 0x01FF - 0x0100
+  EXPECT_EQ(cpu.get_rx(), 0);
+  EXPECT_EQ(cpu.get_ry(), 0);
+  EXPECT_EQ(cpu.get_acc(), 0);
+  EXPECT_EQ(cpu.get_st(), 0);
+  for (int i = 0x00; i <= 0xFFFF; i++) {
+    EXPECT_EQ(cpu.get_memory(i), 0);
+  }
 }
 
 TEST (AddressingModeTest, ADC_AddWithCarry) {
@@ -398,6 +401,23 @@ TEST (AddressingModeTest, TXS_TransferXToStackPointer) {
 TEST (AddressingModeTest, TYA_TransferYToAccumulator) {
   CPU cpu;
   EXPECT_EQ(cpu.get_addressing_mode(0x98), IMPLIED);
+}
+
+//TODO Adding test for Instructions testing
+//TODO Adding test for ADC instruction
+TEST (SingleInstructionTest, ADC_AddWithCarry) {
+  CPU cpu;
+  cpu.set_memory(cpu.get_pc() + 1, 0x24);
+  cpu.Adc(0x69);
+  EXPECT_EQ(cpu.get_acc(), 0x24);
+
+//TODO x75
+//TODO x6D
+//TODO x7D
+//TODO x79
+//TODO x61
+//TODO x71
+//TODO x69
 }
 
 } // namespace nesemu

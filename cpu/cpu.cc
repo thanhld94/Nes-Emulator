@@ -6,12 +6,13 @@
 namespace nesemu {
 
 CPU::CPU() {
-  pc = 0;
-  sp = 0;
+  pc = 0x34;
+  sp = 0xFD;
   r_x = 0;
   r_y = 0;
   r_acc = 0;
   r_st = 0;
+  memset(memory, 0, sizeof memory);
 }
 
 /* Addressing Mode
@@ -55,7 +56,31 @@ int CPU::get_addressing_mode(uint8_t opcode) const {
   return mode_table[opcode];
 }
 
+void CPU::Adc(uint8_t opcode) {
+  int mode = mode_table[opcode];
+  uint8_t operand1;
+  uint8_t operand2;
+
+  switch (mode) {
+    case 0: 
+      operand1 = memory[pc + 1];
+      r_acc += operand1;
+      break;
+
+    default:
+      std::cerr << "Bad opcode" << std::endl;
+  }
+}
+
 /* Getter & Setter*/
+
+uint8_t CPU::get_memory(uint16_t address) const {
+  return memory[address];
+}
+
+void CPU::set_memory(uint16_t address, uint8_t value) {
+  memory[address] = value;
+}
 
 uint16_t CPU::get_pc() const {
   return pc;

@@ -13,6 +13,9 @@ class CPU {
     /* Addressing Mode */
     int get_addressing_mode(uint8_t opcode) const;
 
+    /* Cpu instructions */
+    void Adc(uint8_t opcode);
+
     /* Getters & Setters*/
     uint16_t get_pc() const;
     uint8_t get_sp() const;
@@ -21,6 +24,9 @@ class CPU {
     uint8_t get_acc() const;
     uint8_t get_st() const;
 
+    uint8_t get_memory(uint16_t address) const;
+    void set_memory(uint16_t address, uint8_t value);
+
   private:
     uint16_t pc;
     uint8_t sp;
@@ -28,6 +34,9 @@ class CPU {
     uint8_t r_y;
     uint8_t r_acc;
     uint8_t r_st;
+
+    // System memory
+    uint8_t memory[0x10000];
 
     static const int mode_table[256]; 
 };
