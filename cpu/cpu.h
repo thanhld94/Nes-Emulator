@@ -2,7 +2,6 @@
 #define NESEMU_CPU_CPU_H_
 
 #include <iostream>
-#include <string>
 
 namespace nesemu {
 

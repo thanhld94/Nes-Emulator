@@ -1,7 +1,6 @@
 #include "cpu.h"
 
 #include <iostream>
-#include <string>
 
 namespace nesemu {
 
