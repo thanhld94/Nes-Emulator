@@ -116,29 +116,12 @@ uint16_t CPU::get_operand(uint8_t opcode) const {
   return address;
 }
 
-void CPU::Adc(uint8_t opcode) {
-  int mode = mode_table[opcode];
-  uint8_t operand1;
-
-  //TODO get rid of magic numbers
-  switch (mode) {
-    case 0: // Immediate mode 
-      operand1 = memory[pc + 1];
-      r_acc += operand1;
-      break;
-
-    case 1: // Page Zero
-      operand1 = memory[pc + 1];
-      r_acc += memory[operand1];
-      break;
-
-    case 2: // Page Zero, X
-      operand1 = r_x + memory[pc + 1];
-      r_acc += memory[operand1];
-      break;
-
-    default:
-      std::cerr << "Bad opcode" << std::endl;
+void CPU::Adc(uint16_t address) {
+  uint8_t operand = memory[address];
+  uint16_t result = uint16_t(r_acc) + operand + get_carry();
+  r_acc = uint8_t(result);
+  if (result > 0xFF) {
+    set_carry();
   }
 }
 
@@ -184,8 +167,24 @@ uint8_t CPU::get_acc() const {
   return r_acc;
 }
 
+void CPU::set_acc(uint8_t value) {
+  r_acc = value;
+}
+
 uint8_t CPU::get_st() const {
   return r_st;
+}
+
+int CPU::get_carry() const {
+  return (r_st & 1) ? 1 : 0;
+}
+
+void CPU::set_carry() {
+  r_st |= 1;
+}
+
+void CPU::clear_carry() {
+  r_st &= 0xFE;
 }
 
 } // namespace nesemu

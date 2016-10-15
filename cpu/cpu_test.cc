@@ -516,50 +516,75 @@ TEST (AddressingModeOperand, GetOperandIndirectAddress) {
   EXPECT_EQ(indir_op, 0x9876);
 }
 
-//TODO Adding test for Instructions testing
-//TODO Adding test for ADC instruction
-TEST (SingleInstructionTest, AddWithCarry_x69) {
+// Single Instruction Tests
+TEST (SingleInstructionTest, ADC_AddWithCarry) {
   CPU cpu;
-  cpu.set_memory(cpu.get_pc() + 1, 0x24);
-  cpu.Adc(0x69);
-  EXPECT_EQ(cpu.get_acc(), 0x24);
+  uint16_t address = 0x3412;
+  cpu.set_memory(address, 0x14);
+  cpu.set_carry();
+  cpu.set_acc(0xFC);
+
+  cpu.Adc(address);
+  uint8_t expected = uint8_t(0x14 + 0xFC + 1);
+
+  EXPECT_EQ(cpu.get_acc(), expected);
+  EXPECT_EQ(cpu.get_carry(), 1);
 }
 
-TEST (SingleInstructionTest, AddWithCarry_x65) {
-  CPU cpu;
-  cpu.set_memory(cpu.get_pc() + 1, 0x88);
-  cpu.set_memory(0x0088, 0x24);
-  cpu.Adc(0x65);
-  EXPECT_EQ(cpu.get_acc(), 0x24);
-}
-
-TEST (SingleInstructionTest, AddWithCarry_x75) {
-  CPU cpu;
-  cpu.set_memory(cpu.get_pc() + 1, 0x24);
-  cpu.set_rx(0x82);
-  cpu.set_memory(0xA6, 0x34);
-
-  cpu.Adc(0x75);
-
-  EXPECT_EQ(cpu.get_acc(), 0x34);
-}
-
-TEST (SingleInstructionTest, AddWithCarry_x75_WrapAround) {
-  CPU cpu;
-  cpu.set_memory(cpu.get_pc() + 1, 0x75);
-  cpu.set_rx(0x9F);
-  cpu.set_memory(0x14, 0x34);
-
-  cpu.Adc(0x75);
-
-  EXPECT_EQ(cpu.get_acc(), 0x34);
-}
-
-//TODO x6D
-//TODO x7D
-//TODO x79
-//TODO x61
-//TODO x71
-//TODO Checking status register after ADC
+//TODO AND
+//TODO ASL
+//TODO BCC
+//TODO BCS
+//TODO BEQ
+//TODO BIT
+//TODO BMI
+//TODO BNE
+//TODO BPL
+//TODO BRK
+//TODO BVC
+//TODO BVS
+//TODO CLC
+//TODO CLD
+//TODO CLI
+//TODO CLV
+//TODO CMP
+//TODO CPX
+//TODO CPY
+//TODO DEC
+//TODO DEX
+//TODO DEY
+//TODO EOR
+//TODO INC
+//TODO INX
+//TODO INY
+//TODO JMP
+//TODO JSR
+//TODO LDA
+//TODO LDX
+//TODO LDY
+//TODO LSR
+//TODO NOP
+//TODO ORA
+//TODO PHA
+//TODO PHP
+//TODO PLA
+//TODO PLP
+//TODO ROL
+//TODO ROR
+//TODO RTI
+//TODO RTS
+//TODO SBC
+//TODO SEC
+//TODO SED
+//TODO SEI
+//TODO STA
+//TODO STX
+//TODO STY
+//TODO TAX
+//TODO TAY
+//TODO TSX
+//TODO TXA
+//TODO TXS
+//TODO TYA
 
 } // namespace nesemu

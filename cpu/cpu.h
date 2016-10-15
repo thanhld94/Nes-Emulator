@@ -19,7 +19,7 @@ class CPU {
     uint16_t get_operand(uint8_t opcode) const;
 
     /* Cpu instructions */
-    void Adc(uint8_t opcode);
+    void Adc(uint16_t address);
 
     /* Getters & Setters*/
     uint16_t get_pc() const;
@@ -34,7 +34,15 @@ class CPU {
     void set_ry(uint8_t value);
 
     uint8_t get_acc() const;
+    void set_acc(uint8_t value);
+
+    // 7 6 5 4 3 2 1 0
+    // N V   B D I Z C
     uint8_t get_st() const;
+
+    int get_carry() const;
+    void set_carry();
+    void clear_carry();
 
     uint8_t get_memory(uint16_t address) const;
     void set_memory(uint16_t address, uint8_t value);
