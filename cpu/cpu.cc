@@ -18,8 +18,6 @@ CPU::CPU() {
 /* Addressing Mode
   0 - Immediate
   1 - ZeroPage
-  2 - ZeroPageX
-  3 - ZeroPageY
   4 - Abs
   5 - Abs X
   6 - Abs Y
@@ -56,33 +54,43 @@ int CPU::get_addressing_mode(uint8_t opcode) const {
   return mode_table[opcode];
 }
 
-uint8_t CPU::get_operand(uint8_t opcode) const {
+uint16_t CPU::get_operand(uint8_t opcode) const {
   int mode = mode_table[opcode];
-  uint8_t result = 0;
+  uint16_t address = 0;
 
   //TODO get rid of magic numbers
   switch (mode) {
     case 0: // Immediate
-      result = memory[pc + 1];
+      address = pc + 1;
       break;
     case 1: // Zero Page 
-      result = memory[memory[pc + 1]];
+      address = memory[pc + 1];
       break;
     case 2: // Zero Page X
-      result = memory[pc + 1];
-      result = memory[result + r_x];
+      address = (uint8_t)(memory[pc + 1] + r_x);
       break;
     case 3: // Zero Page Y
+      address = (uint8_t)(memory[pc + 1] + r_y);
       break;
     case 4: // Absolute
+      address = memory[pc + 2];
+      address = (address << 8) | memory[pc + 1];
       break;
     case 5: // Absolute X
+      address = (uint16_t(memory[pc + 2]) << 8) | memory[pc + 1];
+      address += r_x;
       break;
     case 6: // Absolute Y
+      address = (uint16_t(memory[pc + 2]) << 8) | memory[pc + 1];
+      address += r_y;
       break;
     case 7: // Indirect X
+      address = uint8_t(memory[memory[pc + 1]] + r_x);
+      address = (memory[address + 1] << 8) | memory[address];
       break;
     case 8: // Indirect Y
+      address = uint16_t(memory[memory[pc + 1] + 1] << 8) | memory[memory[pc + 1]];
+      address += r_y;
       break;
     case 9: // Accumulator
       break;
@@ -95,7 +103,7 @@ uint8_t CPU::get_operand(uint8_t opcode) const {
     default:
       std::cerr << "Bad operand!" << std::endl;
   }
-  return result;
+  return address;
 }
 
 void CPU::Adc(uint8_t opcode) {

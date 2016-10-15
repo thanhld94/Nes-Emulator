@@ -406,37 +406,86 @@ TEST (AddressingModeTest, TYA_TransferYToAccumulator) {
 
 
 // Fetching target based on addressing mode 
-TEST (AddressingModeOperand, GetOperand) {
+TEST (AddressingModeOperand, GetOperandImmediateAddress) {
   CPU cpu;
-  // immediate
-  cpu.set_memory(cpu.get_pc() + 1, 0x72);
-  uint8_t imm_op = cpu.get_operand(0x69);
-  EXPECT_EQ(imm_op, 0x72);
-
-  // zero-page
-  cpu.set_memory(cpu.get_pc() + 1, 0x43);
-  cpu.set_memory(0x0043, 0x38);
-  uint8_t zp_op = cpu.get_operand(0x65);
-  EXPECT_EQ(zp_op, 0x38);
-
-  //TODO zero-pagex
-  cpu.set_memory(cpu.get_pc() + 1, 0x41);
-  cpu.set_rx(0x31);
-  cpu.set_memory(0x72, 0x77);
-  uint8_t zpx_op = cpu.get_operand(0x75);
-  EXPECT_EQ(zpx_op, 0x77);
-
-  //TODO zero-pagey
-  //TODO abs
-  //TODO absx
-  //TODO absy
-  //TODO indirx
-  //TODO indiry
-  //TODO accum
-  //TODO relative
-  //TODO Implied
-  //TODO indirect
+  uint16_t imm_op = cpu.get_operand(0x69);
+  EXPECT_EQ(imm_op, cpu.get_pc() + 1);
 }
+
+TEST (AddressingModeOperand, GetOperandZeroPageAddress) {
+  CPU cpu;
+  cpu.set_memory(cpu.get_pc() + 1, 0x43);
+  uint16_t zp_op = cpu.get_operand(0x65);
+  EXPECT_EQ(zp_op, 0x43);
+}
+
+TEST (AddressingModeOperand, GetOperandZeroPageXAddress) {
+  CPU cpu;
+  cpu.set_memory(cpu.get_pc() + 1, 0xF4);
+  cpu.set_rx(0x31);
+  uint16_t zpx_op = cpu.get_operand(0x75);
+  EXPECT_EQ(zpx_op, 0x25);
+}
+
+TEST (AddressingModeOperand, GetOperandZeroPageYAddress) {
+  CPU cpu;
+  cpu.set_memory(cpu.get_pc() + 1, 0x88);
+  cpu.set_ry(0xA4);
+  uint16_t zpy_op = cpu.get_operand(0xB6);
+  EXPECT_EQ(zpy_op, 0x2C);
+}
+
+TEST (AddressingModeOperand, GetOperandAbsoluteAddress) {
+  CPU cpu;
+  cpu.set_memory(cpu.get_pc() + 1, 0x34);
+  cpu.set_memory(cpu.get_pc() + 2, 0x12);
+  uint16_t abs_op = cpu.get_operand(0x6D);
+  EXPECT_EQ(abs_op, 0x1234);
+}
+
+TEST (AddressingModeOperand, GetOperandAbsoluteXAddress) {
+  CPU cpu;
+  cpu.set_memory(cpu.get_pc() + 1, 0x00);
+  cpu.set_memory(cpu.get_pc() + 2, 0x12);
+  cpu.set_rx(0xF3);
+  uint16_t absx_op = cpu.get_operand(0x7D);
+  EXPECT_EQ(absx_op, 0x12F3);
+}
+
+TEST (AddressingModeOperand, GetOperandAbsoluteYAddress) {
+  CPU cpu;
+  cpu.set_memory(cpu.get_pc() + 1, 0);
+  cpu.set_memory(cpu.get_pc() + 2, 0x12);
+  cpu.set_ry(0xFF);
+  uint16_t absy_op = cpu.get_operand(0x79);
+  EXPECT_EQ(absy_op, 0x12FF);
+}
+
+TEST (AddressingModeOperand, GetOperandIndirectXAddress) {
+  CPU cpu;
+  cpu.set_memory(cpu.get_pc() + 1, 0x45);
+  cpu.set_memory(0x45, 0x68);
+  cpu.set_rx(0xD3);
+  cpu.set_memory(0x3B, 0x34);
+  cpu.set_memory(0x3C, 0x12);
+  uint16_t indirx_op = cpu.get_operand(0xA1);
+  EXPECT_EQ(indirx_op, 0x1234);
+}
+
+TEST (AddressingModeOperand, GetOperandIndirectYAddress) {
+  CPU cpu;
+  cpu.set_memory(cpu.get_pc() + 1, 0x45);
+  cpu.set_memory(0x45, 0x34);
+  cpu.set_memory(0x46, 0x12);
+  cpu.set_ry(0x45);
+  uint16_t indiry_op = cpu.get_operand(0xB1);
+  EXPECT_EQ(indiry_op, 0x1279);
+}
+
+//TODO accum
+//TODO relative
+//TODO Implied
+//TODO indirect
 
 //TODO Adding test for Instructions testing
 //TODO Adding test for ADC instruction

@@ -12,7 +12,7 @@ class CPU {
 
     /* Addressing Mode */
     int get_addressing_mode(uint8_t opcode) const;
-    uint8_t get_operand(uint8_t opcode) const;
+    uint16_t get_operand(uint8_t opcode) const;
 
     /* Cpu instructions */
     void Adc(uint8_t opcode);
