@@ -557,7 +557,6 @@ TEST (SingleInstructionTest, ADC_StatusRegisterCheck) {
   EXPECT_EQ(cpu.get_zero(), 0);
 }
 
-//TODO AND
 TEST (SingleInstructionTest, AND_LogicalAnd) {
   CPU cpu;
   uint16_t address = 0x1412;
@@ -588,9 +587,35 @@ TEST (SingleInstructionTest, AND_StatusRegisterCheck) {
   EXPECT_EQ(cpu.get_acc(), expected);
   EXPECT_EQ(cpu.get_zero(), 0);
   EXPECT_EQ(cpu.get_negative(), 1);
+
+  cpu.set_acc(0xCA);             //1100 1010
+  cpu.set_memory(address, 0x35); //0011 0101 
+
+  cpu.And(address);
+
+  EXPECT_EQ(cpu.get_acc(), 0);
+  EXPECT_EQ(cpu.get_zero(), 1);
+  EXPECT_EQ(cpu.get_negative(), 0);
 }
 
-//TODO ASL
+TEST (SingleInstructionTest, ASL_ArithmeticShiftLeft) {
+  CPU cpu;
+  uint16_t address = 0x1412;
+  cpu.set_zero();
+  cpu.set_negative();
+  cpu.set_carry();
+  cpu.set_memory(address, 0x3A); //0011 1010
+  //TODO ASL - Add additional information to manipulate absolute mode
+
+  uint8_t expected = 0x74; //0111 0100
+  cpu.Asl(address);
+  
+  EXPECT_EQ(cpu.get_memory(address), expected);
+  EXPECT_EQ(cpu.get_zero(), 0);
+  EXPECT_EQ(cpu.get_negative(), 0);
+  EXPECT_EQ(cpu.get_carry(), 0);
+}
+
 //TODO BCC
 //TODO BCS
 //TODO BEQ
