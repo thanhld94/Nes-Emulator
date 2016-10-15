@@ -11,7 +11,11 @@ class CPU {
     CPU();
 
     /* Addressing Mode */
+
+    // return the address mode correspond to opcode
     int get_addressing_mode(uint8_t opcode) const;
+
+    // get the memory address of the opcode based on opcode
     uint16_t get_operand(uint8_t opcode) const;
 
     /* Cpu instructions */
