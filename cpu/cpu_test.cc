@@ -523,12 +523,38 @@ TEST (SingleInstructionTest, ADC_AddWithCarry) {
   cpu.set_memory(address, 0x14);
   cpu.set_carry();
   cpu.set_acc(0xFC);
+  cpu.set_negative();
+  cpu.set_zero();
 
   cpu.Adc(address);
   uint8_t expected = uint8_t(0x14 + 0xFC + 1);
 
   EXPECT_EQ(cpu.get_acc(), expected);
   EXPECT_EQ(cpu.get_carry(), 1);
+  EXPECT_EQ(cpu.get_zero(), 0);
+  EXPECT_EQ(cpu.get_negative(), 0);
+}
+
+TEST (SingleInstructionTest, ADC_StatusRegisterCheck) {
+  CPU cpu;
+  uint16_t address = 0x1412;
+  cpu.clear_carry();
+  cpu.set_acc(0);
+  cpu.set_memory(address, 0);
+  
+  cpu.Adc(address);
+  EXPECT_EQ(cpu.get_acc(), 0);
+  EXPECT_EQ(cpu.get_carry(), 0);
+  EXPECT_EQ(cpu.get_zero(), 1);
+  EXPECT_EQ(cpu.get_negative(), 0);
+
+  cpu.set_acc(0x8F);
+  cpu.set_memory(address, 0x34);
+  cpu.Adc(address);
+  EXPECT_EQ(cpu.get_acc(), 0xC3);
+  EXPECT_EQ(cpu.get_negative(), 1);
+  EXPECT_EQ(cpu.get_carry(), 0);
+  EXPECT_EQ(cpu.get_zero(), 0);
 }
 
 //TODO AND

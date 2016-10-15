@@ -120,13 +120,29 @@ void CPU::Adc(uint16_t address) {
   uint8_t operand = memory[address];
   uint16_t result = uint16_t(r_acc) + operand + get_carry();
   r_acc = uint8_t(result);
+  clear_carry();
+  clear_zero();
+  clear_negative();
+
+  // update carry flag
   if (result > 0xFF) {
     set_carry();
+  }
+
+  // update zero flag
+  if (result == 0) {
+    set_zero();
+  }
+
+  // update negative flag
+  if (result & 0x80) {
+    set_negative();
   }
 }
 
 /* Getter & Setter*/
 
+// set and get memory
 uint8_t CPU::get_memory(uint16_t address) const {
   return memory[address];
 }
@@ -135,6 +151,7 @@ void CPU::set_memory(uint16_t address, uint8_t value) {
   memory[address] = value;
 }
 
+// set and get program counter
 uint16_t CPU::get_pc() const {
   return pc;
 }
@@ -143,10 +160,12 @@ void CPU::set_pc(uint16_t address) {
   pc = address;
 }
 
+// get stack pointer
 uint8_t CPU::get_sp() const {
   return sp;
 }
 
+// set and get Index Registers
 uint8_t CPU::get_rx() const {
   return r_x;
 }
@@ -163,6 +182,7 @@ void CPU::set_ry(uint8_t value) {
   r_y = value;
 }
 
+// set and get accumulator
 uint8_t CPU::get_acc() const {
   return r_acc;
 }
@@ -171,20 +191,48 @@ void CPU::set_acc(uint8_t value) {
   r_acc = value;
 }
 
+// status register operations
 uint8_t CPU::get_st() const {
   return r_st;
 }
 
+// carry flag
 int CPU::get_carry() const {
-  return (r_st & 1) ? 1 : 0;
+  return (r_st & 0x01) ? 1 : 0;
 }
 
 void CPU::set_carry() {
-  r_st |= 1;
+  r_st |= 0x01;
 }
 
 void CPU::clear_carry() {
   r_st &= 0xFE;
+}
+
+// zero flag
+int CPU::get_zero() const {
+  return (r_st & 0x02) ? 1 : 0;
+}
+
+void CPU::set_zero() {
+  r_st |= 0x02;
+}
+
+void CPU::clear_zero() {
+  r_st &= 0xFD;
+}
+
+// negative flag
+int CPU::get_negative() const {
+  return (r_st & 0x80) ? 1 : 0;
+}
+
+void CPU::set_negative() {
+  r_st |= 0x80;
+}
+
+void CPU::clear_negative() {
+  r_st &= 0x7F;
 }
 
 } // namespace nesemu

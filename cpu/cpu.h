@@ -36,13 +36,25 @@ class CPU {
     uint8_t get_acc() const;
     void set_acc(uint8_t value);
 
+    // Status register
     // 7 6 5 4 3 2 1 0
     // N V   B D I Z C
     uint8_t get_st() const;
 
+    // set and clear carry flag
     int get_carry() const;
     void set_carry();
     void clear_carry();
+
+    // set and cleaer negative flag
+    int get_negative() const;
+    void set_negative();
+    void clear_negative();
+
+    // set and clear zero flag
+    int get_zero() const;
+    void set_zero();
+    void clear_zero();
 
     uint8_t get_memory(uint16_t address) const;
     void set_memory(uint16_t address, uint8_t value);
