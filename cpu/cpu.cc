@@ -115,6 +115,7 @@ uint16_t CPU::get_operand(uint8_t opcode) const {
   return address;
 }
 
+// Instruction functions
 void CPU::Adc(uint16_t address) {
   uint8_t operand = memory[address];
   uint16_t result = uint16_t(r_acc) + operand + get_carry();
@@ -136,6 +137,23 @@ void CPU::Adc(uint16_t address) {
   // update negative flag
   if (result & 0x80) {
     set_negative();
+  }
+}
+
+void CPU::And(uint16_t address) {
+  uint8_t operand = memory[address];
+  r_acc = r_acc & operand;
+  clear_zero();
+  clear_negative();
+
+  // update negative flag
+  if (r_acc & 0x80) {
+    set_negative();
+  }
+
+  // update zero flag
+  if (r_acc == 0) {
+    set_zero();
   }
 }
 

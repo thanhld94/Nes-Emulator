@@ -558,6 +558,38 @@ TEST (SingleInstructionTest, ADC_StatusRegisterCheck) {
 }
 
 //TODO AND
+TEST (SingleInstructionTest, AND_LogicalAnd) {
+  CPU cpu;
+  uint16_t address = 0x1412;
+  cpu.set_zero();
+  cpu.set_negative();
+  cpu.set_memory(address, 0xDF); //1101 1111
+  cpu.set_acc(0x4A);             //0100 1010
+
+  uint8_t expected = 0xDF & 0x4A;
+  cpu.And(address);
+
+  EXPECT_EQ(cpu.get_acc(), expected);
+  EXPECT_EQ(cpu.get_zero(), 0);
+  EXPECT_EQ(cpu.get_negative(), 0);
+}
+
+TEST (SingleInstructionTest, AND_StatusRegisterCheck) {
+  CPU cpu;
+  uint16_t address = 0x1412;
+  cpu.clear_zero();
+  cpu.clear_negative();
+  cpu.set_memory(address, 0xDF); //1101 1111
+  cpu.set_acc(0xCA);             //1100 1010
+
+  uint8_t expected = 0xDF & 0xCA;
+  cpu.And(address);
+
+  EXPECT_EQ(cpu.get_acc(), expected);
+  EXPECT_EQ(cpu.get_zero(), 0);
+  EXPECT_EQ(cpu.get_negative(), 1);
+}
+
 //TODO ASL
 //TODO BCC
 //TODO BCS
