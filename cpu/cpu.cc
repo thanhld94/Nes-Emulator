@@ -56,15 +56,67 @@ int CPU::get_addressing_mode(uint8_t opcode) const {
   return mode_table[opcode];
 }
 
+uint8_t CPU::get_operand(uint8_t opcode) const {
+  int mode = mode_table[opcode];
+  uint8_t result = 0;
+
+  //TODO get rid of magic numbers
+  switch (mode) {
+    case 0: // Immediate
+      result = memory[pc + 1];
+      break;
+    case 1: // Zero Page 
+      result = memory[memory[pc + 1]];
+      break;
+    case 2: // Zero Page X
+      result = memory[pc + 1];
+      result = memory[result + r_x];
+      break;
+    case 3: // Zero Page Y
+      break;
+    case 4: // Absolute
+      break;
+    case 5: // Absolute X
+      break;
+    case 6: // Absolute Y
+      break;
+    case 7: // Indirect X
+      break;
+    case 8: // Indirect Y
+      break;
+    case 9: // Accumulator
+      break;
+    case 10: // Relative
+      break;
+    case 11: // Implied
+      break;
+    case 12: // Indirect 
+      break;
+    default:
+      std::cerr << "Bad operand!" << std::endl;
+  }
+  return result;
+}
+
 void CPU::Adc(uint8_t opcode) {
   int mode = mode_table[opcode];
   uint8_t operand1;
-  uint8_t operand2;
 
+  //TODO get rid of magic numbers
   switch (mode) {
-    case 0: 
+    case 0: // Immediate mode 
       operand1 = memory[pc + 1];
       r_acc += operand1;
+      break;
+
+    case 1: // Page Zero
+      operand1 = memory[pc + 1];
+      r_acc += memory[operand1];
+      break;
+
+    case 2: // Page Zero, X
+      operand1 = r_x + memory[pc + 1];
+      r_acc += memory[operand1];
       break;
 
     default:
@@ -86,6 +138,10 @@ uint16_t CPU::get_pc() const {
   return pc;
 }
 
+void CPU::set_pc(uint16_t address) {
+  pc = address;
+}
+
 uint8_t CPU::get_sp() const {
   return sp;
 }
@@ -94,8 +150,16 @@ uint8_t CPU::get_rx() const {
   return r_x;
 }
 
+void CPU::set_rx(uint8_t value) {
+  r_x = value;
+}
+
 uint8_t CPU::get_ry() const {
   return r_y;
+}
+
+void CPU::set_ry(uint8_t value) {
+  r_y = value;
 }
 
 uint8_t CPU::get_acc() const {

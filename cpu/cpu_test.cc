@@ -31,6 +31,7 @@ TEST (InitializeTest, FirstState) {
   }
 }
 
+// Testing addressing mode table
 TEST (AddressingModeTest, ADC_AddWithCarry) {
   CPU cpu;
   EXPECT_EQ(cpu.get_addressing_mode(0x69), IMMEDIATE);
@@ -403,21 +404,84 @@ TEST (AddressingModeTest, TYA_TransferYToAccumulator) {
   EXPECT_EQ(cpu.get_addressing_mode(0x98), IMPLIED);
 }
 
+
+// Fetching target based on addressing mode 
+TEST (AddressingModeOperand, GetOperand) {
+  CPU cpu;
+  // immediate
+  cpu.set_memory(cpu.get_pc() + 1, 0x72);
+  uint8_t imm_op = cpu.get_operand(0x69);
+  EXPECT_EQ(imm_op, 0x72);
+
+  // zero-page
+  cpu.set_memory(cpu.get_pc() + 1, 0x43);
+  cpu.set_memory(0x0043, 0x38);
+  uint8_t zp_op = cpu.get_operand(0x65);
+  EXPECT_EQ(zp_op, 0x38);
+
+  //TODO zero-pagex
+  cpu.set_memory(cpu.get_pc() + 1, 0x41);
+  cpu.set_rx(0x31);
+  cpu.set_memory(0x72, 0x77);
+  uint8_t zpx_op = cpu.get_operand(0x75);
+  EXPECT_EQ(zpx_op, 0x77);
+
+  //TODO zero-pagey
+  //TODO abs
+  //TODO absx
+  //TODO absy
+  //TODO indirx
+  //TODO indiry
+  //TODO accum
+  //TODO relative
+  //TODO Implied
+  //TODO indirect
+}
+
 //TODO Adding test for Instructions testing
 //TODO Adding test for ADC instruction
-TEST (SingleInstructionTest, ADC_AddWithCarry) {
+TEST (SingleInstructionTest, AddWithCarry_x69) {
   CPU cpu;
   cpu.set_memory(cpu.get_pc() + 1, 0x24);
   cpu.Adc(0x69);
   EXPECT_EQ(cpu.get_acc(), 0x24);
+}
 
-//TODO x75
+TEST (SingleInstructionTest, AddWithCarry_x65) {
+  CPU cpu;
+  cpu.set_memory(cpu.get_pc() + 1, 0x88);
+  cpu.set_memory(0x0088, 0x24);
+  cpu.Adc(0x65);
+  EXPECT_EQ(cpu.get_acc(), 0x24);
+}
+
+TEST (SingleInstructionTest, AddWithCarry_x75) {
+  CPU cpu;
+  cpu.set_memory(cpu.get_pc() + 1, 0x24);
+  cpu.set_rx(0x82);
+  cpu.set_memory(0xA6, 0x34);
+
+  cpu.Adc(0x75);
+
+  EXPECT_EQ(cpu.get_acc(), 0x34);
+}
+
+TEST (SingleInstructionTest, AddWithCarry_x75_WrapAround) {
+  CPU cpu;
+  cpu.set_memory(cpu.get_pc() + 1, 0x75);
+  cpu.set_rx(0x9F);
+  cpu.set_memory(0x14, 0x34);
+
+  cpu.Adc(0x75);
+
+  EXPECT_EQ(cpu.get_acc(), 0x34);
+}
+
 //TODO x6D
 //TODO x7D
 //TODO x79
 //TODO x61
 //TODO x71
-//TODO x69
-}
+//TODO Checking status register after ADC
 
 } // namespace nesemu

@@ -12,15 +12,23 @@ class CPU {
 
     /* Addressing Mode */
     int get_addressing_mode(uint8_t opcode) const;
+    uint8_t get_operand(uint8_t opcode) const;
 
     /* Cpu instructions */
     void Adc(uint8_t opcode);
 
     /* Getters & Setters*/
     uint16_t get_pc() const;
+    void set_pc(uint16_t value);
+
     uint8_t get_sp() const;
+
     uint8_t get_rx() const;
+    void set_rx(uint8_t value);
+
     uint8_t get_ry() const;
+    void set_ry(uint8_t value);
+
     uint8_t get_acc() const;
     uint8_t get_st() const;
 
