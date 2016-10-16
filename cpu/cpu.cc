@@ -224,6 +224,12 @@ void CPU::Bit(uint16_t address) {
   }
 }
 
+void CPU::Bmi(uint16_t address) {
+  if (get_negative()) {
+    pc = address;
+  }
+}
+
 /* Getter & Setter*/
 
 // set and get memory

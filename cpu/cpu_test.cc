@@ -700,6 +700,19 @@ TEST (SingleInstructionTest, BIT) {
 }
 
 //TODO BMI
+TEST (SingleInstructionTest, BMI_BranchIfMinus) {
+  CPU cpu;
+  uint16_t address = 0x1412;
+  cpu.clear_negative();
+  cpu.set_pc(0x2428);
+  cpu.Bmi(address);
+  EXPECT_EQ(cpu.get_pc(), 0x2428);
+
+  cpu.set_negative();
+  cpu.Bmi(address);
+  EXPECT_EQ(cpu.get_pc(), address);
+}
+
 //TODO BNE
 //TODO BPL
 //TODO BRK
