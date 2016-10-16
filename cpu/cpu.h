@@ -21,6 +21,7 @@ class CPU {
     void Adc(uint16_t address);
     void And(uint16_t address);
     void Asl(uint16_t address, int mode);
+    void Bcc(uint16_t address);
 
     /* Getters & Setters*/
     uint16_t get_pc() const;
