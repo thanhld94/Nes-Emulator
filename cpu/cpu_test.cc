@@ -744,7 +744,21 @@ TEST (SingleInstructionTest, BPL_BranchIfPositive) {
 }
 
 //TODO BRK
+
 //TODO BVC
+TEST (SingleInstructionTest, BVC_BranchIfOverflowClear) {
+  CPU cpu;
+  uint16_t address = 0x1412;
+  cpu.set_overflow();
+  cpu.set_pc(0x2428);
+  cpu.Bvc(address);
+  EXPECT_EQ(cpu.get_pc(), 0x2428);
+
+  cpu.clear_overflow();
+  cpu.Bvc(address);
+  EXPECT_EQ(cpu.get_pc(), address);
+}
+
 //TODO BVS
 //TODO CLC
 //TODO CLD
