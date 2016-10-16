@@ -230,6 +230,12 @@ void CPU::Bmi(uint16_t address) {
   }
 }
 
+void CPU::Bne(uint16_t address) {
+  if (!get_zero()) {
+    pc = address;
+  }
+}
+
 /* Getter & Setter*/
 
 // set and get memory

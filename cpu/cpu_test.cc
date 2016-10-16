@@ -699,7 +699,6 @@ TEST (SingleInstructionTest, BIT) {
   EXPECT_EQ(cpu.get_overflow(), 0);
 }
 
-//TODO BMI
 TEST (SingleInstructionTest, BMI_BranchIfMinus) {
   CPU cpu;
   uint16_t address = 0x1412;
@@ -713,7 +712,19 @@ TEST (SingleInstructionTest, BMI_BranchIfMinus) {
   EXPECT_EQ(cpu.get_pc(), address);
 }
 
-//TODO BNE
+TEST (SingleInstructionTest, BNE_BranchIfNotEqual) {
+  CPU cpu;
+  uint16_t address = 0x1412;
+  cpu.set_zero();
+  cpu.set_pc(0x2428);
+  cpu.Bne(address);
+  EXPECT_EQ(cpu.get_pc(), 0x2428);
+
+  cpu.clear_zero();
+  cpu.Bne(address);
+  EXPECT_EQ(cpu.get_pc(), address);
+}
+
 //TODO BPL
 //TODO BRK
 //TODO BVC
