@@ -236,6 +236,12 @@ void CPU::Bne(uint16_t address) {
   }
 }
 
+void CPU::Bpl(uint16_t address) {
+  if (!get_negative()) {
+    pc = address;
+  }
+}
+
 /* Getter & Setter*/
 
 // set and get memory

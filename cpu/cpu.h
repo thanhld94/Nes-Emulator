@@ -27,6 +27,7 @@ class CPU {
     void Bit(uint16_t address);
     void Bmi(uint16_t address);
     void Bne(uint16_t address);
+    void Bpl(uint16_t address);
 
     /* Getters & Setters*/
     uint16_t get_pc() const;
