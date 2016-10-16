@@ -23,6 +23,8 @@ class CPU {
     void Asl(uint16_t address, int mode);
     void Bcc(uint16_t address);
     void Bcs(uint16_t address);
+    void Beq(uint16_t address);
+    void Bit(uint16_t address);
 
     /* Getters & Setters*/
     uint16_t get_pc() const;
@@ -49,15 +51,20 @@ class CPU {
     void set_carry();
     void clear_carry();
 
-    // set and cleaer negative flag
-    int get_negative() const;
-    void set_negative();
-    void clear_negative();
-
     // set and clear zero flag
     int get_zero() const;
     void set_zero();
     void clear_zero();
+
+    // set and clear overflow flag
+    int get_overflow() const;
+    void set_overflow();
+    void clear_overflow();
+
+    // set and clear negative flag
+    int get_negative() const;
+    void set_negative();
+    void clear_negative();
 
     uint8_t get_memory(uint16_t address) const;
     void set_memory(uint16_t address, uint8_t value);

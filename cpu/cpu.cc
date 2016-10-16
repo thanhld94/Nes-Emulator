@@ -197,6 +197,33 @@ void CPU::Bcs(uint16_t address) {
   }
 }
 
+void CPU::Beq(uint16_t address) {
+  if (get_zero()) {
+    pc = address;
+  }
+}
+
+void CPU::Bit(uint16_t address) {
+  uint8_t value = memory[address];
+  if (value & 0x80) {
+    set_negative();
+  } else {
+    clear_negative();
+  }
+
+  if (value & 0x40) {
+    set_overflow();
+  } else {
+    clear_overflow();
+  }
+  value = r_acc & value;
+  if (!value) {
+    set_zero();
+  } else {
+    clear_zero();
+  }
+}
+
 /* Getter & Setter*/
 
 // set and get memory
@@ -277,6 +304,19 @@ void CPU::set_zero() {
 
 void CPU::clear_zero() {
   r_st &= 0xFD;
+}
+
+// overflow flag
+int CPU::get_overflow() const {
+  return (r_st & 0x40) ? 1 : 0;
+}
+
+void CPU::set_overflow() {
+  r_st |= 0x40;
+}
+
+void CPU::clear_overflow() {
+  r_st &= (0xBF);
 }
 
 // negative flag

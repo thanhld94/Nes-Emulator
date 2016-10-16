@@ -649,7 +649,6 @@ TEST (SingleInstructionTest, BCC_BranchIfCarryClear) {
   EXPECT_EQ(cpu.get_pc(), 0x2324);
 }
 
-//TODO BCS
 TEST (SingleInstructionTest, BCS_BranchIfCarrySet) {
   CPU cpu;
   uint16_t address = 0x1412;
@@ -663,8 +662,43 @@ TEST (SingleInstructionTest, BCS_BranchIfCarrySet) {
   EXPECT_EQ(cpu.get_pc(), 0x1412);
 }
 
-//TODO BEQ
-//TODO BIT
+TEST (SingleInstructionTest, BEQ_BranchIfEqual) {
+  CPU cpu;
+  uint16_t address = 0x1412;
+  cpu.clear_zero();
+  cpu.set_pc(0x5678);
+  cpu.Beq(address);
+  EXPECT_EQ(cpu.get_pc(), 0x5678);
+
+  cpu.set_zero();
+  cpu.Beq(address);
+  EXPECT_EQ(cpu.get_pc(), 0x1412);
+}
+
+TEST (SingleInstructionTest, BIT) {
+  CPU cpu;
+  uint16_t address = 0x1412;
+  cpu.clear_zero();
+  cpu.clear_negative();
+  cpu.clear_overflow();
+  cpu.set_memory(address, 0x6A); //0110 1010
+  cpu.set_acc(0x95);             //1001 0101
+  cpu.Bit(address);
+
+  EXPECT_EQ(cpu.get_zero(), 1);
+  EXPECT_EQ(cpu.get_negative(), 0);
+  EXPECT_EQ(cpu.get_overflow(), 1);
+
+  cpu.clear_zero();
+  cpu.clear_overflow();
+  cpu.clear_negative();
+  cpu.set_memory(address, 0xBD); //1011 1101
+  cpu.Bit(address);
+  EXPECT_EQ(cpu.get_zero(), 0);
+  EXPECT_EQ(cpu.get_negative(), 1);
+  EXPECT_EQ(cpu.get_overflow(), 0);
+}
+
 //TODO BMI
 //TODO BNE
 //TODO BPL
