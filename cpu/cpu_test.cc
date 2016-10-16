@@ -96,6 +96,11 @@ TEST (AddressingModeTest, BNE_BranchIfNotEqual) {
   EXPECT_EQ(cpu.get_addressing_mode(0xD0), RELATIVE);
 }
 
+TEST (AddressingModeTest, BPL_BranchIfPositive) {
+  CPU cpu;
+  EXPECT_EQ(cpu.get_addressing_mode(0x10), RELATIVE);
+}
+
 TEST (AddressingModeTest, BRK_ForceInterrupt) {
   CPU cpu;
   EXPECT_EQ(cpu.get_addressing_mode(0x00), IMPLIED);
