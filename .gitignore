@@ -4,7 +4,9 @@
 *.out
 *_test
 
+# template files
 *.dSYM
+*.swp
 
 # mac os files
 .DS_STORE
