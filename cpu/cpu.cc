@@ -191,6 +191,12 @@ void CPU::Bcc(uint16_t address) {
   }
 }
 
+void CPU::Bcs(uint16_t address) {
+  if (get_carry()) {
+    pc = address;
+  }
+}
+
 /* Getter & Setter*/
 
 // set and get memory

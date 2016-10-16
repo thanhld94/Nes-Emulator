@@ -636,7 +636,6 @@ TEST (SingleInstructionTest, ASL_ArithmeticShiftLeft) {
   EXPECT_EQ(cpu.get_carry(), 0);
 }
 
-//TODO BCC
 TEST (SingleInstructionTest, BCC_BranchIfCarryClear) {
   CPU cpu;
   uint16_t address = 0x1412;
@@ -651,6 +650,19 @@ TEST (SingleInstructionTest, BCC_BranchIfCarryClear) {
 }
 
 //TODO BCS
+TEST (SingleInstructionTest, BCS_BranchIfCarrySet) {
+  CPU cpu;
+  uint16_t address = 0x1412;
+  cpu.clear_carry();
+  cpu.set_pc(0x2345);
+  cpu.Bcs(address);
+  EXPECT_EQ(cpu.get_pc(), 0x2345);
+
+  cpu.set_carry();
+  cpu.Bcs(address);
+  EXPECT_EQ(cpu.get_pc(), 0x1412);
+}
+
 //TODO BEQ
 //TODO BIT
 //TODO BMI

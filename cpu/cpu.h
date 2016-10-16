@@ -22,6 +22,7 @@ class CPU {
     void And(uint16_t address);
     void Asl(uint16_t address, int mode);
     void Bcc(uint16_t address);
+    void Bcs(uint16_t address);
 
     /* Getters & Setters*/
     uint16_t get_pc() const;
