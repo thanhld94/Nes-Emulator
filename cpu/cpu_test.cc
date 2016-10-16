@@ -604,13 +604,33 @@ TEST (SingleInstructionTest, ASL_ArithmeticShiftLeft) {
   cpu.set_zero();
   cpu.set_negative();
   cpu.set_carry();
-  cpu.set_memory(address, 0x3A); //0011 1010
-  //TODO ASL - Add additional information to manipulate absolute mode
+
+  // Non accumulator mode
+  for (int i = 0; i < 4; i++) {
+    cpu.set_memory(address, 0x3A); //0011 1010
+
+    uint8_t expected = 0x74; //0111 0100
+    int modes[4] = {ZEROPAGE, ZEROPAGEX, ABSOLUTE, ABSOLUTEX};
+    int addressing_mode = modes[i];
+    cpu.Asl(address, addressing_mode);
+    
+    EXPECT_EQ(cpu.get_memory(address), expected);
+    EXPECT_EQ(cpu.get_zero(), 0);
+    EXPECT_EQ(cpu.get_negative(), 0);
+    EXPECT_EQ(cpu.get_carry(), 0);
+  }
+
+  // Accumulator mode
+  address = 0;
+  cpu.set_zero();
+  cpu.set_negative();
+  cpu.set_carry();
+  cpu.set_acc(0x3A);       //0011 1010
 
   uint8_t expected = 0x74; //0111 0100
-  cpu.Asl(address);
-  
-  EXPECT_EQ(cpu.get_memory(address), expected);
+  cpu.Asl(address, ACCUMULATOR);
+
+  EXPECT_EQ(cpu.get_acc(), expected);
   EXPECT_EQ(cpu.get_zero(), 0);
   EXPECT_EQ(cpu.get_negative(), 0);
   EXPECT_EQ(cpu.get_carry(), 0);

@@ -157,9 +157,8 @@ void CPU::And(uint16_t address) {
   }
 }
 
-void CPU::Asl(uint16_t address) {
-  //TODO add accumulator mode
-  uint8_t value = memory[address];
+void CPU::Asl(uint16_t address, int mode) {
+  uint8_t value = (mode == 9) ? r_acc : memory[address];
   clear_carry();
   clear_negative();
   clear_zero();
@@ -178,7 +177,12 @@ void CPU::Asl(uint16_t address) {
   if (value == 0) {
     set_zero();
   }
-  memory[address] = value;
+
+  if (mode == 9) { // Accumulator Mode
+    r_acc = value;
+  } else {
+    memory[address] = value;
+  }
 }
 
 /* Getter & Setter*/

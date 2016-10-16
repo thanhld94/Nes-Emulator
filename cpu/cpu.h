@@ -20,7 +20,7 @@ class CPU {
     /* Cpu instructions */
     void Adc(uint16_t address);
     void And(uint16_t address);
-    void Asl(uint16_t address);
+    void Asl(uint16_t address, int mode);
 
     /* Getters & Setters*/
     uint16_t get_pc() const;
