@@ -248,6 +248,12 @@ void CPU::Bvc(uint16_t address) {
   }
 }
 
+void CPU::Bvs(uint16_t address) {
+  if (get_overflow()) {
+    pc = address;
+  }
+}
+
 /* Getter & Setter*/
 
 // set and get memory
