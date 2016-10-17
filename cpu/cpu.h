@@ -33,6 +33,7 @@ class CPU {
     void Clc();
     void Cld();
     void Cli();
+    void Clv();
 
     /* Getters & Setters*/
     uint16_t get_pc() const;

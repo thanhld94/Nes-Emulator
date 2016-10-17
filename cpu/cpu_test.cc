@@ -521,6 +521,41 @@ TEST (AddressingModeOperand, GetOperandIndirectAddress) {
   EXPECT_EQ(indir_op, 0x9876);
 }
 
+// Test flag clear function
+TEST (StatusRegisterMethod, FlagClearFunctions) {
+  CPU cpu;
+  EXPECT_EQ(cpu.get_st(), 0);
+  cpu.set_carry();
+  EXPECT_EQ(cpu.get_st(), 0x01);
+  cpu.clear_carry();
+  EXPECT_EQ(cpu.get_st(), 0);
+
+  cpu.set_zero();
+  EXPECT_EQ(cpu.get_st(), 0x02);
+  cpu.clear_zero();
+  EXPECT_EQ(cpu.get_st(), 0);
+
+  cpu.set_interrupt_disable();
+  EXPECT_EQ(cpu.get_st(), 0x04);
+  cpu.clear_interrupt_disable();
+  EXPECT_EQ(cpu.get_st(), 0);
+
+  cpu.set_decimal();
+  EXPECT_EQ(cpu.get_st(), 0x08);
+  cpu.clear_decimal();
+  EXPECT_EQ(cpu.get_st(), 0);
+
+  cpu.set_overflow();
+  EXPECT_EQ(cpu.get_st(), 0x40);
+  cpu.clear_overflow();
+  EXPECT_EQ(cpu.get_st(), 0);
+
+  cpu.set_negative();
+  EXPECT_EQ(cpu.get_st(), 0x80);
+  cpu.clear_negative();
+  EXPECT_EQ(cpu.get_st(), 0);
+}
+
 // Single Instruction Tests
 TEST (SingleInstructionTest, ADC_AddWithCarry) {
   CPU cpu;
@@ -804,7 +839,17 @@ TEST (SingleInstructionTest, CLI_ClearInterruptDisable) {
   EXPECT_EQ(cpu.get_interrupt_disable(), 0);
 }
 
-//TODO CLV
+TEST (SingleInstructionTest, CLV_ClearOverflowFlag) {
+  CPU cpu;
+  cpu.set_overflow();
+  cpu.Clv();
+  EXPECT_EQ(cpu.get_overflow(), 0);
+
+  cpu.clear_overflow();
+  cpu.Clv();
+  EXPECT_EQ(cpu.get_overflow(), 0);
+}
+
 //TODO CMP
 //TODO CPX
 //TODO CPY

@@ -266,6 +266,10 @@ void CPU::Cli() {
   clear_interrupt_disable();
 }
 
+void CPU::Clv() {
+  clear_overflow();
+}
+
 /* Getter & Setter*/
 
 // set and get memory
