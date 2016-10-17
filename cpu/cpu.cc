@@ -254,6 +254,10 @@ void CPU::Bvs(uint16_t address) {
   }
 }
 
+void CPU::Clc() {
+  clear_carry();
+}
+
 /* Getter & Setter*/
 
 // set and get memory

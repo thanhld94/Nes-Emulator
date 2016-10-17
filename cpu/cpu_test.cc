@@ -771,7 +771,13 @@ TEST (SingleInstructionTest, BVS_BranchIfOverFlowSet) {
   EXPECT_EQ(cpu.get_pc(), address);
 }
 
-//TODO CLC
+TEST (SingleInstructionTest, CLC_ClearCarryFlag) {
+  CPU cpu;
+  cpu.set_carry();
+  cpu.Clc();
+  EXPECT_EQ(cpu.get_carry(), 0);
+}
+
 //TODO CLD
 //TODO CLI
 //TODO CLV

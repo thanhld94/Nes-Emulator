@@ -30,6 +30,7 @@ class CPU {
     void Bpl(uint16_t address);
     void Bvc(uint16_t address);
     void Bvs(uint16_t address);
+    void Clc();
 
     /* Getters & Setters*/
     uint16_t get_pc() const;
