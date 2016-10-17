@@ -31,6 +31,8 @@ class CPU {
     void Bvc(uint16_t address);
     void Bvs(uint16_t address);
     void Clc();
+    void Cld();
+    void Cli();
 
     /* Getters & Setters*/
     uint16_t get_pc() const;
@@ -61,6 +63,16 @@ class CPU {
     int get_zero() const;
     void set_zero();
     void clear_zero();
+
+    // set and clear interrupt disable flag
+    int get_interrupt_disable() const;
+    void set_interrupt_disable();
+    void clear_interrupt_disable();
+
+    // set and clear decimal flag
+    int get_decimal() const;
+    void set_decimal();
+    void clear_decimal();
 
     // set and clear overflow flag
     int get_overflow() const;

@@ -776,10 +776,34 @@ TEST (SingleInstructionTest, CLC_ClearCarryFlag) {
   cpu.set_carry();
   cpu.Clc();
   EXPECT_EQ(cpu.get_carry(), 0);
+
+  cpu.clear_carry();
+  cpu.Clc();
+  EXPECT_EQ(cpu.get_carry(), 0);
 }
 
-//TODO CLD
-//TODO CLI
+TEST (SingleInstructionTest, CLD_ClearDecimalMode) {
+  CPU cpu;
+  cpu.set_decimal();
+  cpu.Cld();
+  EXPECT_EQ(cpu.get_decimal(), 0);
+
+  cpu.clear_decimal();
+  cpu.Cld();
+  EXPECT_EQ(cpu.get_decimal(), 0);
+}
+
+TEST (SingleInstructionTest, CLI_ClearInterruptDisable) {
+  CPU cpu;
+  cpu.set_interrupt_disable();
+  cpu.Cli();
+  EXPECT_EQ(cpu.get_interrupt_disable(), 0);
+
+  cpu.clear_interrupt_disable();
+  cpu.Cli();
+  EXPECT_EQ(cpu.get_interrupt_disable(), 0);
+}
+
 //TODO CLV
 //TODO CMP
 //TODO CPX

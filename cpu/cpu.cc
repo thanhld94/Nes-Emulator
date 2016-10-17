@@ -258,6 +258,14 @@ void CPU::Clc() {
   clear_carry();
 }
 
+void CPU::Cld() {
+  clear_decimal();
+}
+
+void CPU::Cli() {
+  clear_interrupt_disable();
+}
+
 /* Getter & Setter*/
 
 // set and get memory
@@ -338,6 +346,32 @@ void CPU::set_zero() {
 
 void CPU::clear_zero() {
   r_st &= 0xFD;
+}
+
+// interrupt disable flag
+int CPU::get_interrupt_disable() const {
+  return (r_st & 0x04) ? 1 : 0;
+}
+
+void CPU::set_interrupt_disable() {
+  r_st |= 0x04;
+}
+
+void CPU::clear_interrupt_disable() {
+  r_st &= 0xFB;
+}
+
+// decimal flag
+int CPU::get_decimal() const {
+  return (r_st & 0x08) ? 1 : 0;
+}
+
+void CPU::set_decimal() {
+  r_st |= 0x08;
+}
+
+void CPU::clear_decimal() {
+  r_st &= 0xF7;
 }
 
 // overflow flag
