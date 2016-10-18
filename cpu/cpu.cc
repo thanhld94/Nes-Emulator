@@ -270,6 +270,24 @@ void CPU::Clv() {
   clear_overflow();
 }
 
+void CPU::Cmp(uint16_t address) {
+  uint8_t value = memory[address];
+  clear_carry();
+  clear_zero();
+  clear_negative();
+  if (r_acc >= value) {
+    set_carry();
+  }
+
+  value = r_acc - value;
+  if (value == 0) {
+    set_zero();
+  }
+  if (value & 0x80) {
+    set_negative();
+  }
+}
+
 /* Getter & Setter*/
 
 // set and get memory
@@ -322,6 +340,8 @@ void CPU::set_acc(uint8_t value) {
 }
 
 // status register operations
+// 7 6 5 4 3 2 1 0
+// N V   B D I Z C
 uint8_t CPU::get_st() const {
   return r_st;
 }

@@ -34,6 +34,7 @@ class CPU {
     void Cld();
     void Cli();
     void Clv();
+    void Cmp(uint16_t address);
 
     /* Getters & Setters*/
     uint16_t get_pc() const;
@@ -51,8 +52,6 @@ class CPU {
     void set_acc(uint8_t value);
 
     // Status register
-    // 7 6 5 4 3 2 1 0
-    // N V   B D I Z C
     uint8_t get_st() const;
 
     // set and clear carry flag
