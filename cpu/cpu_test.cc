@@ -850,7 +850,6 @@ TEST (SingleInstructionTest, CLV_ClearOverflowFlag) {
   EXPECT_EQ(cpu.get_overflow(), 0);
 }
 
-//TODO CMP
 TEST (SingleInstructionTest, CMP_Compare) {
   //Test equal
   CPU cpu;
@@ -890,7 +889,45 @@ TEST (SingleInstructionTest, CMP_Compare) {
   EXPECT_EQ(cpu.get_negative(), 1);
 }
 
-//TODO CPX
+TEST (SingleInstructionTest, CPX_CompareXRegister) {
+  // test equals
+  CPU cpu;
+  uint16_t address = 0x1412;
+  cpu.set_memory(address, 0x48); //0100 1000
+  cpu.set_rx(0x48);
+  cpu.Cpx(address);
+  EXPECT_EQ(cpu.get_carry(), 1);
+  EXPECT_EQ(cpu.get_zero(), 1);
+  EXPECT_EQ(cpu.get_negative(), 0);
+
+  // test strictly greater than
+  cpu = CPU();
+  cpu.set_memory(address, 0x72); // 0111 0010
+  cpu.set_rx(0x7D);              // 0111 1101
+  cpu.Cpx(address);
+  EXPECT_EQ(cpu.get_carry(), 1);
+  EXPECT_EQ(cpu.get_zero(), 0);
+  EXPECT_EQ(cpu.get_negative(), 0);
+
+  // tst less than
+  cpu = CPU();
+  cpu.set_memory(address, 0x7F); // 0111 1111
+  cpu.set_rx(0x4D);              // 0100 1101
+  cpu.Cpx(address);
+  EXPECT_EQ(cpu.get_carry(), 0);
+  EXPECT_EQ(cpu.get_zero(), 0);
+  EXPECT_EQ(cpu.get_negative(), 1);
+
+  // test greater neg flag
+  cpu = CPU();
+  cpu.set_memory(address, 0x4D); // 0100 1101
+  cpu.set_rx(0xFD);              // 1111 1101
+  cpu.Cpx(address);
+  EXPECT_EQ(cpu.get_carry(), 1);
+  EXPECT_EQ(cpu.get_zero(), 0);
+  EXPECT_EQ(cpu.get_negative(), 1);
+}
+
 //TODO CPY
 //TODO DEC
 //TODO DEX

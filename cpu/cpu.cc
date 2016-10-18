@@ -288,6 +288,28 @@ void CPU::Cmp(uint16_t address) {
   }
 }
 
+void CPU::Cpx(uint16_t address) {
+  uint8_t val = memory[address];
+  clear_carry();
+  clear_zero();
+  clear_negative();
+  // carry flag
+  if (r_x >= val) {
+    set_carry();
+  }
+
+  val = r_x - val;
+  // zero flag
+  if (val == 0) {
+    set_zero();
+  }
+  
+  // negative flag
+  if (val & 0x80) {
+    set_negative();
+  }
+}
+
 /* Getter & Setter*/
 
 // set and get memory
