@@ -220,18 +220,18 @@ void CPU::execute(int instruction, uint16_t address, int mode) {
       if (!get_overflow()) {
         pc = address;
       }
+      break;
+    case 12: // BVS
+      if (get_overflow()) {
+        pc = address;
+      }
+      break;
     default:
       std::cerr << "bad instruction" << std::endl;
   }
 }
 
 /*
-void CPU::Bvc(uint16_t address) {
-  if (!get_overflow()) {
-    pc = address;
-  }
-}
-
 void CPU::Bvs(uint16_t address) {
   if (get_overflow()) {
     pc = address;

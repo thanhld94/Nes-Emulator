@@ -292,20 +292,20 @@ TEST (SingleInstructionTest, BVC_BranchIfOverflowClear) {
   EXPECT_EQ(cpu.get_pc(), address);
 }
 
-/*
 TEST (SingleInstructionTest, BVS_BranchIfOverFlowSet) {
   CPU cpu;
   uint16_t address = 0x1412;
   cpu.clear_overflow();
   cpu.set_pc(0x2428);
-  cpu.Bvs(address);
+  cpu.execute(BVS, address, RELATIVE);
   EXPECT_EQ(cpu.get_pc(), 0x2428);
 
   cpu.set_overflow();
-  cpu.Bvs(address);
+  cpu.execute(BVS, address, RELATIVE);
   EXPECT_EQ(cpu.get_pc(), address);
 }
 
+/*
 TEST (SingleInstructionTest, CLC_ClearCarryFlag) {
   CPU cpu;
   cpu.set_carry();
