@@ -967,7 +967,23 @@ TEST (SingleInstructionTest, CPY_CompareYRegister) {
   EXPECT_EQ(cpu.get_negative(), 1);
 }
 
-//TODO DEC
+TEST (SingleInstructionTest, DEC_DecrementMemory) {
+  CPU cpu;
+  uint16_t address = 0x1412;
+  cpu.set_memory(address, 0xF8); // 1111 1000
+  cpu.Dec(address);
+  EXPECT_EQ(cpu.get_memory(address), 0xF7); // 1111 0111
+  EXPECT_EQ(cpu.get_negative(), 1); 
+  EXPECT_EQ(cpu.get_zero(), 0);
+
+  // result = 0 case
+  cpu.set_memory(address, 0x01); // 0000 0001
+  cpu.Dec(address);
+  EXPECT_EQ(cpu.get_memory(address), 0);
+  EXPECT_EQ(cpu.get_negative(), 0);
+  EXPECT_EQ(cpu.get_zero(), 1);
+}
+
 //TODO DEX
 //TODO DEY
 //TODO EOR

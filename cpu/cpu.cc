@@ -332,6 +332,22 @@ void CPU::Cpy(uint16_t address) {
   }
 }
 
+void CPU::Dec(uint16_t address) {
+  memory[address]--;
+  clear_zero();
+  clear_negative();
+  
+  // zero flag
+  if (!memory[address]) {
+    set_zero();
+  }
+
+  // negative flag
+  if (memory[address] & 0x80) {
+    set_negative();
+  }
+}
+
 /* Getter & Setter*/
 
 // set and get memory

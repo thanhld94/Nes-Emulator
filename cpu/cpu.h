@@ -37,6 +37,7 @@ class CPU {
     void Cmp(uint16_t address);
     void Cpx(uint16_t address);
     void Cpy(uint16_t address);
+    void Dec(uint16_t address);
 
     /* Getters & Setters*/
     uint16_t get_pc() const;
