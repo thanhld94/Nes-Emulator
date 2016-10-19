@@ -1,0 +1,75 @@
+#ifndef NESEMU_CPU_TEST_UTILS_H
+#define NESEMU_CPU_TEST_UTILS_H
+
+#define IMMEDIATE   0
+#define ZEROPAGE    1
+#define ZEROPAGEX   2
+#define ZEROPAGEY   3
+#define ABSOLUTE    4
+#define ABSOLUTEX   5
+#define ABSOLUTEY   6
+#define INDIRECTX   7
+#define INDIRECTY   8
+#define ACCUMULATOR 9
+#define RELATIVE    10
+#define IMPLIED     11
+#define INDIRECT    12
+
+#define ADC 0
+#define AND 1
+#define ASL 2
+#define BCC 3
+#define BCS 4
+#define BEQ 5
+#define BIT 6
+#define BMI 7
+#define BNE 8
+#define BPL 9
+#define BRK 11
+#define BVC 12
+#define BVS 13
+#define CLC 14
+#define CLD 15
+#define CLI 16
+#define CLV 17
+#define CMP 18
+#define CPX 19
+#define CPY 20
+#define DEC 21
+#define DEX 22
+#define DEY 23
+#define EOR 24
+#define INC 25
+#define INX 26
+#define INY 27
+#define JMP 28
+#define JSR 29
+#define LDA 30
+#define LDX 31
+#define LDY 32
+#define LSR 33
+#define NOP 34
+#define ORA 35
+#define PHA 36
+#define PHP 37
+#define PLA 38
+#define PLP 39
+#define ROL 40
+#define ROR 41
+#define RTI 42
+#define RTS 43
+#define SBC 44
+#define SEC 45
+#define SED 46
+#define SEI 47
+#define STA 48
+#define STX 49
+#define STY 50
+#define TAX 51
+#define TAY 52
+#define TSX 53
+#define TXA 54
+#define TXS 55
+#define TYA 56
+
+#endif //NESEMU_CPU_TEST_UTILS_H

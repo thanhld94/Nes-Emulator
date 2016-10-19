@@ -9,45 +9,8 @@ class CPU {
   public:
     CPU();
 
-    /* Addressing Mode */
-
-    // return the address mode correspond to opcode
-    int get_addressing_mode(uint8_t opcode) const;
-
-    // get the memory address of the opcode based on opcode
-    uint16_t get_operand(uint8_t opcode) const;
-
     /* Cpu instructions */
-    void Adc(uint16_t address);
-    void And(uint16_t address);
-    void Asl(uint16_t address, int mode);
-    void Bcc(uint16_t address);
-    void Bcs(uint16_t address);
-    void Beq(uint16_t address);
-    void Bit(uint16_t address);
-    void Bmi(uint16_t address);
-    void Bne(uint16_t address);
-    void Bpl(uint16_t address);
-    void Bvc(uint16_t address);
-    void Bvs(uint16_t address);
-    void Clc();
-    void Cld();
-    void Cli();
-    void Clv();
-    void Cmp(uint16_t address);
-    void Cpx(uint16_t address);
-    void Cpy(uint16_t address);
-    void Dec(uint16_t address);
-    void Dex();
-    void Dey();
-    void Eor(uint16_t address);
-    void Inc(uint16_t address);
-    void Inx();
-    void Iny();
-    void Jmp(uint16_t address);
-    void Lda(uint16_t address);
-    void Ldx(uint16_t address);
-    void Ldy(uint16_t address);
+    void execute(int instruction, uint16_t address, int mode);
 
     /* Getters & Setters*/
     uint16_t get_pc() const;
@@ -108,9 +71,11 @@ class CPU {
     uint8_t r_acc;
     uint8_t r_st;
 
-    // System memory
-    uint8_t memory[0x10000];
+    /* Instruction execution helper */
+    // get the memory address of the operand based on opcode
+    uint16_t get_operand(uint8_t opcode) const;
 
+    uint8_t memory[0x10000]; // System memory
     static const int mode_table[256]; 
 };
 

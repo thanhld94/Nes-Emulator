@@ -49,10 +49,6 @@ const int CPU::mode_table[256] = {
  10, 8,-1,-1,-1, 2, 2,-1,11, 6,-1,-1,-1, 5, 5,-1  //F
 };
 
-int CPU::get_addressing_mode(uint8_t opcode) const {
-  return mode_table[opcode];
-}
-
 uint16_t CPU::get_operand(uint8_t opcode) const {
   int mode = mode_table[opcode];
   uint16_t address = 0;
@@ -116,30 +112,35 @@ uint16_t CPU::get_operand(uint8_t opcode) const {
 }
 
 // Instruction functions
-void CPU::Adc(uint16_t address) {
-  uint8_t operand = memory[address];
-  uint16_t result = uint16_t(r_acc) + operand + get_carry();
-  r_acc = uint8_t(result);
-  clear_carry();
-  clear_zero();
-  clear_negative();
+void CPU::execute(int instruction, uint16_t address, int mode) {
+  uint8_t operand = 0;
+  uint16_t tmp16 = 0;
+  uint8_t tmp8 = 0;
 
-  // update carry flag
-  if (result > 0xFF) {
-    set_carry();
-  }
-
-  // update zero flag
-  if (result == 0) {
-    set_zero();
-  }
-
-  // update negative flag
-  if (result & 0x80) {
-    set_negative();
+  switch (instruction) {
+    case 0: // ADC
+      operand = memory[address];
+      tmp16 = uint16_t(r_acc) + operand + get_carry();
+      r_acc = uint8_t(tmp16);
+      clear_carry();
+      clear_zero();
+      clear_negative();
+      if (tmp16 > 0xFF) { // update carry flag
+        set_carry();
+      }
+      if (tmp16 == 0) { // update zero flag
+        set_zero();
+      }
+      if (tmp16 & 0x80) { // update negative flag
+        set_negative();
+      }
+      break;
+    case 1: // AND
+      break;
   }
 }
 
+/*
 void CPU::And(uint16_t address) {
   uint8_t operand = memory[address];
   r_acc = r_acc & operand;
@@ -496,6 +497,7 @@ void CPU::Ldy(uint16_t address) {
     set_negative();
   }
 }
+*/
 
 /* Getter & Setter*/
 
