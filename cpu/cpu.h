@@ -44,6 +44,7 @@ class CPU {
     void Inc(uint16_t address);
     void Inx();
     void Iny();
+    void Jmp(uint16_t address);
 
     /* Getters & Setters*/
     uint16_t get_pc() const;

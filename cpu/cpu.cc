@@ -445,6 +445,10 @@ void CPU::Iny() {
   }
 }
 
+void CPU::Jmp(uint16_t address) {
+  pc = address;
+}
+
 /* Getter & Setter*/
 
 // set and get memory

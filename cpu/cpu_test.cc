@@ -1083,7 +1083,13 @@ TEST (SingleInstructionTest, INY_IncrementYRegister) {
   EXPECT_EQ(cpu.get_negative(), 0);
 }
 
-//TODO JMP
+TEST (SingleInstructionTest, JMP_Jump) {
+  CPU cpu;
+  uint16_t address = 0xD428;
+  cpu.Jmp(address);
+  EXPECT_EQ(cpu.get_pc(), address);
+}
+
 //TODO JSR
 //TODO LDA
 //TODO LDX
