@@ -465,6 +465,38 @@ void CPU::Lda(uint16_t address) {
   }
 }
 
+void CPU::Ldx(uint16_t address) {
+  r_x = memory[address];
+  clear_zero();
+  clear_negative();
+
+  //zero flag
+  if (r_x == 0) {
+    set_zero();
+  }
+
+  // negative flag
+  if (r_x & 0x80) {
+    set_negative();
+  }
+} 
+
+void CPU::Ldy(uint16_t address) {
+  r_y = memory[address];
+  clear_zero();
+  clear_negative();
+
+  //zero flag
+  if (r_y == 0) {
+    set_zero();
+  }
+
+  // negative flag
+  if (r_y & 0x80) {
+    set_negative();
+  }
+}
+
 /* Getter & Setter*/
 
 // set and get memory

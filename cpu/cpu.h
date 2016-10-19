@@ -46,6 +46,8 @@ class CPU {
     void Iny();
     void Jmp(uint16_t address);
     void Lda(uint16_t address);
+    void Ldx(uint16_t address);
+    void Ldy(uint16_t address);
 
     /* Getters & Setters*/
     uint16_t get_pc() const;

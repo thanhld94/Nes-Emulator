@@ -1110,8 +1110,43 @@ TEST (SingleInstructionTest, LDA_LoadAccumulator) {
   EXPECT_EQ(cpu.get_negative(), 0);
 }
 
-//TODO LDX
+TEST (SingleInstructionTest, LDX_LoadXRegister) {
+  CPU cpu;
+  uint16_t address = 0xD412;
+  cpu.set_memory(address, 0xD4); // 1101 0100
+  cpu.Ldx(address);
+  EXPECT_EQ(cpu.get_rx(), 0xD4);
+  EXPECT_EQ(cpu.get_zero(), 0);
+  EXPECT_EQ(cpu.get_negative(), 1);
+
+  // zero flag
+  cpu = CPU();
+  cpu.set_memory(address, 0);
+  cpu.Ldx(address);
+  EXPECT_EQ(cpu.get_rx(), 0);
+  EXPECT_EQ(cpu.get_zero(), 1);
+  EXPECT_EQ(cpu.get_negative(), 0);
+}
+
 //TODO LDY
+TEST (SingleInstructionTest, LDY_LoadYRegister) {
+  CPU cpu;
+  uint16_t address = 0xD412;
+  cpu.set_memory(address, 0xD4); // 1101 0100
+  cpu.Ldy(address);
+  EXPECT_EQ(cpu.get_ry(), 0xD4);
+  EXPECT_EQ(cpu.get_zero(), 0);
+  EXPECT_EQ(cpu.get_negative(), 1);
+
+  // zero flag
+  cpu = CPU();
+  cpu.set_memory(address, 0);
+  cpu.Ldy(address);
+  EXPECT_EQ(cpu.get_ry(), 0);
+  EXPECT_EQ(cpu.get_zero(), 1);
+  EXPECT_EQ(cpu.get_negative(), 0);
+}
+
 //TODO LSR
 //TODO NOP
 //TODO ORA
