@@ -173,18 +173,17 @@ void CPU::execute(int instruction, uint16_t address, int mode) {
         pc = address;
       }
       break;
+    case 4: // BCS
+      if (get_carry()) {
+        pc = address;
+      }
+      break;
     default:
       std::cerr << "bad instruction" << std::endl;
   }
 }
 
 /*
-void CPU::Bcc(uint16_t address) {
-  if (!get_carry()) {
-    pc = address;
-  }
-}
-
 void CPU::Bcs(uint16_t address) {
   if (get_carry()) {
     pc = address;

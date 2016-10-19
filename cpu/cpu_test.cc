@@ -179,29 +179,29 @@ TEST (SingleInstructionTest, BCC_BranchIfCarryClear) {
   CPU cpu;
   uint16_t address = 0x1412;
   cpu.clear_carry();
-  cpu.execute(BCC, address, ABSOLUTE);
+  cpu.execute(BCC, address, RELATIVE);
   EXPECT_EQ(cpu.get_pc(), address);
 
   cpu.set_pc(0x2324);
   cpu.set_carry();
-  cpu.execute(BCC, address, ABSOLUTE);
+  cpu.execute(BCC, address, RELATIVE);
   EXPECT_EQ(cpu.get_pc(), 0x2324);
 }
 
-/*
 TEST (SingleInstructionTest, BCS_BranchIfCarrySet) {
   CPU cpu;
   uint16_t address = 0x1412;
   cpu.clear_carry();
   cpu.set_pc(0x2345);
-  cpu.Bcs(address);
+  cpu.execute(BCS, address, RELATIVE);
   EXPECT_EQ(cpu.get_pc(), 0x2345);
 
   cpu.set_carry();
-  cpu.Bcs(address);
+  cpu.execute(BCS, address, RELATIVE);
   EXPECT_EQ(cpu.get_pc(), 0x1412);
 }
 
+/*
 TEST (SingleInstructionTest, BEQ_BranchIfEqual) {
   CPU cpu;
   uint16_t address = 0x1412;
