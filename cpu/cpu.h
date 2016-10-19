@@ -42,7 +42,7 @@ class CPU {
     void Dey();
     void Eor(uint16_t address);
     void Inc(uint16_t address);
-    void Inx(uint16_t address);
+    void Inx();
 
     /* Getters & Setters*/
     uint16_t get_pc() const;

@@ -1051,7 +1051,23 @@ TEST (SingleInstructionTest, INC_IncrementMemory) {
   EXPECT_EQ(cpu.get_zero(), 1);
 }
 
-//TODO INX
+TEST (SingleInstructionTest, INX_IncrementXRegister) {
+  CPU cpu;
+  cpu.set_rx(0xF4); // 1111 0100
+  cpu.Inx();
+  EXPECT_EQ(cpu.get_rx(), 0xF5); // 1111 0101
+  EXPECT_EQ(cpu.get_zero(), 0);
+  EXPECT_EQ(cpu.get_negative(), 1);
+
+  // zero flag test
+  cpu.set_rx(0xFF);
+  cpu.Inx();
+  EXPECT_EQ(cpu.get_rx(), 0);
+  EXPECT_EQ(cpu.get_zero(), 1);
+  EXPECT_EQ(cpu.get_negative(), 0);
+
+}
+
 //TODO INY
 //TODO JMP
 //TODO JSR

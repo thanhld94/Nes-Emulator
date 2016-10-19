@@ -413,7 +413,20 @@ void CPU::Inc(uint16_t address) {
   }
 }
 
-void CPU::Inx(uint16_t address) {
+void CPU::Inx() {
+  r_x++;
+  clear_zero();
+  clear_negative();
+
+  // zero flag
+  if (!r_x) {
+    set_zero();
+  }
+
+  // negative flag
+  if (r_x & 0x80) {
+    set_negative();
+  }
 }
 
 /* Getter & Setter*/
