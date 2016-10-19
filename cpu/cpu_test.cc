@@ -533,19 +533,18 @@ TEST (SingleInstructionTest, EOR_ExclusiveOR) {
   EXPECT_EQ(cpu.get_negative(), 0);
 }
 
-/*
 TEST (SingleInstructionTest, INC_IncrementMemory) {
   CPU cpu;
   uint16_t address = 0xD412;
   cpu.set_memory(address, 0xF8); // 1111 1000
-  cpu.Inc(address);
+  cpu.execute(INC, address, ABSOLUTE);
   EXPECT_EQ(cpu.get_memory(address), 0xF9); // 1111 1001
   EXPECT_EQ(cpu.get_negative(), 1); 
   EXPECT_EQ(cpu.get_zero(), 0);
 
   // result = 0 case
   cpu.set_memory(address, 0xFF); // 1111 1111
-  cpu.Inc(address);
+  cpu.execute(INC, address, ABSOLUTE);
   EXPECT_EQ(cpu.get_memory(address), 0);
   EXPECT_EQ(cpu.get_negative(), 0);
   EXPECT_EQ(cpu.get_zero(), 1);
@@ -554,14 +553,14 @@ TEST (SingleInstructionTest, INC_IncrementMemory) {
 TEST (SingleInstructionTest, INX_IncrementXRegister) {
   CPU cpu;
   cpu.set_rx(0xF4); // 1111 0100
-  cpu.Inx();
+  cpu.execute(INX, 0, IMPLIED);
   EXPECT_EQ(cpu.get_rx(), 0xF5); // 1111 0101
   EXPECT_EQ(cpu.get_zero(), 0);
   EXPECT_EQ(cpu.get_negative(), 1);
 
   // zero flag test
   cpu.set_rx(0xFF);
-  cpu.Inx();
+  cpu.execute(INX, 0, IMPLIED);
   EXPECT_EQ(cpu.get_rx(), 0);
   EXPECT_EQ(cpu.get_zero(), 1);
   EXPECT_EQ(cpu.get_negative(), 0);
@@ -570,19 +569,20 @@ TEST (SingleInstructionTest, INX_IncrementXRegister) {
 TEST (SingleInstructionTest, INY_IncrementYRegister) {
   CPU cpu;
   cpu.set_ry(0xF4); // 1111 0100
-  cpu.Iny();
+  cpu.execute(INY, 0, IMPLIED);
   EXPECT_EQ(cpu.get_ry(), 0xF5); // 1111 0101
   EXPECT_EQ(cpu.get_zero(), 0);
   EXPECT_EQ(cpu.get_negative(), 1);
 
   // zero flag test
   cpu.set_ry(0xFF);
-  cpu.Iny();
+  cpu.execute(INY, 0, IMPLIED);
   EXPECT_EQ(cpu.get_ry(), 0);
   EXPECT_EQ(cpu.get_zero(), 1);
   EXPECT_EQ(cpu.get_negative(), 0);
 }
 
+/*
 TEST (SingleInstructionTest, JMP_Jump) {
   CPU cpu;
   uint16_t address = 0xD428;

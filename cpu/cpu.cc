@@ -330,60 +330,45 @@ void CPU::execute(int instruction, uint16_t address, int mode) {
         set_negative();
       }
       break;
+    case 24: // INC
+      memory[address]++;
+      clear_zero();
+      clear_negative();
+      if (!memory[address]) { // zero flag
+        set_zero();
+      }
+      if (memory[address] & 0x80) { // negative flag
+        set_negative();
+      }
+      break;
+    case 25: // INX
+      r_x++;
+      clear_zero();
+      clear_negative();
+      if (!r_x) { // zero flag
+        set_zero();
+      }
+      if (r_x & 0x80) { // negative flag
+        set_negative();
+      }
+      break;
+    case 26: // INY
+      r_y++;
+      clear_zero();
+      clear_negative();
+      if (!r_y) { // zero flag
+        set_zero();
+      }
+      if (r_y & 0x80) { // negative flag
+        set_negative();
+      }
+      break;
     default:
       std::cerr << "bad instruction " << instruction << std::endl;
   }
 }
 
 /*
-void CPU::Inc(uint16_t address) {
-  memory[address]++;
-  clear_zero();
-  clear_negative();
-
-  // zero flag
-  if (!memory[address]) {
-    set_zero();
-  }
-
-  // negative flag
-  if (memory[address] & 0x80) {
-    set_negative();
-  }
-}
-
-void CPU::Inx() {
-  r_x++;
-  clear_zero();
-  clear_negative();
-
-  // zero flag
-  if (!r_x) {
-    set_zero();
-  }
-
-  // negative flag
-  if (r_x & 0x80) {
-    set_negative();
-  }
-}
-
-void CPU::Iny() {
-  r_y++;
-  clear_zero();
-  clear_negative();
-
-  // zero flag
-  if (!r_y) {
-    set_zero();
-  }
-
-  // negative flag
-  if (r_y & 0x80) {
-    set_negative();
-  }
-}
-
 void CPU::Jmp(uint16_t address) {
   pc = address;
 }
