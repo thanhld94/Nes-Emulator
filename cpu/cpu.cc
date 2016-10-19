@@ -379,6 +379,43 @@ void CPU::Dey() {
     set_negative();
   }
 }
+
+void CPU::Eor(uint16_t address) {
+  uint8_t value = memory[address];
+  r_acc ^= value;
+  clear_zero();
+  clear_negative();
+
+  // zero flag
+  if (!r_acc) {
+    set_zero();
+  }
+
+  // negative flag
+  if (r_acc & 0x80) {
+    set_negative();
+  }
+}
+
+void CPU::Inc(uint16_t address) {
+  memory[address]++;
+  clear_zero();
+  clear_negative();
+
+  // zero flag
+  if (!memory[address]) {
+    set_zero();
+  }
+
+  // negative flag
+  if (memory[address] & 0x80) {
+    set_negative();
+  }
+}
+
+void CPU::Inx(uint16_t address) {
+}
+
 /* Getter & Setter*/
 
 // set and get memory

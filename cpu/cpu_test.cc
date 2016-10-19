@@ -187,7 +187,7 @@ TEST (AddressingModeTest, DEY_DecrementYRegister) {
   EXPECT_EQ(cpu.get_addressing_mode(0x88), IMPLIED); 
 }
 
-TEST (AddressingModeTest, XOR_ExclusiveOR) {
+TEST (AddressingModeTest, EOR_ExclusiveOR) {
   CPU cpu;
   EXPECT_EQ(cpu.get_addressing_mode(0x49), IMMEDIATE);
   EXPECT_EQ(cpu.get_addressing_mode(0x45), ZEROPAGE);
@@ -1013,9 +1013,44 @@ TEST (SingleInstructionTest, DEY_DecrementYRegister) {
   EXPECT_EQ(cpu.get_zero(), 1);
   EXPECT_EQ(cpu.get_negative(), 0);
 }
-//TODO DEY
-//TODO EOR
-//TODO INC
+
+TEST (SingleInstructionTest, EOR_ExclusiveOR) {
+  CPU cpu;
+  uint16_t address = 0xD412;
+  cpu.set_memory(address, 0xA4); // 1010 0100
+  cpu.set_acc(0x4C);             // 0100 1100
+  cpu.Eor(address);
+  uint8_t expected = 0xE8;       // 1110 1000
+  EXPECT_EQ(cpu.get_acc(), expected);
+  EXPECT_EQ(cpu.get_zero(), 0);
+  EXPECT_EQ(cpu.get_negative(), 1);
+
+  //zero flag test
+  cpu.set_memory(address, 0xA4);
+  cpu.set_acc(0xA4);
+  cpu.Eor(address);
+  EXPECT_EQ(cpu.get_acc(), 0);
+  EXPECT_EQ(cpu.get_zero(), 1);
+  EXPECT_EQ(cpu.get_negative(), 0);
+}
+
+TEST (SingleInstructionTest, INC_IncrementMemory) {
+  CPU cpu;
+  uint16_t address = 0xD412;
+  cpu.set_memory(address, 0xF8); // 1111 1000
+  cpu.Inc(address);
+  EXPECT_EQ(cpu.get_memory(address), 0xF9); // 1111 1001
+  EXPECT_EQ(cpu.get_negative(), 1); 
+  EXPECT_EQ(cpu.get_zero(), 0);
+
+  // result = 0 case
+  cpu.set_memory(address, 0xFF); // 1111 1111
+  cpu.Inc(address);
+  EXPECT_EQ(cpu.get_memory(address), 0);
+  EXPECT_EQ(cpu.get_negative(), 0);
+  EXPECT_EQ(cpu.get_zero(), 1);
+}
+
 //TODO INX
 //TODO INY
 //TODO JMP
