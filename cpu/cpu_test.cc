@@ -1091,7 +1091,25 @@ TEST (SingleInstructionTest, JMP_Jump) {
 }
 
 //TODO JSR
-//TODO LDA
+
+TEST (SingleInstructionTest, LDA_LoadAccumulator) {
+  CPU cpu;
+  uint16_t address = 0xD412;
+  cpu.set_memory(address, 0xD4); // 1101 0100
+  cpu.Lda(address);
+  EXPECT_EQ(cpu.get_acc(), 0xD4);
+  EXPECT_EQ(cpu.get_zero(), 0);
+  EXPECT_EQ(cpu.get_negative(), 1);
+
+  // zero flag
+  cpu = CPU();
+  cpu.set_memory(address, 0);
+  cpu.Lda(address);
+  EXPECT_EQ(cpu.get_acc(), 0);
+  EXPECT_EQ(cpu.get_zero(), 1);
+  EXPECT_EQ(cpu.get_negative(), 0);
+}
+
 //TODO LDX
 //TODO LDY
 //TODO LSR

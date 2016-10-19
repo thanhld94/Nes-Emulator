@@ -449,6 +449,22 @@ void CPU::Jmp(uint16_t address) {
   pc = address;
 }
 
+void CPU::Lda(uint16_t address) {
+  r_acc = memory[address];
+  clear_zero();
+  clear_negative();
+
+  //zero flag
+  if (r_acc == 0) {
+    set_zero();
+  }
+
+  // negative flag
+  if (r_acc & 0x80) {
+    set_negative();
+  }
+}
+
 /* Getter & Setter*/
 
 // set and get memory
