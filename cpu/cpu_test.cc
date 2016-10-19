@@ -582,11 +582,10 @@ TEST (SingleInstructionTest, INY_IncrementYRegister) {
   EXPECT_EQ(cpu.get_negative(), 0);
 }
 
-/*
 TEST (SingleInstructionTest, JMP_Jump) {
   CPU cpu;
   uint16_t address = 0xD428;
-  cpu.Jmp(address);
+  cpu.execute(JMP, address, ABSOLUTE);
   EXPECT_EQ(cpu.get_pc(), address);
 }
 
@@ -596,7 +595,7 @@ TEST (SingleInstructionTest, LDA_LoadAccumulator) {
   CPU cpu;
   uint16_t address = 0xD412;
   cpu.set_memory(address, 0xD4); // 1101 0100
-  cpu.Lda(address);
+  cpu.execute(LDA, address, ABSOLUTE);
   EXPECT_EQ(cpu.get_acc(), 0xD4);
   EXPECT_EQ(cpu.get_zero(), 0);
   EXPECT_EQ(cpu.get_negative(), 1);
@@ -604,7 +603,7 @@ TEST (SingleInstructionTest, LDA_LoadAccumulator) {
   // zero flag
   cpu = CPU();
   cpu.set_memory(address, 0);
-  cpu.Lda(address);
+  cpu.execute(LDA, address, ABSOLUTE);
   EXPECT_EQ(cpu.get_acc(), 0);
   EXPECT_EQ(cpu.get_zero(), 1);
   EXPECT_EQ(cpu.get_negative(), 0);
@@ -614,7 +613,7 @@ TEST (SingleInstructionTest, LDX_LoadXRegister) {
   CPU cpu;
   uint16_t address = 0xD412;
   cpu.set_memory(address, 0xD4); // 1101 0100
-  cpu.Ldx(address);
+  cpu.execute(LDX, address, ABSOLUTE);
   EXPECT_EQ(cpu.get_rx(), 0xD4);
   EXPECT_EQ(cpu.get_zero(), 0);
   EXPECT_EQ(cpu.get_negative(), 1);
@@ -622,7 +621,7 @@ TEST (SingleInstructionTest, LDX_LoadXRegister) {
   // zero flag
   cpu = CPU();
   cpu.set_memory(address, 0);
-  cpu.Ldx(address);
+  cpu.execute(LDX, address, ABSOLUTE);
   EXPECT_EQ(cpu.get_rx(), 0);
   EXPECT_EQ(cpu.get_zero(), 1);
   EXPECT_EQ(cpu.get_negative(), 0);
@@ -632,7 +631,7 @@ TEST (SingleInstructionTest, LDY_LoadYRegister) {
   CPU cpu;
   uint16_t address = 0xD412;
   cpu.set_memory(address, 0xD4); // 1101 0100
-  cpu.Ldy(address);
+  cpu.execute(LDY, address, ABSOLUTE);
   EXPECT_EQ(cpu.get_ry(), 0xD4);
   EXPECT_EQ(cpu.get_zero(), 0);
   EXPECT_EQ(cpu.get_negative(), 1);
@@ -640,12 +639,11 @@ TEST (SingleInstructionTest, LDY_LoadYRegister) {
   // zero flag
   cpu = CPU();
   cpu.set_memory(address, 0);
-  cpu.Ldy(address);
+  cpu.execute(LDY, address, ABSOLUTE);
   EXPECT_EQ(cpu.get_ry(), 0);
   EXPECT_EQ(cpu.get_zero(), 1);
   EXPECT_EQ(cpu.get_negative(), 0);
 }
-*/
 
 //TODO LSR
 //TODO NOP

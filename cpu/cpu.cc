@@ -215,6 +215,7 @@ void CPU::execute(int instruction, uint16_t address, int mode) {
       }
       break;
     case 10: // BRK
+      //TODO handle break statement
       break;
     case 11: // BVC
       if (!get_overflow()) {
@@ -363,66 +364,49 @@ void CPU::execute(int instruction, uint16_t address, int mode) {
         set_negative();
       }
       break;
+    case 27: // JMP
+      pc = address;
+      break;
+    case 28: // JSR
+      //TODO handle subroutine call
+      break;
+    case 29: // LDA
+      r_acc = memory[address];
+      clear_zero();
+      clear_negative();
+      if (r_acc == 0) { // zero flag
+        set_zero();
+      }
+      if (r_acc & 0x80) { // negative flag
+        set_negative();
+      }
+      break;
+    case 30: // LDX
+      r_x = memory[address];
+      clear_zero();
+      clear_negative();
+      if (r_x == 0) { // zero flag
+        set_zero();
+      }
+      if (r_x & 0x80) { // negative flag
+        set_negative();
+      }
+      break;
+    case 31: // LDY
+      r_y = memory[address];
+      clear_zero();
+      clear_negative();
+      if (r_y == 0) { // zero flag
+        set_zero();
+      }
+      if (r_y & 0x80) { // negative flag
+        set_negative();
+      }
+      break;
     default:
       std::cerr << "bad instruction " << instruction << std::endl;
   }
 }
-
-/*
-void CPU::Jmp(uint16_t address) {
-  pc = address;
-}
-
-void CPU::Lda(uint16_t address) {
-  r_acc = memory[address];
-  clear_zero();
-  clear_negative();
-
-  //zero flag
-  if (r_acc == 0) {
-    set_zero();
-  }
-
-  // negative flag
-  if (r_acc & 0x80) {
-    set_negative();
-  }
-}
-
-void CPU::Ldx(uint16_t address) {
-  r_x = memory[address];
-  clear_zero();
-  clear_negative();
-
-  //zero flag
-  if (r_x == 0) {
-    set_zero();
-  }
-
-  // negative flag
-  if (r_x & 0x80) {
-    set_negative();
-  }
-} 
-
-void CPU::Ldy(uint16_t address) {
-  r_y = memory[address];
-  clear_zero();
-  clear_negative();
-
-  //zero flag
-  if (r_y == 0) {
-    set_zero();
-  }
-
-  // negative flag
-  if (r_y & 0x80) {
-    set_negative();
-  }
-}
-*/
-
-/* Getter & Setter*/
 
 // set and get memory
 uint8_t CPU::get_memory(uint16_t address) const {
