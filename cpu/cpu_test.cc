@@ -264,22 +264,22 @@ TEST (SingleInstructionTest, BNE_BranchIfNotEqual) {
   EXPECT_EQ(cpu.get_pc(), address);
 }
 
-/*
 TEST (SingleInstructionTest, BPL_BranchIfPositive) {
   CPU cpu;
   uint16_t address = 0x1412;
   cpu.set_negative();
   cpu.set_pc(0x2429);
-  cpu.Bpl(address);
+  cpu.execute(BPL, address, RELATIVE);
   EXPECT_EQ(cpu.get_pc(), 0x2429);
 
   cpu.clear_negative();
-  cpu.Bpl(address);
+  cpu.execute(BPL, address, RELATIVE);
   EXPECT_EQ(cpu.get_pc(), address);
 }
 
 //TODO BRK
 
+/*
 TEST (SingleInstructionTest, BVC_BranchIfOverflowClear) {
   CPU cpu;
   uint16_t address = 0x1412;

@@ -209,24 +209,17 @@ void CPU::execute(int instruction, uint16_t address, int mode) {
         pc = address;
       }
       break;
+    case 9: // BPL
+      if (!get_negative()) {
+        pc = address;
+      }
+      break;
     default:
       std::cerr << "bad instruction" << std::endl;
   }
 }
 
 /*
-void CPU::Bne(uint16_t address) {
-  if (!get_zero()) {
-    pc = address;
-  }
-}
-
-void CPU::Bpl(uint16_t address) {
-  if (!get_negative()) {
-    pc = address;
-  }
-}
-
 void CPU::Bvc(uint16_t address) {
   if (!get_overflow()) {
     pc = address;
