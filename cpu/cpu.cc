@@ -238,6 +238,22 @@ void CPU::execute(int instruction, uint16_t address, int mode) {
     case 16: // CLV
       clear_overflow();
       break;
+    case 17: // CMP
+      val8 = memory[address];
+      clear_carry();
+      clear_zero();
+      clear_negative();
+      if (r_acc >= val8) { // cary flag
+        set_carry();
+      }
+      val8 = r_acc - val8;
+      if (val8 == 0) { // zero flag
+        set_zero();
+      }
+      if (val8 & 0x80) { // negative flag
+        set_negative();
+      }
+      break;
     default:
       std::cerr << "bad instruction" << std::endl;
   }
@@ -245,21 +261,7 @@ void CPU::execute(int instruction, uint16_t address, int mode) {
 
 /*
 void CPU::Cmp(uint16_t address) {
-  uint8_t value = memory[address];
-  clear_carry();
-  clear_zero();
-  clear_negative();
-  if (r_acc >= value) {
-    set_carry();
-  }
-
-  value = r_acc - value;
-  if (value == 0) {
-    set_zero();
-  }
-  if (value & 0x80) {
-    set_negative();
-  }
+  k
 }
 
 void CPU::Cpx(uint16_t address) {
