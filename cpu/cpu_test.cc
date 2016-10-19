@@ -513,13 +513,12 @@ TEST (SingleInstructionTest, DEY_DecrementYRegister) {
   EXPECT_EQ(cpu.get_negative(), 0);
 }
 
-/*
 TEST (SingleInstructionTest, EOR_ExclusiveOR) {
   CPU cpu;
   uint16_t address = 0xD412;
   cpu.set_memory(address, 0xA4); // 1010 0100
   cpu.set_acc(0x4C);             // 0100 1100
-  cpu.Eor(address);
+  cpu.execute(EOR, address, ABSOLUTE);
   uint8_t expected = 0xE8;       // 1110 1000
   EXPECT_EQ(cpu.get_acc(), expected);
   EXPECT_EQ(cpu.get_zero(), 0);
@@ -528,12 +527,13 @@ TEST (SingleInstructionTest, EOR_ExclusiveOR) {
   //zero flag test
   cpu.set_memory(address, 0xA4);
   cpu.set_acc(0xA4);
-  cpu.Eor(address);
+  cpu.execute(EOR, address, ABSOLUTE);
   EXPECT_EQ(cpu.get_acc(), 0);
   EXPECT_EQ(cpu.get_zero(), 1);
   EXPECT_EQ(cpu.get_negative(), 0);
 }
 
+/*
 TEST (SingleInstructionTest, INC_IncrementMemory) {
   CPU cpu;
   uint16_t address = 0xD412;

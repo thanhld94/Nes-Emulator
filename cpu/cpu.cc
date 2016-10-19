@@ -319,33 +319,23 @@ void CPU::execute(int instruction, uint16_t address, int mode) {
         set_negative();
       }
       break;
+    case 23: // EOR
+      r_acc ^= memory[address];
+      clear_zero();
+      clear_negative();
+      if (!r_acc) { // zero flag
+        set_zero();
+      }
+      if (r_acc & 0x80) { // negative flag
+        set_negative();
+      }
+      break;
     default:
       std::cerr << "bad instruction " << instruction << std::endl;
   }
 }
 
 /*
-/bin/bash: j: command not found
-void CPU::Dey() {
-}
-
-void CPU::Eor(uint16_t address) {
-  uint8_t value = memory[address];
-  r_acc ^= value;
-  clear_zero();
-  clear_negative();
-
-  // zero flag
-  if (!r_acc) {
-    set_zero();
-  }
-
-  // negative flag
-  if (r_acc & 0x80) {
-    set_negative();
-  }
-}
-
 void CPU::Inc(uint16_t address) {
   memory[address]++;
   clear_zero();
