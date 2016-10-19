@@ -38,6 +38,8 @@ class CPU {
     void Cpx(uint16_t address);
     void Cpy(uint16_t address);
     void Dec(uint16_t address);
+    void Dex();
+    void Dey();
 
     /* Getters & Setters*/
     uint16_t get_pc() const;

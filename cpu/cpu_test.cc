@@ -984,7 +984,35 @@ TEST (SingleInstructionTest, DEC_DecrementMemory) {
   EXPECT_EQ(cpu.get_zero(), 1);
 }
 
-//TODO DEX
+TEST (SingleInstructionTest, DEX_DecrementXRegister) {
+  CPU cpu;
+  cpu.set_rx(0xF4); // 1111 0100
+  cpu.Dex();
+  EXPECT_EQ(cpu.get_rx(), 0xF3); // 1111 0011
+  EXPECT_EQ(cpu.get_zero(), 0);
+  EXPECT_EQ(cpu.get_negative(), 1);
+
+  cpu.set_rx(0x01);
+  cpu.Dex();
+  EXPECT_EQ(cpu.get_rx(), 0);
+  EXPECT_EQ(cpu.get_zero(), 1);
+  EXPECT_EQ(cpu.get_negative(), 0);
+}
+
+TEST (SingleInstructionTest, DEY_DecrementYRegister) {
+  CPU cpu;
+  cpu.set_ry(0xF4); // 1111 0100
+  cpu.Dey();
+  EXPECT_EQ(cpu.get_ry(), 0xF3); // 1111 0011
+  EXPECT_EQ(cpu.get_zero(), 0);
+  EXPECT_EQ(cpu.get_negative(), 1);
+
+  cpu.set_ry(0x01);
+  cpu.Dey();
+  EXPECT_EQ(cpu.get_ry(), 0);
+  EXPECT_EQ(cpu.get_zero(), 1);
+  EXPECT_EQ(cpu.get_negative(), 0);
+}
 //TODO DEY
 //TODO EOR
 //TODO INC

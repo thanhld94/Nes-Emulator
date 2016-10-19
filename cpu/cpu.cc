@@ -348,6 +348,37 @@ void CPU::Dec(uint16_t address) {
   }
 }
 
+void CPU::Dex() {
+  r_x--;
+  clear_zero();
+  clear_negative();
+  
+  // zero flag
+  if (!r_x) {
+    set_zero();
+  }
+
+  // negative flag
+  if (r_x & 0x80) {
+    set_negative();
+  }
+}
+
+void CPU::Dey() {
+  r_y--;
+  clear_zero();
+  clear_negative();
+  
+  // zero flag
+  if (!r_y) {
+    set_zero();
+  }
+
+  // negative flag
+  if (r_y & 0x80) {
+    set_negative();
+  }
+}
 /* Getter & Setter*/
 
 // set and get memory
