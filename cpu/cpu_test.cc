@@ -96,7 +96,6 @@ TEST (SingleInstructionTest, ADC_StatusRegisterCheck) {
   EXPECT_EQ(cpu.get_zero(), 0);
 }
 
-/*
 TEST (SingleInstructionTest, AND_LogicalAnd) {
   CPU cpu;
   uint16_t address = 0x1412;
@@ -106,7 +105,7 @@ TEST (SingleInstructionTest, AND_LogicalAnd) {
   cpu.set_acc(0x4A);             //0100 1010
 
   uint8_t expected = 0xDF & 0x4A;
-  cpu.And(address);
+  cpu.execute(AND, address, ABSOLUTE);
 
   EXPECT_EQ(cpu.get_acc(), expected);
   EXPECT_EQ(cpu.get_zero(), 0);
@@ -122,7 +121,7 @@ TEST (SingleInstructionTest, AND_StatusRegisterCheck) {
   cpu.set_acc(0xCA);             //1100 1010
 
   uint8_t expected = 0xDF & 0xCA;
-  cpu.And(address);
+  cpu.execute(AND, address, ABSOLUTE);
 
   EXPECT_EQ(cpu.get_acc(), expected);
   EXPECT_EQ(cpu.get_zero(), 0);
@@ -131,13 +130,14 @@ TEST (SingleInstructionTest, AND_StatusRegisterCheck) {
   cpu.set_acc(0xCA);             //1100 1010
   cpu.set_memory(address, 0x35); //0011 0101 
 
-  cpu.And(address);
+  cpu.execute(AND, address, ACCUMULATOR);
 
   EXPECT_EQ(cpu.get_acc(), 0);
   EXPECT_EQ(cpu.get_zero(), 1);
   EXPECT_EQ(cpu.get_negative(), 0);
 }
 
+/*
 TEST (SingleInstructionTest, ASL_ArithmeticShiftLeft) {
   CPU cpu;
   uint16_t address = 0x1412;

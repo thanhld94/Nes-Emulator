@@ -114,78 +114,66 @@ uint16_t CPU::get_operand(uint8_t opcode) const {
 // Instruction functions
 void CPU::execute(int instruction, uint16_t address, int mode) {
   uint8_t operand = 0;
-  uint16_t tmp16 = 0;
-  uint8_t tmp8 = 0;
+  uint16_t val16 = 0;
+  uint8_t val8 = 0;
 
   switch (instruction) {
     case 0: // ADC
       operand = memory[address];
-      tmp16 = uint16_t(r_acc) + operand + get_carry();
-      r_acc = uint8_t(tmp16);
+      val16 = uint16_t(r_acc) + operand + get_carry();
+      r_acc = uint8_t(val16);
       clear_carry();
       clear_zero();
       clear_negative();
-      if (tmp16 > 0xFF) { // update carry flag
+      if (val16 > 0xFF) { // update carry flag
         set_carry();
       }
-      if (tmp16 == 0) { // update zero flag
+      if (val16 == 0) { // update zero flag
         set_zero();
       }
-      if (tmp16 & 0x80) { // update negative flag
+      if (val16 & 0x80) { // update negative flag
         set_negative();
       }
       break;
     case 1: // AND
+      operand = memory[address];
+      r_acc = r_acc & operand;
+      clear_zero();
+      clear_negative();
+      if (r_acc & 0x80) { // update negative flag
+        set_negative();
+      }
+      if (r_acc == 0) { // update zero flag
+        set_zero();
+      }
       break;
+    case 2: // Asl
+      val8 = (mode == 9) ? r_acc : memory[address]; // checking if mode is accumulator
+      clear_carry();
+      clear_negative();
+      clear_zero();
+      if (val8 & 0x80) { // carry flag
+        set_carry();
+      }
+      if (val8 & 0x40) { // negative flag
+        set_negative();
+      }
+      val8 = val8 << 1;
+      if (val8 == 0) {
+        set_zero();
+      }
+      if (mode == 9) { // Accumulator Mode
+        r_acc = val8;
+      } else {
+        memory[address] = val8;
+      }
+      break;
+    default:
+      std::cerr << "bad instruction" << std::endl;
   }
 }
 
 /*
-void CPU::And(uint16_t address) {
-  uint8_t operand = memory[address];
-  r_acc = r_acc & operand;
-  clear_zero();
-  clear_negative();
-
-  // update negative flag
-  if (r_acc & 0x80) {
-    set_negative();
-  }
-
-  // update zero flag
-  if (r_acc == 0) {
-    set_zero();
-  }
-}
-
-void CPU::Asl(uint16_t address, int mode) {
-  uint8_t value = (mode == 9) ? r_acc : memory[address];
-  clear_carry();
-  clear_negative();
-  clear_zero();
-
-  // carry flag
-  if (value & 0x80) {
-    set_carry();
-  }
-
-  // negative flag
-  if (value & 0x40) {
-    set_negative();
-  }
-
-  value = value << 1;
-  if (value == 0) {
-    set_zero();
-  }
-
-  if (mode == 9) { // Accumulator Mode
-    r_acc = value;
-  } else {
-    memory[address] = value;
-  }
-}
-
 void CPU::Bcc(uint16_t address) {
   if (!get_carry()) {
     pc = address;
