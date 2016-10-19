@@ -214,6 +214,12 @@ void CPU::execute(int instruction, uint16_t address, int mode) {
         pc = address;
       }
       break;
+    case 10: // BRK
+      break;
+    case 11: // BVC
+      if (!get_overflow()) {
+        pc = address;
+      }
     default:
       std::cerr << "bad instruction" << std::endl;
   }
