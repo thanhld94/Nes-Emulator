@@ -251,20 +251,20 @@ TEST (SingleInstructionTest, BMI_BranchIfMinus) {
   EXPECT_EQ(cpu.get_pc(), address);
 }
 
-/*
 TEST (SingleInstructionTest, BNE_BranchIfNotEqual) {
   CPU cpu;
   uint16_t address = 0x1412;
   cpu.set_zero();
   cpu.set_pc(0x2428);
-  cpu.Bne(address);
+  cpu.execute(BNE, address, RELATIVE);
   EXPECT_EQ(cpu.get_pc(), 0x2428);
 
   cpu.clear_zero();
-  cpu.Bne(address);
+  cpu.execute(BNE, address, RELATIVE);
   EXPECT_EQ(cpu.get_pc(), address);
 }
 
+/*
 TEST (SingleInstructionTest, BPL_BranchIfPositive) {
   CPU cpu;
   uint16_t address = 0x1412;
