@@ -137,7 +137,6 @@ TEST (SingleInstructionTest, AND_StatusRegisterCheck) {
   EXPECT_EQ(cpu.get_negative(), 0);
 }
 
-/*
 TEST (SingleInstructionTest, ASL_ArithmeticShiftLeft) {
   CPU cpu;
   uint16_t address = 0x1412;
@@ -152,7 +151,7 @@ TEST (SingleInstructionTest, ASL_ArithmeticShiftLeft) {
     uint8_t expected = 0x74; //0111 0100
     int modes[4] = {ZEROPAGE, ZEROPAGEX, ABSOLUTE, ABSOLUTEX};
     int addressing_mode = modes[i];
-    cpu.Asl(address, addressing_mode);
+    cpu.execute(ASL, address, addressing_mode);
     
     EXPECT_EQ(cpu.get_memory(address), expected);
     EXPECT_EQ(cpu.get_zero(), 0);
@@ -168,7 +167,7 @@ TEST (SingleInstructionTest, ASL_ArithmeticShiftLeft) {
   cpu.set_acc(0x3A);       //0011 1010
 
   uint8_t expected = 0x74; //0111 0100
-  cpu.Asl(address, ACCUMULATOR);
+  cpu.execute(ASL, address, ACCUMULATOR);
 
   EXPECT_EQ(cpu.get_acc(), expected);
   EXPECT_EQ(cpu.get_zero(), 0);
@@ -176,6 +175,7 @@ TEST (SingleInstructionTest, ASL_ArithmeticShiftLeft) {
   EXPECT_EQ(cpu.get_carry(), 0);
 }
 
+/*
 TEST (SingleInstructionTest, BCC_BranchIfCarryClear) {
   CPU cpu;
   uint16_t address = 0x1412;
