@@ -179,7 +179,7 @@ TEST (SingleInstructionTest, BCC_BranchIfCarryClear) {
   CPU cpu;
   uint16_t address = 0x1412;
   cpu.clear_carry();
-  cpu.execute(BCC, address, RELATIVE);
+  cpu.execute(BCC, address, ABSOLUTE);
   EXPECT_EQ(cpu.get_pc(), address);
 
   cpu.set_pc(0x2324);
@@ -201,21 +201,20 @@ TEST (SingleInstructionTest, BCS_BranchIfCarrySet) {
   EXPECT_EQ(cpu.get_pc(), 0x1412);
 }
 
-/*
 TEST (SingleInstructionTest, BEQ_BranchIfEqual) {
   CPU cpu;
   uint16_t address = 0x1412;
   cpu.clear_zero();
   cpu.set_pc(0x5678);
-  cpu.Beq(address);
+  cpu.execute(BEQ, address, RELATIVE);
   EXPECT_EQ(cpu.get_pc(), 0x5678);
 
   cpu.set_zero();
-  cpu.Beq(address);
+  cpu.execute(BEQ, address, RELATIVE);
   EXPECT_EQ(cpu.get_pc(), 0x1412);
 }
 
-TEST (SingleInstructionTest, BIT) {
+TEST (SingleInstructionTest, BIT_BitTest) {
   CPU cpu;
   uint16_t address = 0x1412;
   cpu.clear_zero();
@@ -223,7 +222,7 @@ TEST (SingleInstructionTest, BIT) {
   cpu.clear_overflow();
   cpu.set_memory(address, 0x6A); //0110 1010
   cpu.set_acc(0x95);             //1001 0101
-  cpu.Bit(address);
+  cpu.execute(BIT, address, ABSOLUTE);
 
   EXPECT_EQ(cpu.get_zero(), 1);
   EXPECT_EQ(cpu.get_negative(), 0);
@@ -233,12 +232,13 @@ TEST (SingleInstructionTest, BIT) {
   cpu.clear_overflow();
   cpu.clear_negative();
   cpu.set_memory(address, 0xBD); //1011 1101
-  cpu.Bit(address);
+  cpu.execute(BIT, address, ABSOLUTE);
   EXPECT_EQ(cpu.get_zero(), 0);
   EXPECT_EQ(cpu.get_negative(), 1);
   EXPECT_EQ(cpu.get_overflow(), 0);
 }
 
+/*
 TEST (SingleInstructionTest, BMI_BranchIfMinus) {
   CPU cpu;
   uint16_t address = 0x1412;

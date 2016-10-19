@@ -178,43 +178,35 @@ void CPU::execute(int instruction, uint16_t address, int mode) {
         pc = address;
       }
       break;
+    case 5: // BEQ
+      if (get_zero()) {
+        pc = address;
+      }
+      break;
+    case 6: // BIT
+      val8 = memory[address];
+      clear_zero();
+      clear_overflow();
+      clear_negative();
+      if (val8 & 0x80) { // negative flag
+        set_negative();
+      }      
+      if (val8 & 0x40) { // overflow flag
+        set_overflow();
+      }
+      val8 = r_acc & val8;
+      if (!val8) { // zero flag
+        set_zero();
+      }
+      break;
     default:
       std::cerr << "bad instruction" << std::endl;
   }
 }
 
 /*
-void CPU::Bcs(uint16_t address) {
-  if (get_carry()) {
-    pc = address;
-  }
-}
-
-void CPU::Beq(uint16_t address) {
-  if (get_zero()) {
-    pc = address;
-  }
-}
-
 void CPU::Bit(uint16_t address) {
-  uint8_t value = memory[address];
-  if (value & 0x80) {
-    set_negative();
-  } else {
-    clear_negative();
-  }
-
-  if (value & 0x40) {
-    set_overflow();
-  } else {
-    clear_overflow();
-  }
-  value = r_acc & value;
-  if (!value) {
-    set_zero();
-  } else {
-    clear_zero();
-  }
+  
 }
 
 void CPU::Bmi(uint16_t address) {
