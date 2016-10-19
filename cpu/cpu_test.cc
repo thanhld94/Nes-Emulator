@@ -305,51 +305,51 @@ TEST (SingleInstructionTest, BVS_BranchIfOverFlowSet) {
   EXPECT_EQ(cpu.get_pc(), address);
 }
 
-/*
 TEST (SingleInstructionTest, CLC_ClearCarryFlag) {
   CPU cpu;
   cpu.set_carry();
-  cpu.Clc();
+  cpu.execute(CLC, 0, IMPLIED);
   EXPECT_EQ(cpu.get_carry(), 0);
 
   cpu.clear_carry();
-  cpu.Clc();
+  cpu.execute(CLC, 0, IMPLIED);
   EXPECT_EQ(cpu.get_carry(), 0);
 }
 
 TEST (SingleInstructionTest, CLD_ClearDecimalMode) {
   CPU cpu;
   cpu.set_decimal();
-  cpu.Cld();
+  cpu.execute(CLD, 0, IMPLIED);
   EXPECT_EQ(cpu.get_decimal(), 0);
 
   cpu.clear_decimal();
-  cpu.Cld();
+  cpu.execute(CLD, 0, IMPLIED);
   EXPECT_EQ(cpu.get_decimal(), 0);
 }
 
 TEST (SingleInstructionTest, CLI_ClearInterruptDisable) {
   CPU cpu;
   cpu.set_interrupt_disable();
-  cpu.Cli();
+  cpu.execute(CLI, 0, IMPLIED);
   EXPECT_EQ(cpu.get_interrupt_disable(), 0);
 
   cpu.clear_interrupt_disable();
-  cpu.Cli();
+  cpu.execute(CLI, 0, IMPLIED);
   EXPECT_EQ(cpu.get_interrupt_disable(), 0);
 }
 
 TEST (SingleInstructionTest, CLV_ClearOverflowFlag) {
   CPU cpu;
   cpu.set_overflow();
-  cpu.Clv();
+  cpu.execute(CLV, 0, IMPLIED);
   EXPECT_EQ(cpu.get_overflow(), 0);
 
   cpu.clear_overflow();
-  cpu.Clv();
+  cpu.execute(CLV, 0, IMPLIED);
   EXPECT_EQ(cpu.get_overflow(), 0);
 }
 
+/*
 TEST (SingleInstructionTest, CMP_Compare) {
   //Test equal
   CPU cpu;

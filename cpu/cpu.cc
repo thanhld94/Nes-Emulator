@@ -226,34 +226,24 @@ void CPU::execute(int instruction, uint16_t address, int mode) {
         pc = address;
       }
       break;
+    case 13: // CLC
+      clear_carry();
+      break;
+    case 14: // CLD
+      clear_decimal();
+      break;
+    case 15: // CLI
+      clear_interrupt_disable();
+      break;
+    case 16: // CLV
+      clear_overflow();
+      break;
     default:
       std::cerr << "bad instruction" << std::endl;
   }
 }
 
 /*
-void CPU::Bvs(uint16_t address) {
-  if (get_overflow()) {
-    pc = address;
-  }
-}
-
-void CPU::Clc() {
-  clear_carry();
-}
-
-void CPU::Cld() {
-  clear_decimal();
-}
-
-void CPU::Cli() {
-  clear_interrupt_disable();
-}
-
-void CPU::Clv() {
-  clear_overflow();
-}
-
 void CPU::Cmp(uint16_t address) {
   uint8_t value = memory[address];
   clear_carry();
