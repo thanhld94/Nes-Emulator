@@ -168,6 +168,11 @@ void CPU::execute(int instruction, uint16_t address, int mode) {
         memory[address] = val8;
       }
       break;
+    case 3: // BCC
+      if (!get_carry()) {
+        pc = address;
+      }
+      break;
     default:
       std::cerr << "bad instruction" << std::endl;
   }

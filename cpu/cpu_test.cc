@@ -175,20 +175,20 @@ TEST (SingleInstructionTest, ASL_ArithmeticShiftLeft) {
   EXPECT_EQ(cpu.get_carry(), 0);
 }
 
-/*
 TEST (SingleInstructionTest, BCC_BranchIfCarryClear) {
   CPU cpu;
   uint16_t address = 0x1412;
   cpu.clear_carry();
-  cpu.Bcc(address);
+  cpu.execute(BCC, address, ABSOLUTE);
   EXPECT_EQ(cpu.get_pc(), address);
 
   cpu.set_pc(0x2324);
   cpu.set_carry();
-  cpu.Bcc(address);
+  cpu.execute(BCC, address, ABSOLUTE);
   EXPECT_EQ(cpu.get_pc(), 0x2324);
 }
 
+/*
 TEST (SingleInstructionTest, BCS_BranchIfCarrySet) {
   CPU cpu;
   uint16_t address = 0x1412;
