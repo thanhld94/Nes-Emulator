@@ -427,14 +427,13 @@ TEST (SingleInstructionTest, CPX_CompareXRegister) {
   EXPECT_EQ(cpu.get_negative(), 1);
 }
 
-/*
 TEST (SingleInstructionTest, CPY_CompareYRegister) {
   // test equals
   CPU cpu;
   uint16_t address = 0x1412;
   cpu.set_memory(address, 0x48); //0100 1000
   cpu.set_ry(0x48);
-  cpu.Cpy(address);
+  cpu.execute(CPY, address, ABSOLUTE);
   EXPECT_EQ(cpu.get_carry(), 1);
   EXPECT_EQ(cpu.get_zero(), 1);
   EXPECT_EQ(cpu.get_negative(), 0);
@@ -443,7 +442,7 @@ TEST (SingleInstructionTest, CPY_CompareYRegister) {
   cpu = CPU();
   cpu.set_memory(address, 0x72); // 0111 0010
   cpu.set_ry(0x7D);              // 0111 1101
-  cpu.Cpy(address);
+  cpu.execute(CPY, address, ABSOLUTE);
   EXPECT_EQ(cpu.get_carry(), 1);
   EXPECT_EQ(cpu.get_zero(), 0);
   EXPECT_EQ(cpu.get_negative(), 0);
@@ -452,7 +451,7 @@ TEST (SingleInstructionTest, CPY_CompareYRegister) {
   cpu = CPU();
   cpu.set_memory(address, 0x7F); // 0111 1111
   cpu.set_ry(0x4D);              // 0100 1101
-  cpu.Cpy(address);
+  cpu.execute(CPY, address, ABSOLUTE);
   EXPECT_EQ(cpu.get_carry(), 0);
   EXPECT_EQ(cpu.get_zero(), 0);
   EXPECT_EQ(cpu.get_negative(), 1);
@@ -461,7 +460,7 @@ TEST (SingleInstructionTest, CPY_CompareYRegister) {
   cpu = CPU();
   cpu.set_memory(address, 0x4D); // 0100 1101
   cpu.set_ry(0xFD);              // 1111 1101
-  cpu.Cpy(address);
+  cpu.execute(CPY, address, ABSOLUTE);
   EXPECT_EQ(cpu.get_carry(), 1);
   EXPECT_EQ(cpu.get_zero(), 0);
   EXPECT_EQ(cpu.get_negative(), 1);
@@ -471,19 +470,20 @@ TEST (SingleInstructionTest, DEC_DecrementMemory) {
   CPU cpu;
   uint16_t address = 0x1412;
   cpu.set_memory(address, 0xF8); // 1111 1000
-  cpu.Dec(address);
+  cpu.execute(DEC, address, ABSOLUTE);
   EXPECT_EQ(cpu.get_memory(address), 0xF7); // 1111 0111
   EXPECT_EQ(cpu.get_negative(), 1); 
   EXPECT_EQ(cpu.get_zero(), 0);
 
   // result = 0 case
   cpu.set_memory(address, 0x01); // 0000 0001
-  cpu.Dec(address);
+  cpu.execute(DEC, address, ABSOLUTE);
   EXPECT_EQ(cpu.get_memory(address), 0);
   EXPECT_EQ(cpu.get_negative(), 0);
   EXPECT_EQ(cpu.get_zero(), 1);
 }
 
+/*
 TEST (SingleInstructionTest, DEX_DecrementXRegister) {
   CPU cpu;
   cpu.set_rx(0xF4); // 1111 0100

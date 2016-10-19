@@ -254,7 +254,7 @@ void CPU::execute(int instruction, uint16_t address, int mode) {
         set_negative();
       }
       break;
-    case 18:
+    case 18: // CPX
       val8 = memory[address];
       clear_carry();
       clear_zero();
@@ -270,38 +270,39 @@ void CPU::execute(int instruction, uint16_t address, int mode) {
         set_negative();
       }
       break;
+    case 19: // CPY
+      val8 = memory[address];
+      clear_carry();
+      clear_zero();
+      clear_negative();
+      if (r_y >= val8) { // cary flag
+        set_carry();
+      }
+      val8 = r_y - val8;
+      if (val8 == 0) { // zero flag
+        set_zero();
+      }
+      if (val8 & 0x80) { // negative flag
+        set_negative();
+      }
+      break;
+    case 20: // DEC
+      memory[address]--;
+      clear_zero();
+      clear_negative();
+      if (!memory[address]) { // zero flag
+        set_zero();
+      }
+      if (memory[address] & 0x80) { // negative flag
+        set_negative();
+      }
+      break;
     default:
-      std::cerr << "bad instruction" << std::endl;
+      std::cerr << "bad instruction " << instruction << std::endl;
   }
 }
 
 /*
-void CPU::Cpx(uint16_t address) {
-  
-}
-
-void CPU::Cpy(uint16_t address) {
-  uint8_t val = memory[address];
-  clear_carry();
-  clear_zero();
-  clear_negative();
-  // carry flag
-  if (r_y >= val) {
-    set_carry();
-  }
-
-  val = r_y - val;
-  // zero flag
-  if (val == 0) {
-    set_zero();
-  }
-  
-  // negative flag
-  if (val & 0x80) {
-    set_negative();
-  }
-}
-
 void CPU::Dec(uint16_t address) {
   memory[address]--;
   clear_zero();
