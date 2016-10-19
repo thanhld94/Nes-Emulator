@@ -1065,10 +1065,24 @@ TEST (SingleInstructionTest, INX_IncrementXRegister) {
   EXPECT_EQ(cpu.get_rx(), 0);
   EXPECT_EQ(cpu.get_zero(), 1);
   EXPECT_EQ(cpu.get_negative(), 0);
-
 }
 
-//TODO INY
+TEST (SingleInstructionTest, INY_IncrementYRegister) {
+  CPU cpu;
+  cpu.set_ry(0xF4); // 1111 0100
+  cpu.Iny();
+  EXPECT_EQ(cpu.get_ry(), 0xF5); // 1111 0101
+  EXPECT_EQ(cpu.get_zero(), 0);
+  EXPECT_EQ(cpu.get_negative(), 1);
+
+  // zero flag test
+  cpu.set_ry(0xFF);
+  cpu.Iny();
+  EXPECT_EQ(cpu.get_ry(), 0);
+  EXPECT_EQ(cpu.get_zero(), 1);
+  EXPECT_EQ(cpu.get_negative(), 0);
+}
+
 //TODO JMP
 //TODO JSR
 //TODO LDA
