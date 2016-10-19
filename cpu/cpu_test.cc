@@ -238,20 +238,20 @@ TEST (SingleInstructionTest, BIT_BitTest) {
   EXPECT_EQ(cpu.get_overflow(), 0);
 }
 
-/*
 TEST (SingleInstructionTest, BMI_BranchIfMinus) {
   CPU cpu;
   uint16_t address = 0x1412;
   cpu.clear_negative();
   cpu.set_pc(0x2428);
-  cpu.Bmi(address);
+  cpu.execute(BMI, address, RELATIVE);
   EXPECT_EQ(cpu.get_pc(), 0x2428);
 
   cpu.set_negative();
-  cpu.Bmi(address);
+  cpu.execute(BMI, address, RELATIVE);
   EXPECT_EQ(cpu.get_pc(), address);
 }
 
+/*
 TEST (SingleInstructionTest, BNE_BranchIfNotEqual) {
   CPU cpu;
   uint16_t address = 0x1412;

@@ -199,22 +199,17 @@ void CPU::execute(int instruction, uint16_t address, int mode) {
         set_zero();
       }
       break;
+    case 7: // BMI
+      if (get_negative()) {
+        pc = address;
+      }
+      break;
     default:
       std::cerr << "bad instruction" << std::endl;
   }
 }
 
 /*
-void CPU::Bit(uint16_t address) {
-  
-}
-
-void CPU::Bmi(uint16_t address) {
-  if (get_negative()) {
-    pc = address;
-  }
-}
-
 void CPU::Bne(uint16_t address) {
   if (!get_zero()) {
     pc = address;
