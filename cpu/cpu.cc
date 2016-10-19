@@ -297,58 +297,36 @@ void CPU::execute(int instruction, uint16_t address, int mode) {
         set_negative();
       }
       break;
+    case 21: // DEX
+      r_x--;
+      clear_zero();
+      clear_negative();
+      if (!r_x) { // zero flag
+        set_zero();
+      }
+      if (r_x & 0x80) { // negative flag
+        set_negative();
+      }
+      break;
+    case 22: // DEY
+      r_y--;
+      clear_zero();
+      clear_negative();
+      if (!r_y) { // zero flag
+        set_zero();
+      }
+      if (r_y & 0x80) { // negative flag
+        set_negative();
+      }
+      break;
     default:
       std::cerr << "bad instruction " << instruction << std::endl;
   }
 }
 
 /*
-void CPU::Dec(uint16_t address) {
-  memory[address]--;
-  clear_zero();
-  clear_negative();
-  
-  // zero flag
-  if (!memory[address]) {
-    set_zero();
-  }
-
-  // negative flag
-  if (memory[address] & 0x80) {
-    set_negative();
-  }
-}
-
-void CPU::Dex() {
-  r_x--;
-  clear_zero();
-  clear_negative();
-  
-  // zero flag
-  if (!r_x) {
-    set_zero();
-  }
-
-  // negative flag
-  if (r_x & 0x80) {
-    set_negative();
-  }
-}
-
+/bin/bash: j: command not found
 void CPU::Dey() {
-  r_y--;
-  clear_zero();
-  clear_negative();
-  
-  // zero flag
-  if (!r_y) {
-    set_zero();
-  }
-
-  // negative flag
-  if (r_y & 0x80) {
-    set_negative();
-  }
 }
 
 void CPU::Eor(uint16_t address) {

@@ -483,17 +483,16 @@ TEST (SingleInstructionTest, DEC_DecrementMemory) {
   EXPECT_EQ(cpu.get_zero(), 1);
 }
 
-/*
 TEST (SingleInstructionTest, DEX_DecrementXRegister) {
   CPU cpu;
   cpu.set_rx(0xF4); // 1111 0100
-  cpu.Dex();
+  cpu.execute(DEX, 0, IMPLIED);
   EXPECT_EQ(cpu.get_rx(), 0xF3); // 1111 0011
   EXPECT_EQ(cpu.get_zero(), 0);
   EXPECT_EQ(cpu.get_negative(), 1);
 
   cpu.set_rx(0x01);
-  cpu.Dex();
+  cpu.execute(DEX, 0, IMPLIED);
   EXPECT_EQ(cpu.get_rx(), 0);
   EXPECT_EQ(cpu.get_zero(), 1);
   EXPECT_EQ(cpu.get_negative(), 0);
@@ -502,18 +501,19 @@ TEST (SingleInstructionTest, DEX_DecrementXRegister) {
 TEST (SingleInstructionTest, DEY_DecrementYRegister) {
   CPU cpu;
   cpu.set_ry(0xF4); // 1111 0100
-  cpu.Dey();
+  cpu.execute(DEY, 0, IMPLIED);
   EXPECT_EQ(cpu.get_ry(), 0xF3); // 1111 0011
   EXPECT_EQ(cpu.get_zero(), 0);
   EXPECT_EQ(cpu.get_negative(), 1);
 
   cpu.set_ry(0x01);
-  cpu.Dey();
+  cpu.execute(DEY, 0, IMPLIED);
   EXPECT_EQ(cpu.get_ry(), 0);
   EXPECT_EQ(cpu.get_zero(), 1);
   EXPECT_EQ(cpu.get_negative(), 0);
 }
 
+/*
 TEST (SingleInstructionTest, EOR_ExclusiveOR) {
   CPU cpu;
   uint16_t address = 0xD412;
