@@ -538,6 +538,15 @@ void CPU::execute(int instruction, uint16_t address, int mode) {
     case 46: // SEI
       set_interrupt_disable();
       break;
+    case 47: // STA
+      memory[address] = r_acc;
+      break;
+    case 48: // STX
+      memory[address] = r_x;
+      break;
+    case 49: // STY
+      memory[address] = r_y;
+      break;
     default:
       std::cerr << "bad instruction " << instruction << std::endl;
   }

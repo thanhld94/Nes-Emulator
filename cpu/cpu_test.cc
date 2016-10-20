@@ -843,7 +843,6 @@ TEST (SingleInstructionTest, SED_SetDecimalFlag) {
   EXPECT_EQ(cpu.get_decimal(), 1);
 }
 
-//TODO SEI
 TEST (SingleInstructionTest, SEI_SetInterruptDisable) {
   CPU cpu;
   cpu.clear_interrupt_disable();
@@ -855,9 +854,30 @@ TEST (SingleInstructionTest, SEI_SetInterruptDisable) {
   EXPECT_EQ(cpu.get_interrupt_disable(), 1);
 }
 
-//TODO STA
-//TODO STX
-//TODO STY
+TEST (SingleInstructionTest, STA_StoreAccumulator) {
+  CPU cpu;
+  uint16_t address = 0xD412;
+  cpu.set_acc(0xFC);
+  cpu.execute(STA, address, ABSOLUTE);
+  EXPECT_EQ(cpu.get_memory(address), 0xFC);
+}
+
+TEST (SingleInstructionTest, STX_StoreXRegister) {
+  CPU cpu;
+  uint16_t address = 0xD412;
+  cpu.set_rx(0xFC);
+  cpu.execute(STX, address, ABSOLUTE);
+  EXPECT_EQ(cpu.get_memory(address), 0xFC);
+}
+
+TEST (SingleInstructionTest, STY_StoreYRegister) {
+  CPU cpu;
+  uint16_t address = 0xD412;
+  cpu.set_ry(0xFC);
+  cpu.execute(STY, address, ABSOLUTE);
+  EXPECT_EQ(cpu.get_memory(address), 0xFC);
+}
+
 //TODO TAX
 //TODO TAY
 //TODO TSX
