@@ -771,6 +771,27 @@ TEST (SingleInstructionTest, ROL_RotateLeft) {
 }
 
 TEST (SingleInstructionTest, ROR_RotateRight) {
+  CPU cpu;
+  // accumulator mode
+  cpu.set_acc(0xA4); // 1010 0100 
+  cpu.set_carry();
+  cpu.execute(ROR, 0, ACCUMULATOR);
+  EXPECT_EQ(cpu.get_acc(), 0xD2); // 1101 0010
+  EXPECT_EQ(cpu.get_carry(), 0);
+  EXPECT_EQ(cpu.get_zero(), 0);
+  EXPECT_EQ(cpu.get_negative(), 1);
+
+  // other modes
+  cpu = CPU();
+  uint16_t address = 0xD412;
+  cpu.clear_carry();
+  cpu.set_memory(address, 0x01); // 0000 0001
+  cpu.execute(ROR, address, ABSOLUTE);
+  EXPECT_EQ(cpu.get_memory(address), 0);
+  EXPECT_EQ(cpu.get_carry(), 1);
+  EXPECT_EQ(cpu.get_zero(), 1);
+  EXPECT_EQ(cpu.get_negative(), 0);
+
 }
 
 //TODO RTI

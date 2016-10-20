@@ -461,28 +461,50 @@ void CPU::execute(int instruction, uint16_t address, int mode) {
       r_st = memory[0x0100 + sp];
       break;
     case 39: // ROL
-      val16 = (mode == 9) ? r_acc : memory[address];
-      val16 <<= 1;
-      val16 |= get_carry();
+      val8 = (mode == 9) ? r_acc : memory[address];
+      val16 = val8; // template holder
+      val8 <<= 1;
+      val8 |= get_carry();
       clear_carry();
       clear_zero();
       clear_negative();
-      if (val16 & 0x0100) { // carry flag
+      if (val16 & 0x80) { // carry flag
         set_carry();
       }
-      if (uint8_t(val16) == 0) { // zero flag
+      if (val8 == 0) { // zero flag
         set_zero();
       }
-      if (val16 & 0x80) {
+      if (val8 & 0x80) {
         set_negative();
       }
       if (mode == 9) { // accumulator mode
-        r_acc = uint8_t(val16);
+        r_acc = val8;
       } else {
-        memory[address] = uint8_t(val16);
+        memory[address] = val8;
       }
       break;
     case 40: // ROR
+      val8 = (mode == 9) ? r_acc : memory[address];
+      val16 = val8; // template holder
+      val8 >>= 1;
+      val8 |= (get_carry() << 7);
+      clear_carry();
+      clear_zero();
+      clear_negative();
+      if (val16 & 1) { // carry flag
+        set_carry();
+      }
+      if (!val8) { // zero flag
+        set_zero();
+      }
+      if (val8 & 0x80) { // negative flag
+        set_negative();
+      }
+      if (mode == 9) { // accumulator mode
+        r_acc = val8;
+      } else {
+        memory[address] = val8;
+      }
       break;
     default:
       std::cerr << "bad instruction " << instruction << std::endl;
