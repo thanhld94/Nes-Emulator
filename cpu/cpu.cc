@@ -444,6 +444,21 @@ void CPU::execute(int instruction, uint16_t address, int mode) {
       memory[0x0100 + sp] = r_st;
       sp--;
       break;
+    case 37: // PLA
+      sp++;
+      r_acc = memory[0x0100 + sp];
+      clear_zero();
+      clear_negative();
+      if (!r_acc) { // zero flag
+        set_zero();
+      }
+      if (r_acc & 0x80) { // negative flag
+        set_negative();
+      }
+      break;
+    case 38: // PLP
+      sp++;
+      r_st = memory[0x0100 + sp];
     default:
       std::cerr << "bad instruction " << instruction << std::endl;
   }

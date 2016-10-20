@@ -689,7 +689,7 @@ TEST (SingleInstructionTest, ORA_LogicalInclusiveOr) {
 TEST (SingleInstructionTest, PHA_PushAccumulator) {
   CPU cpu;
   cpu.set_acc(0x45);
-  uint16_t current_sp = cpu.get_sp();
+  uint8_t current_sp = cpu.get_sp();
   cpu.execute(PHA, 0, IMPLIED);
   EXPECT_EQ(cpu.get_memory(0x0100 + current_sp), 0x45);
   EXPECT_EQ(cpu.get_sp(), current_sp - 1);
@@ -711,14 +711,42 @@ TEST (SingleInstructionTest, PHP_PushProcessorStatus) {
   cpu.set_overflow();
   cpu.set_negative();
   uint8_t expected = 0xC7;
-  uint16_t current_sp = cpu.get_sp();
+  uint8_t current_sp = cpu.get_sp();
   cpu.execute(PHP, 0, IMPLIED);
   EXPECT_EQ(cpu.get_memory(0x0100 + current_sp), expected);
   EXPECT_EQ(cpu.get_sp(), current_sp - 1);
 }
 
-//TODO PLA
-//TODO PLP
+TEST (SingleInstructionTest, PLA_PullAccumulator) {
+  CPU cpu;
+  cpu.set_memory(0x0100 + cpu.get_sp() + 1, 0xD4); // 1101 0100
+  uint8_t current_sp = cpu.get_sp();
+  cpu.execute(PLA, 0, IMPLIED);
+  EXPECT_EQ(cpu.get_acc(), 0xD4);
+  EXPECT_EQ(cpu.get_zero(), 0);
+  EXPECT_EQ(cpu.get_negative(), 1);
+  EXPECT_EQ(cpu.get_sp(), current_sp + 1);
+
+  // zero flag test
+  cpu = CPU();
+  cpu.set_memory(0x0100 + cpu.get_sp() + 1, 0);
+  current_sp = cpu.get_sp();
+  cpu.execute(PLA, 0, IMPLIED);
+  EXPECT_EQ(cpu.get_acc(), 0);
+  EXPECT_EQ(cpu.get_zero(), 1);
+  EXPECT_EQ(cpu.get_negative(), 0);
+  EXPECT_EQ(cpu.get_sp(), current_sp + 1);
+}
+
+TEST (SingleInstructionTest, PLP_PullProcessorStatus) {
+  CPU cpu;
+  cpu.set_memory(0x0100 + cpu.get_sp() + 1, 0xC7);
+  uint8_t current_sp = cpu.get_sp();
+  cpu.execute(PLP, 0, IMPLIED);
+  EXPECT_EQ(cpu.get_st(), 0xC7); //1100 0111
+  EXPECT_EQ(cpu.get_sp(), current_sp + 1);
+}
+
 //TODO ROL
 //TODO ROR
 //TODO RTI
