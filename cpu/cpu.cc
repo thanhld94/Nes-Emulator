@@ -436,6 +436,10 @@ void CPU::execute(int instruction, uint16_t address, int mode) {
         set_negative();
       }
       break;
+    case 35: // PHA
+      memory[0x0100 + sp] = r_acc;
+      sp--;
+      break;
     default:
       std::cerr << "bad instruction " << instruction << std::endl;
   }
@@ -462,6 +466,10 @@ void CPU::set_pc(uint16_t address) {
 // get stack pointer
 uint8_t CPU::get_sp() const {
   return sp;
+}
+
+void CPU::set_sp(uint16_t address) {
+  sp = address;
 }
 
 // set and get Index Registers

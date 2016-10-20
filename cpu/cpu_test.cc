@@ -686,7 +686,23 @@ TEST (SingleInstructionTest, ORA_LogicalInclusiveOr) {
   EXPECT_EQ(cpu.get_negative(), 0);
 }
 
-//TODO PHA
+TEST (SingleInstructionTest, PHA_PushAccumulator) {
+  CPU cpu;
+  cpu.set_acc(0x45);
+  uint16_t current_sp = cpu.get_sp();
+  cpu.execute(PHA, 0, IMPLIED);
+  EXPECT_EQ(cpu.get_memory(0x0100 + current_sp), 0x45);
+  EXPECT_EQ(cpu.get_sp(), current_sp - 1);
+
+  // stack overflow
+  cpu = CPU();
+  cpu.set_acc(0xAB);
+  cpu.set_sp(0x00);
+  cpu.execute(PHA, 0, IMPLIED);
+  EXPECT_EQ(cpu.get_memory(0x0100), 0xAB);
+  EXPECT_EQ(cpu.get_sp(), 0xFF);
+}
+
 //TODO PHP
 //TODO PLA
 //TODO PLP

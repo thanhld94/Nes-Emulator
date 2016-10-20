@@ -17,6 +17,7 @@ class CPU {
     void set_pc(uint16_t value);
 
     uint8_t get_sp() const;
+    void set_sp(uint8_t value);
 
     uint8_t get_rx() const;
     void set_rx(uint8_t value);
