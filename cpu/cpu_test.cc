@@ -703,7 +703,20 @@ TEST (SingleInstructionTest, PHA_PushAccumulator) {
   EXPECT_EQ(cpu.get_sp(), 0xFF);
 }
 
-//TODO PHP
+TEST (SingleInstructionTest, PHP_PushProcessorStatus) {
+  CPU cpu;
+  cpu.set_carry();
+  cpu.set_zero();
+  cpu.set_interrupt_disable();
+  cpu.set_overflow();
+  cpu.set_negative();
+  uint8_t expected = 0xC7;
+  uint16_t current_sp = cpu.get_sp();
+  cpu.execute(PHP, 0, IMPLIED);
+  EXPECT_EQ(cpu.get_memory(0x0100 + current_sp), expected);
+  EXPECT_EQ(cpu.get_sp(), current_sp - 1);
+}
+
 //TODO PLA
 //TODO PLP
 //TODO ROL

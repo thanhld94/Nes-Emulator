@@ -440,6 +440,10 @@ void CPU::execute(int instruction, uint16_t address, int mode) {
       memory[0x0100 + sp] = r_acc;
       sp--;
       break;
+    case 36: // PHP
+      memory[0x0100 + sp] = r_st;
+      sp--;
+      break;
     default:
       std::cerr << "bad instruction " << instruction << std::endl;
   }
@@ -468,7 +472,7 @@ uint8_t CPU::get_sp() const {
   return sp;
 }
 
-void CPU::set_sp(uint16_t address) {
+void CPU::set_sp(uint8_t address) {
   sp = address;
 }
 
