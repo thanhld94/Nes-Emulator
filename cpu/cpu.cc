@@ -421,6 +421,21 @@ void CPU::execute(int instruction, uint16_t address, int mode) {
         memory[address] = val8;
       }
       break;
+    case 33: // NOP
+      // do nothing
+      break;
+    case 34: // ORA
+      val8 = memory[address];
+      r_acc |= val8;
+      clear_zero();
+      clear_negative();
+      if (!r_acc) { // zero flag
+        set_zero();
+      }
+      if (r_acc & 0x80) { // negative flag
+        set_negative();
+      }
+      break;
     default:
       std::cerr << "bad instruction " << instruction << std::endl;
   }

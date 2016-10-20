@@ -666,8 +666,26 @@ TEST (SingleInstructionTest, LSR_LogicalShiftRight) {
   EXPECT_EQ(cpu.get_carry(), 1);
 }
 
-//TODO NOP
-//TODO ORA
+TEST (SingleInstructionTest, ORA_LogicalInclusiveOr) {
+  CPU cpu;
+  uint16_t address = 0xD412;
+  cpu.set_memory(address, 0x7A); // 0111 1010
+  cpu.set_acc(0xA4);             // 1010 0100
+  cpu.execute(ORA, address, ABSOLUTE);
+  EXPECT_EQ(cpu.get_acc(), 0xFE);
+  EXPECT_EQ(cpu.get_zero(), 0);
+  EXPECT_EQ(cpu.get_negative(), 1);
+
+  // zero test
+  cpu = CPU();
+  cpu.set_memory(address, 0);
+  cpu.set_acc(0);
+  cpu.execute(ORA, address, ABSOLUTE);
+  EXPECT_EQ(cpu.get_acc(), 0);
+  EXPECT_EQ(cpu.get_zero(), 1);
+  EXPECT_EQ(cpu.get_negative(), 0);
+}
+
 //TODO PHA
 //TODO PHP
 //TODO PLA
