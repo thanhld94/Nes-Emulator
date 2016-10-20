@@ -459,6 +459,31 @@ void CPU::execute(int instruction, uint16_t address, int mode) {
     case 38: // PLP
       sp++;
       r_st = memory[0x0100 + sp];
+      break;
+    case 39: // ROL
+      val16 = (mode == 9) ? r_acc : memory[address];
+      val16 <<= 1;
+      val16 |= get_carry();
+      clear_carry();
+      clear_zero();
+      clear_negative();
+      if (val16 & 0x0100) { // carry flag
+        set_carry();
+      }
+      if (uint8_t(val16) == 0) { // zero flag
+        set_zero();
+      }
+      if (val16 & 0x80) {
+        set_negative();
+      }
+      if (mode == 9) { // accumulator mode
+        r_acc = uint8_t(val16);
+      } else {
+        memory[address] = uint8_t(val16);
+      }
+      break;
+    case 40: // ROR
+      break;
     default:
       std::cerr << "bad instruction " << instruction << std::endl;
   }

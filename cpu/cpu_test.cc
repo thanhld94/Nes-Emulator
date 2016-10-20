@@ -747,8 +747,32 @@ TEST (SingleInstructionTest, PLP_PullProcessorStatus) {
   EXPECT_EQ(cpu.get_sp(), current_sp + 1);
 }
 
-//TODO ROL
-//TODO ROR
+TEST (SingleInstructionTest, ROL_RotateLeft) {
+  CPU cpu;
+  // accumulator mode
+  cpu.set_acc(0xFA); // 1111 1010
+  cpu.set_carry();
+  cpu.execute(ROL, 0, ACCUMULATOR);
+  EXPECT_EQ(cpu.get_acc(), 0xF5); // 1111 0101
+  EXPECT_EQ(cpu.get_carry(), 1);
+  EXPECT_EQ(cpu.get_zero(), 0);
+  EXPECT_EQ(cpu.get_negative(), 1);
+
+  // other modes
+  cpu = CPU();
+  uint16_t address = 0xD412;
+  cpu.clear_carry();
+  cpu.set_memory(address, 0x80); // 1000 0000 
+  cpu.execute(ROL, address, ABSOLUTE);
+  EXPECT_EQ(cpu.get_memory(address), 0);
+  EXPECT_EQ(cpu.get_carry(), 1);
+  EXPECT_EQ(cpu.get_zero(), 1);
+  EXPECT_EQ(cpu.get_negative(), 0);
+}
+
+TEST (SingleInstructionTest, ROR_RotateRight) {
+}
+
 //TODO RTI
 //TODO RTS
 //TODO SBC
