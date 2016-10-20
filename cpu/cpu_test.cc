@@ -797,7 +797,6 @@ TEST (SingleInstructionTest, ROR_RotateRight) {
 //TODO RTI
 //TODO RTS
 
-//TODO SBC
 TEST (SingleInstructionTest, SBC_SubtractWithCarry) {
   CPU cpu;
   uint16_t address = 0xD412;
@@ -822,9 +821,40 @@ TEST (SingleInstructionTest, SBC_SubtractWithCarry) {
   EXPECT_EQ(cpu.get_zero(), 1);
 }
 
-//TODO SEC
-//TODO SED
+TEST (SingleInstructionTest, SEC_SetCarryFlag) {
+  CPU cpu;
+  cpu.clear_carry();
+  cpu.execute(SEC, 0, IMPLIED);
+  EXPECT_EQ(cpu.get_carry(), 1);
+
+  cpu.set_carry();
+  cpu.execute(SEC, 0, IMPLIED);
+  EXPECT_EQ(cpu.get_carry(), 1);
+}
+
+TEST (SingleInstructionTest, SED_SetDecimalFlag) {
+  CPU cpu;
+  cpu.clear_decimal();
+  cpu.execute(SED, 0, IMPLIED);
+  EXPECT_EQ(cpu.get_decimal(), 1);
+
+  cpu.set_decimal();
+  cpu.execute(SED, 0, IMPLIED);
+  EXPECT_EQ(cpu.get_decimal(), 1);
+}
+
 //TODO SEI
+TEST (SingleInstructionTest, SEI_SetInterruptDisable) {
+  CPU cpu;
+  cpu.clear_interrupt_disable();
+  cpu.execute(SEI, 0, IMPLIED);
+  EXPECT_EQ(cpu.get_interrupt_disable(), 1);
+
+  cpu.set_interrupt_disable();
+  cpu.execute(SEI, 0, IMPLIED);
+  EXPECT_EQ(cpu.get_interrupt_disable(), 1);
+}
+
 //TODO STA
 //TODO STX
 //TODO STY

@@ -529,6 +529,15 @@ void CPU::execute(int instruction, uint16_t address, int mode) {
         set_negative();
       }
       break;
+    case 44: // SEC
+      set_carry();
+      break;
+    case 45: // SED
+      set_decimal();
+      break;
+    case 46: // SEI
+      set_interrupt_disable();
+      break;
     default:
       std::cerr << "bad instruction " << instruction << std::endl;
   }
