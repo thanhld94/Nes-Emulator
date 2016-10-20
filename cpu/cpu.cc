@@ -506,6 +506,29 @@ void CPU::execute(int instruction, uint16_t address, int mode) {
         memory[address] = val8;
       }
       break;
+    case 41: // RTI
+      //TODO handle return from interrupt
+      break;
+    case 42: // RTS
+      //TODO handle return from subroutine
+      break;
+    case 43: // SBC
+      val8 = memory[address];
+      val16 = uint16_t(r_acc) - val8 - get_carry();
+      clear_carry();
+      clear_zero();
+      clear_negative();
+      r_acc = uint8_t(val16);
+      if (val16 <= 0xFF) { // positive, set carry flag
+        set_carry();
+      }
+      if (!r_acc) { // zero flag
+        set_zero();
+      }
+      if (r_acc & 0x80) { // negative flag
+        set_negative();
+      }
+      break;
     default:
       std::cerr << "bad instruction " << instruction << std::endl;
   }

@@ -796,7 +796,32 @@ TEST (SingleInstructionTest, ROR_RotateRight) {
 
 //TODO RTI
 //TODO RTS
+
 //TODO SBC
+TEST (SingleInstructionTest, SBC_SubtractWithCarry) {
+  CPU cpu;
+  uint16_t address = 0xD412;
+  cpu.set_memory(address, 0x45); // 0100 0101
+  cpu.set_carry();
+  cpu.set_acc(0x2F);    // 0010 1111
+  cpu.execute(SBC, address, ABSOLUTE);
+  EXPECT_EQ(cpu.get_acc(), 0xE9); // 1110 1001 
+  EXPECT_EQ(cpu.get_carry(), 0);
+  EXPECT_EQ(cpu.get_negative(), 1);
+  EXPECT_EQ(cpu.get_zero(), 0);
+
+  // zero / carry test
+  cpu = CPU();
+  cpu.set_memory(address, 0x45);
+  cpu.clear_carry();
+  cpu.set_acc(0x45);
+  cpu.execute(SBC, address, ABSOLUTE);
+  EXPECT_EQ(cpu.get_acc(), 0);
+  EXPECT_EQ(cpu.get_carry(), 1);
+  EXPECT_EQ(cpu.get_negative(), 0);
+  EXPECT_EQ(cpu.get_zero(), 1);
+}
+
 //TODO SEC
 //TODO SED
 //TODO SEI
