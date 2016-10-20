@@ -403,6 +403,24 @@ void CPU::execute(int instruction, uint16_t address, int mode) {
         set_negative();
       }
       break;
+    case 32: // LSR
+      val8 = (mode == 9) ? r_acc : memory[address];
+      clear_carry();
+      clear_zero();
+      clear_negative(); // always 0
+      if (val8 & 1) { //carry flag
+        set_carry();
+      }
+      val8 >>= 1;
+      if (val8 == 0) {
+        set_zero();
+      }
+      if (mode == 9) { // accumulator mode
+        r_acc = val8;
+      } else {
+        memory[address] = val8;
+      }
+      break;
     default:
       std::cerr << "bad instruction " << instruction << std::endl;
   }

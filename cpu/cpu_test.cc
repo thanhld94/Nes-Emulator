@@ -55,6 +55,7 @@ TEST (StatusRegisterMethod, FlagClearFunctions) {
 
 // Single Instruction Tests
 //TODO loop test through all addressing modes
+//TODO test bad inputs
 TEST (SingleInstructionTest, ADC_AddWithCarry) {
   CPU cpu;
   uint16_t address = 0x3412;
@@ -645,7 +646,26 @@ TEST (SingleInstructionTest, LDY_LoadYRegister) {
   EXPECT_EQ(cpu.get_negative(), 0);
 }
 
-//TODO LSR
+TEST (SingleInstructionTest, LSR_LogicalShiftRight) {
+  CPU cpu;
+  // accumulator mode
+  cpu.set_acc(0xDA); // 1101 1010
+  cpu.execute(LSR, 0, ACCUMULATOR);
+  EXPECT_EQ(cpu.get_acc(), 0x6D); // 0110 1101
+  EXPECT_EQ(cpu.get_zero(), 0);
+  EXPECT_EQ(cpu.get_negative(), 0);
+  EXPECT_EQ(cpu.get_carry(), 0);
+
+  // non accumulator mode
+  uint16_t address = 0xD412;
+  cpu.set_memory(address, 0x01);
+  cpu.execute(LSR, address, ABSOLUTE);
+  EXPECT_EQ(cpu.get_memory(address), 0);
+  EXPECT_EQ(cpu.get_zero(), 1);
+  EXPECT_EQ(cpu.get_negative(), 0);
+  EXPECT_EQ(cpu.get_carry(), 1);
+}
+
 //TODO NOP
 //TODO ORA
 //TODO PHA
