@@ -70,6 +70,15 @@ TEST (SingleInstructionTest, AllAddressingModeTest) {
   }
 }
 
+TEST (SingleInstructionTest, BadInstructionCode) {
+  CPU cpu;
+  uint16_t address = 0x2134;
+  for (int mode = 0; mode < NUM_AD_MODES; mode++) {
+    cpu = CPU();
+    EXPECT_EQ(cpu.execute(-1, address, mode), 1);
+    EXPECT_EQ(cpu.execute(56, address, mode), 1);
+  }
+}
 
 TEST (SingleInstructionTest, ADC_AddWithCarry) {
   CPU cpu;

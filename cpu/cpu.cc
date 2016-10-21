@@ -79,6 +79,10 @@ uint16_t CPU::get_operand(uint8_t opcode) const {
 
 // Instruction functions
 int CPU::execute(int instruction, uint16_t address, int mode) {
+  if (instruction > 55 || instruction < 0 || mode < 0 || mode > 12) {
+    return 1;
+  }
+
   if (!valid_inst_mode[instruction][mode]) {
     return 1;
   }
@@ -578,7 +582,6 @@ int CPU::execute(int instruction, uint16_t address, int mode) {
       break;
     default:
       err = 1;
-      std::cerr << "bad instruction " << instruction << std::endl;
   }
   return err;
 }
