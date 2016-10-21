@@ -878,11 +878,97 @@ TEST (SingleInstructionTest, STY_StoreYRegister) {
   EXPECT_EQ(cpu.get_memory(address), 0xFC);
 }
 
-//TODO TAX
-//TODO TAY
-//TODO TSX
-//TODO TXA
-//TODO TXS
-//TODO TYA
+TEST (SingleInstructionTest, TAX_TransferAccumulatorToX) {
+  CPU cpu;
+  cpu.set_acc(0xFD);
+  cpu.execute(TAX, 0, IMPLIED);
+  EXPECT_EQ(cpu.get_rx(), 0xFD);
+  EXPECT_EQ(cpu.get_zero(), 0);
+  EXPECT_EQ(cpu.get_negative(), 1);
+
+  // zero flag test
+  cpu = CPU();
+  cpu.set_acc(0);
+  cpu.execute(TAX, 0, IMPLIED);
+  EXPECT_EQ(cpu.get_rx(), 0);
+  EXPECT_EQ(cpu.get_zero(), 1);
+  EXPECT_EQ(cpu.get_negative(), 0);
+}
+
+TEST (SingleInstructionTest, TAY_TransferAccumulatorToY) {
+  CPU cpu;
+  cpu.set_acc(0xFD);
+  cpu.execute(TAY, 0, IMPLIED);
+  EXPECT_EQ(cpu.get_ry(), 0xFD);
+  EXPECT_EQ(cpu.get_zero(), 0);
+  EXPECT_EQ(cpu.get_negative(), 1);
+
+  // zero flag test
+  cpu = CPU();
+  cpu.set_acc(0);
+  cpu.execute(TAY, 0, IMPLIED);
+  EXPECT_EQ(cpu.get_ry(), 0);
+  EXPECT_EQ(cpu.get_zero(), 1);
+  EXPECT_EQ(cpu.get_negative(), 0);
+}
+
+TEST (SingleInstructionTest, TSX_TransferStackPointerToX) {
+  CPU cpu;
+  cpu.set_sp(0xDF);
+  cpu.execute(TSX, 0, IMPLIED);
+  EXPECT_EQ(cpu.get_rx(), 0xDF);
+  EXPECT_EQ(cpu.get_zero(), 0);
+  EXPECT_EQ(cpu.get_negative(), 1);
+
+  //zero flag test
+  cpu = CPU();
+  cpu.set_sp(0);
+  cpu.execute(TSX, 0, IMPLIED);
+  EXPECT_EQ(cpu.get_rx(), 0);
+  EXPECT_EQ(cpu.get_zero(), 1);
+  EXPECT_EQ(cpu.get_negative(), 0);
+}
+
+TEST (SingleInstructionTest, TXA_TransferXToAccumulator) {
+  CPU cpu;
+  cpu.set_rx(0xDF);
+  cpu.execute(TXA, 0, IMPLIED);
+  EXPECT_EQ(cpu.get_acc(), 0xDF);
+  EXPECT_EQ(cpu.get_zero(), 0);
+  EXPECT_EQ(cpu.get_negative(), 1);
+
+  //zero flag test
+  cpu = CPU();
+  cpu.set_rx(0);
+  cpu.execute(TXA, 0, IMPLIED);
+  EXPECT_EQ(cpu.get_acc(), 0);
+  EXPECT_EQ(cpu.get_zero(), 1);
+  EXPECT_EQ(cpu.get_negative(), 0);
+}
+
+TEST (SingleInstructionTest, TXS_TransferXToStackPointer) {
+  CPU cpu;
+  cpu.set_rx(0xDF);
+  cpu.execute(TXS, 0, IMPLIED);
+  EXPECT_EQ(cpu.get_sp(), 0xDF);
+}
+
+TEST (SingleInstructionTest, TYA_TransferYToAccumulator) {
+  CPU cpu;
+  cpu.set_ry(0xDF);
+  cpu.execute(TYA, 0, IMPLIED);
+  EXPECT_EQ(cpu.get_acc(), 0xDF);
+  EXPECT_EQ(cpu.get_zero(), 0);
+  EXPECT_EQ(cpu.get_negative(), 1);
+
+  //zero flag test
+  cpu = CPU();
+  cpu.set_ry(0);
+  cpu.execute(TYA, 0, IMPLIED);
+  EXPECT_EQ(cpu.get_acc(), 0);
+  EXPECT_EQ(cpu.get_zero(), 1);
+  EXPECT_EQ(cpu.get_negative(), 0);
+
+}
 
 } // namespace nesemu

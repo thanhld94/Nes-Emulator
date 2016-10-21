@@ -547,6 +547,64 @@ void CPU::execute(int instruction, uint16_t address, int mode) {
     case 49: // STY
       memory[address] = r_y;
       break;
+    case 50: // TAX
+      r_x = r_acc;
+      clear_zero();
+      clear_negative();
+      if (!r_x) { // zero flag
+        set_zero();
+      }
+      if (r_x & 0x80) { // negative flag
+        set_negative();
+      }
+      break;
+    case 51: // TAY
+      r_y = r_acc;
+      clear_zero();
+      clear_negative();
+      if (!r_y) { // zero flag
+        set_zero();
+      }
+      if (r_y & 0x80) { // negative flag
+        set_negative();
+      }
+      break;
+    case 52: // TSX
+      r_x = sp;
+      clear_zero();
+      clear_negative();
+      if (!r_x) { // zero flag
+        set_zero();
+      }
+      if (r_x & 0x80) { // negative flag
+        set_negative();
+      }
+      break;
+    case 53: // TXA
+      r_acc = r_x;
+      clear_zero();
+      clear_negative();
+      if (!r_acc) { // zero flag
+        set_zero();
+      }
+      if (r_acc & 0x80) { // negative flag
+        set_negative();
+      }
+      break;
+    case 54: // TXS
+      sp = r_x;
+      break;
+    case 55: // TYA
+      r_acc = r_y;
+      clear_zero();
+      clear_negative();
+      if (!r_acc) { // zero flag
+        set_zero();
+      }
+      if (r_acc & 0x80) { // negative flag
+        set_negative();
+      }
+      break;
     default:
       std::cerr << "bad instruction " << instruction << std::endl;
   }
