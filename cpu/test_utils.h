@@ -15,6 +15,9 @@
 #define IMPLIED     11
 #define INDIRECT    12
 
+#define NUM_INSTRUCTIONS 56
+#define NUM_AD_MODES 13
+
 static const int VALID_MODE[56][13] = {
   {1,1,1,0,1,1,1,1,1,0,0,0,0}, // ADC
   {1,1,1,0,1,1,1,1,1,0,0,0,0}, // AND

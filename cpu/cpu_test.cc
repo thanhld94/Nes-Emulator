@@ -2,6 +2,7 @@
 
 #include "gtest/gtest.h"
 #include "test_utils.h"
+#include <string>
 
 namespace nesemu {
 
@@ -54,8 +55,22 @@ TEST (StatusRegisterMethod, FlagClearFunctions) {
 }
 
 // Single Instruction Tests
-//TODO loop test through all addressing modes
 //TODO test bad inputs
+TEST (SingleInstructionTest, AllAddressingModeTest) {
+  CPU cpu;
+  uint16_t address = 0xD412;
+  for (int instruction = 0; instruction < NUM_INSTRUCTIONS; instruction++) {
+    for (int mode = 0; mode < NUM_AD_MODES; mode++) {
+      cpu = CPU();
+      address = (mode == 9 || mode == 11) ? 0 : 0xD412;
+      int expected = 1 - VALID_MODE[instruction][mode];
+      std::string message = (expected) ? "Error expected" : "No error expected";
+      EXPECT_EQ(cpu.execute(instruction, address, mode), expected) << message;
+    }
+  }
+}
+
+
 TEST (SingleInstructionTest, ADC_AddWithCarry) {
   CPU cpu;
   uint16_t address = 0x3412;
@@ -99,7 +114,7 @@ TEST (SingleInstructionTest, ADC_StatusRegisterCheck) {
 
 TEST (SingleInstructionTest, AND_LogicalAnd) {
   CPU cpu;
-  uint16_t address = 0x1412;
+  uint16_t address = 0xD412;
   cpu.set_zero();
   cpu.set_negative();
   cpu.set_memory(address, 0xDF); //1101 1111
@@ -111,31 +126,19 @@ TEST (SingleInstructionTest, AND_LogicalAnd) {
   EXPECT_EQ(cpu.get_acc(), expected);
   EXPECT_EQ(cpu.get_zero(), 0);
   EXPECT_EQ(cpu.get_negative(), 0);
-}
 
-TEST (SingleInstructionTest, AND_StatusRegisterCheck) {
-  CPU cpu;
-  uint16_t address = 0x1412;
+  cpu = CPU();
   cpu.clear_zero();
   cpu.clear_negative();
   cpu.set_memory(address, 0xDF); //1101 1111
   cpu.set_acc(0xCA);             //1100 1010
 
-  uint8_t expected = 0xDF & 0xCA;
+  expected = 0xDF & 0xCA;
   cpu.execute(AND, address, ABSOLUTE);
 
   EXPECT_EQ(cpu.get_acc(), expected);
   EXPECT_EQ(cpu.get_zero(), 0);
   EXPECT_EQ(cpu.get_negative(), 1);
-
-  cpu.set_acc(0xCA);             //1100 1010
-  cpu.set_memory(address, 0x35); //0011 0101 
-
-  cpu.execute(AND, address, ACCUMULATOR);
-
-  EXPECT_EQ(cpu.get_acc(), 0);
-  EXPECT_EQ(cpu.get_zero(), 1);
-  EXPECT_EQ(cpu.get_negative(), 0);
 }
 
 TEST (SingleInstructionTest, ASL_ArithmeticShiftLeft) {
@@ -180,7 +183,7 @@ TEST (SingleInstructionTest, BCC_BranchIfCarryClear) {
   CPU cpu;
   uint16_t address = 0x1412;
   cpu.clear_carry();
-  cpu.execute(BCC, address, ABSOLUTE);
+  cpu.execute(BCC, address, RELATIVE);
   EXPECT_EQ(cpu.get_pc(), address);
 
   cpu.set_pc(0x2324);
@@ -968,7 +971,6 @@ TEST (SingleInstructionTest, TYA_TransferYToAccumulator) {
   EXPECT_EQ(cpu.get_acc(), 0);
   EXPECT_EQ(cpu.get_zero(), 1);
   EXPECT_EQ(cpu.get_negative(), 0);
-
 }
 
 } // namespace nesemu
