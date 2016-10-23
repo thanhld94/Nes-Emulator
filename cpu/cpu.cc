@@ -490,10 +490,13 @@ int CPU::execute(int instruction, uint16_t address, int mode) {
       break;
     case 41: // RTI
       r_st = memory[0x0100 + (--sp)];
-      pc = uint16_t(memory[0x0100 + (--sp)] << 8) | memory[0x0100 + (--sp)];
+      pc = uint16_t(memory[0x0100 + (--sp)]) << 8; // high byte
+      pc |= memory[0x0100 + (--sp)]; // low byte
       break;
     case 42: // RTS
-      //TODO handle return from subroutine
+      pc = uint16_t(memory[0x0100 + (--sp)]) << 8; // high byte
+      pc |= memory[0x0100 + (--sp)]; // low byte
+      pc++;
       break;
     case 43: // SBC
       val8 = memory[address];

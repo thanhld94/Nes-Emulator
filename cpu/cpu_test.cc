@@ -856,11 +856,24 @@ TEST (SingleInstructionTest, RTI_ReturnFromInterrupt) {
   cpu.set_memory(0x0100 + uint8_t(cpu.get_sp() - 3), 0x34);
 
   uint16_t old_pc = 0x1234;
-  uint16_t expected_sp = cpu.get_sp() - 3;
+  uint8_t expected_sp = cpu.get_sp() - 3;
   cpu.execute(RTI, 0, IMPLIED);
 
   EXPECT_EQ(cpu.get_pc(), old_pc);
   EXPECT_EQ(cpu.get_st(), old_st);
+  EXPECT_EQ(cpu.get_sp(), expected_sp);
+}
+
+TEST (SingleInstructionTest, RTS_ReturnFromSubroutine) {
+  CPU cpu;
+  cpu.set_memory(0x0100 + uint8_t(cpu.get_sp() - 1), 0x012);
+  cpu.set_memory(0x0100 + uint8_t(cpu.get_sp() - 2), 0x033);
+
+  uint16_t old_pc = 0x01234;
+  uint8_t expected_sp = cpu.get_sp() - 2;
+  cpu.execute(RTS, 0, IMPLIED);
+
+  EXPECT_EQ(cpu.get_pc(), old_pc);
   EXPECT_EQ(cpu.get_sp(), expected_sp);
 }
 
