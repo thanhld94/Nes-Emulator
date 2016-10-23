@@ -310,7 +310,7 @@ TEST (SingleInstructionTest, BRK_BreakInterrupt) {
   uint16_t pc_low_ad = 0x0100 + uint8_t(expectedsp - 3);
   uint16_t pc_high_ad = 0x0100 + uint8_t(expectedsp - 2);
   uint16_t old_st_ad = 0x0100 + uint8_t(expectedsp - 1);
-  EXPECT_EQ(cpu.get_memory(pc_low_ad), 0x12); // old pc low
+  EXPECT_EQ(cpu.get_memory(pc_low_ad), 0x13); // old pc low
   EXPECT_EQ(cpu.get_memory(pc_high_ad), 0xD4); // old pc high
   EXPECT_EQ(cpu.get_memory(old_st_ad), 0xC3); // old sp
 }
@@ -632,7 +632,7 @@ TEST (SingleInstructionTest, JSR_JumpToSubroutine) {
   cpu.set_memory(address + 1, 0x43);
   cpu.set_pc(0xAFC1);
 
-  uint8_t expected_pc_low = 0xC3;
+  uint8_t expected_pc_low = 0xC0;
   uint8_t expected_pc_high = 0xAF;
   uint16_t low_pc_add = 0x0100 + cpu.get_sp();
   uint16_t high_pc_add = 0x0100 + uint8_t(cpu.get_sp() + 1);

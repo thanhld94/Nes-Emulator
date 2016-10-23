@@ -190,6 +190,7 @@ int CPU::execute(int instruction, uint16_t address, int mode) {
       }
       break;
     case 10: // BRK
+      pc++;
       memory[0x0100 + (sp++)] = uint8_t(pc); 
       memory[0x0100 + (sp++)] = uint8_t(pc >> 8);
       memory[0x0100 + (sp++)] = r_st;
@@ -347,8 +348,8 @@ int CPU::execute(int instruction, uint16_t address, int mode) {
       pc = address;
       break;
     case 28: // JSR
-      memory[0x0100 + (sp++)] = uint8_t(pc + 2);
-      memory[0x0100 + (sp++)] = uint8_t((pc + 2) >> 8);
+      memory[0x0100 + (sp++)] = uint8_t(pc - 1);
+      memory[0x0100 + (sp++)] = uint8_t((pc - 1) >> 8);
       pc = uint16_t(memory[address + 1] << 8) | memory[address];
       break;
     case 29: // LDA
