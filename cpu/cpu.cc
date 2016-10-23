@@ -489,7 +489,8 @@ int CPU::execute(int instruction, uint16_t address, int mode) {
       }
       break;
     case 41: // RTI
-      //TODO handle return from interrupt
+      r_st = memory[0x0100 + (--sp)];
+      pc = uint16_t(memory[0x0100 + (--sp)] << 8) | memory[0x0100 + (--sp)];
       break;
     case 42: // RTS
       //TODO handle return from subroutine
