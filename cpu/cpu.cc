@@ -347,7 +347,9 @@ int CPU::execute(int instruction, uint16_t address, int mode) {
       pc = address;
       break;
     case 28: // JSR
-      //TODO handle subroutine call
+      memory[0x0100 + (sp++)] = uint8_t(pc + 2);
+      memory[0x0100 + (sp++)] = uint8_t((pc + 2) >> 8);
+      pc = uint16_t(memory[address + 1] << 8) | memory[address];
       break;
     case 29: // LDA
       r_acc = memory[address];

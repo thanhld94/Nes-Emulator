@@ -625,7 +625,26 @@ TEST (SingleInstructionTest, JMP_Jump) {
   EXPECT_EQ(cpu.get_pc(), address);
 }
 
-//TODO JSR
+TEST (SingleInstructionTest, JSR_JumpToSubroutine) {
+  CPU cpu;
+  uint16_t address = 0xD412;
+  cpu.set_memory(address, 0x21);
+  cpu.set_memory(address + 1, 0x43);
+  cpu.set_pc(0xAFC1);
+
+  uint8_t expected_pc_low = 0xC3;
+  uint8_t expected_pc_high = 0xAF;
+  uint16_t low_pc_add = 0x0100 + cpu.get_sp();
+  uint16_t high_pc_add = 0x0100 + uint8_t(cpu.get_sp() + 1);
+
+  uint8_t expected_sp = cpu.get_sp() + 2;
+  cpu.execute(JSR, address, ABSOLUTE);
+
+  EXPECT_EQ(cpu.get_pc(), 0x4321);
+  EXPECT_EQ(cpu.get_sp(), expected_sp);
+  EXPECT_EQ(cpu.get_memory(low_pc_add), expected_pc_low);
+  EXPECT_EQ(cpu.get_memory(high_pc_add), expected_pc_high);
+}
 
 TEST (SingleInstructionTest, LDA_LoadAccumulator) {
   CPU cpu;
