@@ -51,6 +51,9 @@ class CPU {
     void set_decimal();
     void clear_decimal();
 
+    // set and clear break flag
+    void set_break();
+
     // set and clear overflow flag
     int get_overflow() const;
     void set_overflow();

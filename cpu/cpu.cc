@@ -190,7 +190,11 @@ int CPU::execute(int instruction, uint16_t address, int mode) {
       }
       break;
     case 10: // BRK
-      //TODO handle break statement
+      memory[0x0100 + (sp++)] = uint8_t(pc); 
+      memory[0x0100 + (sp++)] = uint8_t(pc >> 8);
+      memory[0x0100 + (sp++)] = r_st;
+      pc = (uint16_t(memory[0xFFFF]) << 8) | memory[0xFFFE];
+      set_break();
       break;
     case 11: // BVC
       if (!get_overflow()) {
@@ -696,6 +700,11 @@ void CPU::set_decimal() {
 
 void CPU::clear_decimal() {
   r_st &= 0xF7;
+}
+
+// break flag
+void CPU::set_break() {
+  r_st |= 0x10;
 }
 
 // overflow flag

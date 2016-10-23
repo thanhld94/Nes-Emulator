@@ -20,6 +20,7 @@ TEST (InitializeTest, FirstState) {
 }
 
 // Test flag clear function
+//TODO handle intruction cycles
 TEST (StatusRegisterMethod, FlagClearFunctions) {
   CPU cpu;
   EXPECT_EQ(cpu.get_st(), 0);
@@ -55,7 +56,6 @@ TEST (StatusRegisterMethod, FlagClearFunctions) {
 }
 
 // Single Instruction Tests
-//TODO test bad inputs
 TEST (SingleInstructionTest, AllAddressingModeTest) {
   CPU cpu;
   uint16_t address = 0xD412;
@@ -290,7 +290,30 @@ TEST (SingleInstructionTest, BPL_BranchIfPositive) {
   EXPECT_EQ(cpu.get_pc(), address);
 }
 
-//TODO BRK
+TEST (SingleInstructionTest, BRK_BreakInterrupt) {
+  CPU cpu;
+  cpu.set_memory(0xFFFE, 0xA2);
+  cpu.set_memory(0xFFFF, 0xFC);
+  cpu.set_pc(0xD412);
+  cpu.set_carry();
+  cpu.set_zero();
+  cpu.set_overflow();
+  cpu.set_negative(); // status reg = 1100 0011 = 0xC3
+
+  uint8_t expectedsp = cpu.get_sp() + 3;
+  uint8_t expectedst = 0xD3; // 1101 0011
+  cpu.execute(BRK, 0, IMPLIED);
+
+  EXPECT_EQ(cpu.get_pc(), 0xFCA2);
+  EXPECT_EQ(cpu.get_st(), expectedst);
+  EXPECT_EQ(cpu.get_sp(), expectedsp);
+  uint16_t pc_low_ad = 0x0100 + uint8_t(expectedsp - 3);
+  uint16_t pc_high_ad = 0x0100 + uint8_t(expectedsp - 2);
+  uint16_t old_st_ad = 0x0100 + uint8_t(expectedsp - 1);
+  EXPECT_EQ(cpu.get_memory(pc_low_ad), 0x12); // old pc low
+  EXPECT_EQ(cpu.get_memory(pc_high_ad), 0xD4); // old pc high
+  EXPECT_EQ(cpu.get_memory(old_st_ad), 0xC3); // old sp
+}
 
 TEST (SingleInstructionTest, BVC_BranchIfOverflowClear) {
   CPU cpu;
