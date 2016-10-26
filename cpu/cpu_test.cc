@@ -14,8 +14,11 @@ TEST (InitializeTest, FirstState) {
   EXPECT_EQ(cpu.get_ry(), 0);
   EXPECT_EQ(cpu.get_acc(), 0);
   EXPECT_EQ(cpu.get_st(), 0);
-  for (int i = 0x00; i <= 0xFFFF; i++) {
+  for (int i = 0; ; i++) {
     EXPECT_EQ(cpu.get_memory(i), 0);
+    if (i == 0xFFFF) {
+      break;
+    }
   }
 }
 
@@ -1048,6 +1051,38 @@ TEST (SingleInstructionTest, TYA_TransferYToAccumulator) {
   EXPECT_EQ(cpu.get_acc(), 0);
   EXPECT_EQ(cpu.get_zero(), 1);
   EXPECT_EQ(cpu.get_negative(), 0);
+}
+
+// Test status of pc, cycles after execution
+TEST (SingleExecutionTest, ProgramCounterTest) {
+  for (uint8_t opcode = 0; ; opcode++) {
+    CPU cpu;
+    uint16_t pc = cpu.get_pc();
+    cpu.set_memory(pc, opcode);
+    int error = cpu.step();
+    int expected_error = 0;
+    if (instruction_size[opcode] == -1) 
+      expected_error = 1;
+
+    EXPECT_EQ(error, expected_error); // error check
+    
+    if (expected_error == 0) {
+      // don't check for brach and jump instructions
+      if (opcode == 0x90 || opcode == 0xB0 || opcode == 0xF0 ||
+        opcode == 0x30 || opcode == 0xD0 || opcode == 0x10 ||
+        opcode == 0x50 || opcode == 0x4C || opcode == 0x6C ||
+        opcode == 0x20 || opcode == 0x40 || opcode == 0x60 ||
+        opcode == 0x00) {
+        continue;
+      }
+      EXPECT_EQ(cpu.get_pc(), pc + instruction_size[opcode])
+        << " instruction size = " << instruction_size[opcode] 
+        << " old pc = " << std::hex << unsigned(pc)
+        << " opcode = " << std::hex << unsigned(opcode);
+    }
+
+    if (opcode == 0xFF) break;
+  }
 }
 
 } // namespace nesemu

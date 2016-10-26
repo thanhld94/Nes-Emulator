@@ -10,6 +10,7 @@ class CPU {
     CPU();
 
     /* Cpu instructions */
+    int step();
     int execute(int instruction, uint16_t address, int mode);
 
     /* Getters & Setters*/
@@ -80,8 +81,6 @@ class CPU {
     uint16_t get_operand(uint8_t opcode) const;
 
     uint8_t memory[0x10000]; // System memory
-    static const int mode_table[256]; 
-    static const int valid_inst_mode[56][13];
 };
 
 } // namespace  nessim
