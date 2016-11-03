@@ -136,6 +136,26 @@ const int mode_byte_size[13] = {
   3  // Indirect
 };
 
+const int instruction_cycles[256] = {
+//0  1  2  3  4  5  6  7  8  9  A  B  C  D  E  F
+  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,//0
+  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,//1
+  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,//2
+  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,//3
+  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,//4
+  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,//5
+  0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0,//6
+  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,//7
+  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,//8
+  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,//9
+  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,//A
+  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,//B
+  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,//C
+  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,//D
+  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,//E
+  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 //F
+};
+
 CPU::CPU() {
   pc = 0x34;
   sp = 0xFD;
@@ -143,6 +163,7 @@ CPU::CPU() {
   r_y = 0;
   r_acc = 0;
   r_st = 0;
+  cycles = 0;
   memset(memory, 0, sizeof memory);
 }
 
@@ -153,10 +174,12 @@ int CPU::step() {
   if (instruction == -1) {
     return 1;
   }
+
   uint16_t address = get_operand(opcode);
   int mode = mode_table[opcode];
   pc += mode_byte_size[mode];
   execute(instruction, address, mode);
+  cycles += instruction_cycles[opcode];
   return 0;
 }
 
@@ -740,6 +763,11 @@ int CPU::execute(int instruction, uint16_t address, int mode) {
       err = 1;
   }
   return err;
+}
+
+// get cpu cycle counter
+uint64_t CPU::get_cycles() const {
+  return cycles;
 }
 
 // set and get memory

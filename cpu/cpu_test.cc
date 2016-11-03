@@ -14,6 +14,7 @@ TEST (InitializeTest, FirstState) {
   EXPECT_EQ(cpu.get_ry(), 0);
   EXPECT_EQ(cpu.get_acc(), 0);
   EXPECT_EQ(cpu.get_st(), 0);
+  EXPECT_EQ(cpu.get_cycles(), 0);
   for (int i = 0; ; i++) {
     EXPECT_EQ(cpu.get_memory(i), 0);
     if (i == 0xFFFF) {
@@ -22,8 +23,9 @@ TEST (InitializeTest, FirstState) {
   }
 }
 
+//TODO change tests to test step() instead of execute
+
 // Test flag clear function
-//TODO handle intruction cycles
 TEST (StatusRegisterMethod, FlagClearFunctions) {
   CPU cpu;
   EXPECT_EQ(cpu.get_st(), 0);
@@ -1084,5 +1086,21 @@ TEST (SingleExecutionTest, ProgramCounterTest) {
     if (opcode == 0xFF) break;
   }
 }
+
+//TODO handle instruction cycles
+TEST (ClockCycleTest, ADC_AddWithCarry) {
+  CPU cpu;
+  int pc = cpu.get_pc();
+  cpu.set_memory(pc, 0x69); //adc immediate
+  cpu.set_memory(pc + 1, 0x34);
+  cpu.set_memory(pc + 2, 0x12); // set immediate operand 0x1234
+
+  int expected = cpu.get_cycles() + 2;
+  cpu.step();
+
+  EXPECT_EQ(cpu.get_cycles(), expected);
+}
+
+//TODO hande instruction cycles with page different
 
 } // namespace nesemu

@@ -29,6 +29,8 @@ class CPU {
     uint8_t get_acc() const;
     void set_acc(uint8_t value);
 
+    uint64_t get_cycles() const;
+
     // Status register
     uint8_t get_st() const;
 
@@ -69,6 +71,7 @@ class CPU {
     void set_memory(uint16_t address, uint8_t value);
 
   private:
+    uint64_t cycles;
     uint16_t pc;
     uint8_t sp;
     uint8_t r_x;
