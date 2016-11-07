@@ -1089,16 +1089,22 @@ TEST (SingleExecutionTest, ProgramCounterTest) {
 
 //TODO handle instruction cycles
 TEST (ClockCycleTest, ADC_AddWithCarry) {
-  CPU cpu;
-  int pc = cpu.get_pc();
-  cpu.set_memory(pc, 0x69); //adc immediate
-  cpu.set_memory(pc + 1, 0x34);
-  cpu.set_memory(pc + 2, 0x12); // set immediate operand 0x1234
-
-  int expected = cpu.get_cycles() + 2;
-  cpu.step();
-
-  EXPECT_EQ(cpu.get_cycles(), expected);
+  {// immediate mode
+    CPU cpu;
+    int pc = cpu.get_pc();
+    cpu.set_memory(pc, 0x69); //adc immediate
+    int expected = cpu.get_cycles() + 2;
+    cpu.step();
+    EXPECT_EQ(cpu.get_cycles(), expected);
+  }
+  {// Zero page
+    CPU cpu;
+    int pc = cpu.get_pc();
+    cpu.set_memory(pc, 0x65); //adc zero page
+    int expected = cpu.get_cycles() + 3;
+    cpu.step();
+    EXPECT_EQ(cpu.get_cycles(), expected);
+  }
 }
 
 //TODO hande instruction cycles with page different
