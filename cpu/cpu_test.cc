@@ -1155,6 +1155,73 @@ TEST (ClockCycleTest, ADC_AddWithCarry) {
   }
 }
 
+TEST (ClockCycleTest, AND_LogicalAnd) {
+  {// Immediate
+    CPU cpu;
+    int pc = cpu.get_pc();
+    cpu.set_memory(pc, 0x29); // immediate
+    int expected = cpu.get_cycles() + 2;
+    cpu.step();
+    EXPECT_EQ(cpu.get_cycles(), expected);
+  }
+  {// Zero page
+    CPU cpu;
+    int pc = cpu.get_pc();
+    cpu.set_memory(pc, 0x25); // zero page
+    int expected = cpu.get_cycles() + 3;
+    cpu.step();
+    EXPECT_EQ(cpu.get_cycles(), expected);
+  }
+  {// Zero page X
+    CPU cpu;
+    int pc = cpu.get_pc();
+    cpu.set_memory(pc, 0x35); // zero page X
+    int expected = cpu.get_cycles() + 4;
+    cpu.step();
+    EXPECT_EQ(cpu.get_cycles(), expected);
+  }
+  {// Absolute
+    CPU cpu;
+    int pc = cpu.get_pc();
+    cpu.set_memory(pc, 0x2D); // absolute
+    int expected = cpu.get_cycles() + 4;
+    cpu.step();
+    EXPECT_EQ(cpu.get_cycles(), expected);
+  }
+  {// Absolute X
+    CPU cpu;
+    int pc = cpu.get_pc();
+    cpu.set_memory(pc, 0x3D); // absolute X
+    int expected = cpu.get_cycles() + 4;
+    cpu.step();
+    EXPECT_EQ(cpu.get_cycles(), expected);
+  }
+  {// Absolute Y
+    CPU cpu;
+    int pc = cpu.get_pc();
+    cpu.set_memory(pc, 0x39); // absolute Y
+    int expected = cpu.get_cycles() + 4;
+    cpu.step();
+    EXPECT_EQ(cpu.get_cycles(), expected);
+  }
+  {// Indirect X
+    CPU cpu;
+    int pc = cpu.get_pc();
+    cpu.set_memory(pc, 0x21); //adc indirect X
+    int expected = cpu.get_cycles() + 6;
+    cpu.step();
+    EXPECT_EQ(cpu.get_cycles(), expected);
+  }
+  {// Indirect Y
+    CPU cpu;
+    int pc = cpu.get_pc();
+    cpu.set_memory(pc, 0x31); //adc indirect Y
+    int expected = cpu.get_cycles() + 5;
+    cpu.step();
+    EXPECT_EQ(cpu.get_cycles(), expected);
+  }
+}
+
 //TODO hande instruction cycles with page different
 
 } // namespace nesemu
