@@ -1266,12 +1266,24 @@ TEST (ClockCycleTest, ASL_ArithmeticShiftLeft) {
 }
 
 TEST (ClockCycleTest, BCC_BranchIfCarryClear) {
-  CPU cpu;
-  int pc = cpu.get_pc();
-  cpu.set_memory(pc, 0x90); // bcc
-  int expected = cpu.get_cycles() + 2;
-  cpu.step();
-  EXPECT_EQ(cpu.get_cycles(), expected);
+  {// unsuccessful branch
+    CPU cpu;
+    int pc = cpu.get_pc();
+    cpu.set_carry();
+    cpu.set_memory(pc, 0x90); // bcc
+    int expected = cpu.get_cycles() + 2;
+    cpu.step();
+    EXPECT_EQ(cpu.get_cycles(), expected);
+  }
+  {// successful branch
+    CPU cpu;
+    int pc = cpu.get_pc();
+    cpu.clear_carry();
+    cpu.set_memory(pc, 0x90); // bcc
+    int expected = cpu.get_cycles() + 3;
+    cpu.step();
+    EXPECT_EQ(cpu.get_cycles(), expected);
+  }
 }
 
 //TODO hande instruction cycles with page different

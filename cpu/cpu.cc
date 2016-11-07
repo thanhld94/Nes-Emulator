@@ -314,6 +314,7 @@ int CPU::execute(int instruction, uint16_t address, int mode) {
     case 3: // BCC
       if (!get_carry()) {
         pc = address;
+        cycles++;
       }
       break;
     case 4: // BCS
