@@ -1105,6 +1105,14 @@ TEST (ClockCycleTest, ADC_AddWithCarry) {
     cpu.step();
     EXPECT_EQ(cpu.get_cycles(), expected);
   }
+  {// Zero page X
+    CPU cpu;
+    int pc = cpu.get_pc();
+    cpu.set_memory(pc, 0x75); //adc zero page X
+    int expected = cpu.get_cycles() + 4;
+    cpu.step();
+    EXPECT_EQ(cpu.get_cycles(), expected);
+  }
 }
 
 //TODO hande instruction cycles with page different
