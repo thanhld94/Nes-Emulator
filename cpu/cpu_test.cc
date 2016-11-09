@@ -1347,6 +1347,27 @@ TEST (ClockCycleTest, BIT_BitTest) {
   }
 }
 
+TEST (ClockCycleTest, BMI_BranchIfMinus) {
+  {// unsuccessful branch
+    CPU cpu;
+    int pc = cpu.get_pc();
+    cpu.clear_negative();
+    cpu.set_memory(pc, 0x30); // bmi
+    int expected = cpu.get_cycles() + 2;
+    cpu.step();
+    EXPECT_EQ(cpu.get_cycles(), expected);
+  }
+  {// successful branch
+    CPU cpu;
+    int pc = cpu.get_pc();
+    cpu.set_negative();
+    cpu.set_memory(pc, 0x30); // bmi
+    int expected = cpu.get_cycles() + 3;
+    cpu.step();
+    EXPECT_EQ(cpu.get_cycles(), expected);
+  }
+}
+
 //TODO hande instruction cycles with page different
 
 } // namespace nesemu
