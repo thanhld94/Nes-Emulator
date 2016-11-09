@@ -1328,6 +1328,25 @@ TEST (ClockCycleTest, BEQ_BranchIfEqual) {
   }
 }
 
+TEST (ClockCycleTest, BIT_BitTest) {
+  {// zero page
+    CPU cpu;
+    int pc = cpu.get_pc();
+    cpu.set_memory(pc, 0x24); // bit zero page
+    int expected = cpu.get_cycles() + 3;
+    cpu.step();
+    EXPECT_EQ(cpu.get_cycles(), expected);
+  }
+  {// absolute
+    CPU cpu;
+    int pc = cpu.get_pc();
+    cpu.set_memory(pc, 0x2C); // bit absolute
+    int expected = cpu.get_cycles() + 4;
+    cpu.step();
+    EXPECT_EQ(cpu.get_cycles(), expected);
+  }
+}
+
 //TODO hande instruction cycles with page different
 
 } // namespace nesemu
