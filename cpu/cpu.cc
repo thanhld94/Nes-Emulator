@@ -153,7 +153,7 @@ const int instruction_cycles[256] = {
   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,//C
   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,//D
   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,//E
-  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 //F
+  2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 //F
 };
 
 CPU::CPU() {
@@ -326,6 +326,7 @@ int CPU::execute(int instruction, uint16_t address, int mode) {
     case 5: // BEQ
       if (get_zero()) {
         pc = address;
+        cycles++;
       }
       break;
     case 6: // BIT
