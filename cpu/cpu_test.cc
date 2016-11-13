@@ -1419,6 +1419,27 @@ TEST (ClockCycleTest, BRK_BreakInterrupt) {
   EXPECT_EQ(cpu.get_cycles(), expected);
 }
 
+TEST (ClockCycleTest, BVC_BranchIfOverflowClear) {
+  {// unsuccessful branch
+    CPU cpu;
+    int pc = cpu.get_pc();
+    cpu.set_overflow();
+    cpu.set_memory(pc, 0x50); // bvc
+    int expected = cpu.get_cycles() + 2;
+    cpu.step();
+    EXPECT_EQ(cpu.get_cycles(), expected);
+  }
+  {// successful branch
+    CPU cpu;
+    int pc = cpu.get_pc();
+    cpu.clear_overflow();
+    cpu.set_memory(pc, 0x50); // bvc
+    int expected = cpu.get_cycles() + 3;
+    cpu.step();
+    EXPECT_EQ(cpu.get_cycles(), expected);
+  }
+}
+
 //TODO hande instruction cycles with page different
 
 } // namespace nesemu
