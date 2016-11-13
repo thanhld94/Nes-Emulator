@@ -1546,6 +1546,60 @@ TEST (ClockCycleTest, CMP_Compare) {
   }
 }
 
+TEST (ClockCycleTest, CPX_CompareXRegister) {
+  {// Immediate
+    CPU cpu;
+    int pc = cpu.get_pc();
+    cpu.set_memory(pc, 0xE0); // immediate
+    int expected = cpu.get_cycles() + 2;
+    cpu.step();
+    EXPECT_EQ(cpu.get_cycles(), expected);
+  }
+  {// Zero page
+    CPU cpu;
+    int pc = cpu.get_pc();
+    cpu.set_memory(pc, 0xE4); // zero page
+    int expected = cpu.get_cycles() + 3;
+    cpu.step();
+    EXPECT_EQ(cpu.get_cycles(), expected);
+  }
+  {// Absolute
+    CPU cpu;
+    int pc = cpu.get_pc();
+    cpu.set_memory(pc, 0xEC); // absolute
+    int expected = cpu.get_cycles() + 4;
+    cpu.step();
+    EXPECT_EQ(cpu.get_cycles(), expected);
+  }
+}
+
+TEST (ClockCycleTest, CPY_CompareYRegister) {
+  {// Immediate
+    CPU cpu;
+    int pc = cpu.get_pc();
+    cpu.set_memory(pc, 0xC0); // immediate
+    int expected = cpu.get_cycles() + 2;
+    cpu.step();
+    EXPECT_EQ(cpu.get_cycles(), expected);
+  }
+  {// Zero page
+    CPU cpu;
+    int pc = cpu.get_pc();
+    cpu.set_memory(pc, 0xC4); // zero page
+    int expected = cpu.get_cycles() + 3;
+    cpu.step();
+    EXPECT_EQ(cpu.get_cycles(), expected);
+  }
+  {// Absolute
+    CPU cpu;
+    int pc = cpu.get_pc();
+    cpu.set_memory(pc, 0xCC); // absolute
+    int expected = cpu.get_cycles() + 4;
+    cpu.step();
+    EXPECT_EQ(cpu.get_cycles(), expected);
+  }
+}
+
 //TODO hande instruction cycles with page different
 
 } // namespace nesemu
