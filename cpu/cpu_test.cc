@@ -1773,6 +1773,25 @@ TEST (ClockCycleTest, INY_IncrementYRegister) {
   EXPECT_EQ(cpu.get_cycles(), expected);
 }
 
+TEST (ClockCycleTest, JMP_Jump) {
+  {// absolute
+    CPU cpu;
+    int pc = cpu.get_pc();
+    cpu.set_memory(pc, 0x4C); // absolute
+    int expected = cpu.get_cycles() + 3;
+    cpu.step();
+    EXPECT_EQ(cpu.get_cycles(), expected);
+  }
+  {// indirect
+    CPU cpu;
+    int pc = cpu.get_pc();
+    cpu.set_memory(pc, 0x6C); // indirect
+    int expected = cpu.get_cycles() + 5;
+    cpu.step();
+    EXPECT_EQ(cpu.get_cycles(), expected);
+  }
+}
+
 //TODO hande instruction cycles with page different
 
 } // namespace nesemu
