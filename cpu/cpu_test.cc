@@ -1644,6 +1644,82 @@ TEST (ClockCycleTest, DEX_DecrementXRegister) {
   EXPECT_EQ(cpu.get_cycles(), expected);
 }
 
+TEST (ClockCycleTest, DEY_DecrementYRegister) {
+  CPU cpu;
+  int pc = cpu.get_pc();
+  cpu.set_memory(pc, 0x88); // dey implied
+  int expected = cpu.get_cycles() + 2;
+  cpu.step();
+  EXPECT_EQ(cpu.get_cycles(), expected);
+}
+
+TEST (ClockCycleTest, EOR_ExclusiveOR) {
+  {// Immediate
+    CPU cpu;
+    int pc = cpu.get_pc();
+    cpu.set_memory(pc, 0x49); // immediate
+    int expected = cpu.get_cycles() + 2;
+    cpu.step();
+    EXPECT_EQ(cpu.get_cycles(), expected);
+  }
+  {// Zero page
+    CPU cpu;
+    int pc = cpu.get_pc();
+    cpu.set_memory(pc, 0x45); // zero page
+    int expected = cpu.get_cycles() + 3;
+    cpu.step();
+    EXPECT_EQ(cpu.get_cycles(), expected);
+  }
+  {// Zero page X
+    CPU cpu;
+    int pc = cpu.get_pc();
+    cpu.set_memory(pc, 0x55); // zero page X
+    int expected = cpu.get_cycles() + 4;
+    cpu.step();
+    EXPECT_EQ(cpu.get_cycles(), expected);
+  }
+  {// Absolute
+    CPU cpu;
+    int pc = cpu.get_pc();
+    cpu.set_memory(pc, 0x4D); // absolute
+    int expected = cpu.get_cycles() + 4;
+    cpu.step();
+    EXPECT_EQ(cpu.get_cycles(), expected);
+  }
+  {// Absolute X
+    CPU cpu;
+    int pc = cpu.get_pc();
+    cpu.set_memory(pc, 0x5D); // absolute X
+    int expected = cpu.get_cycles() + 4;
+    cpu.step();
+    EXPECT_EQ(cpu.get_cycles(), expected);
+  }
+  {// Absolute Y
+    CPU cpu;
+    int pc = cpu.get_pc();
+    cpu.set_memory(pc, 0x59); // absolute Y
+    int expected = cpu.get_cycles() + 4;
+    cpu.step();
+    EXPECT_EQ(cpu.get_cycles(), expected);
+  }
+  {// Indirect X
+    CPU cpu;
+    int pc = cpu.get_pc();
+    cpu.set_memory(pc, 0x41); //adc indirect X
+    int expected = cpu.get_cycles() + 6;
+    cpu.step();
+    EXPECT_EQ(cpu.get_cycles(), expected);
+  }
+  {// Indirect Y
+    CPU cpu;
+    int pc = cpu.get_pc();
+    cpu.set_memory(pc, 0x51); //adc indirect Y
+    int expected = cpu.get_cycles() + 5;
+    cpu.step();
+    EXPECT_EQ(cpu.get_cycles(), expected);
+  }
+}
+
 //TODO hande instruction cycles with page different
 
 } // namespace nesemu
