@@ -1792,6 +1792,15 @@ TEST (ClockCycleTest, JMP_Jump) {
   }
 }
 
+TEST (ClockCycleTest, JSR_JumpToSubroutine) {
+  CPU cpu;
+  int pc = cpu.get_pc();
+  cpu.set_memory(pc, 0x20); // jsr
+  int expected = cpu.get_cycles() + 6;
+  cpu.step();
+  EXPECT_EQ(cpu.get_cycles(), expected);
+}
+
 //TODO hande instruction cycles with page different
 
 } // namespace nesemu
