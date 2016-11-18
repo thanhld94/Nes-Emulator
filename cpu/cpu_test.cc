@@ -1911,6 +1911,49 @@ TEST (ClockCycleTest, LDX_LoadXRegister) {
   }
 }
 
+TEST (ClockCycleTest, LDY_LoadYRegister) {
+  {// Immediate
+    CPU cpu;
+    int pc = cpu.get_pc();
+    cpu.set_memory(pc, 0xA0); // immediate
+    int expected = cpu.get_cycles() + 2;
+    cpu.step();
+    EXPECT_EQ(cpu.get_cycles(), expected);
+  }
+  {// Zero Page
+    CPU cpu;
+    int pc = cpu.get_pc();
+    cpu.set_memory(pc, 0xA4); // zero page
+    int expected = cpu.get_cycles() + 3;
+    cpu.step();
+    EXPECT_EQ(cpu.get_cycles(), expected);
+  }
+  {// Zero page X
+    CPU cpu;
+    int pc = cpu.get_pc();
+    cpu.set_memory(pc, 0xB4); // zero page X
+    int expected = cpu.get_cycles() + 4;
+    cpu.step();
+    EXPECT_EQ(cpu.get_cycles(), expected);
+  }
+  {// Absolute
+    CPU cpu;
+    int pc = cpu.get_pc();
+    cpu.set_memory(pc, 0xAC); // absolute
+    int expected = cpu.get_cycles() + 4;
+    cpu.step();
+    EXPECT_EQ(cpu.get_cycles(), expected);
+  }
+  {// Absolute X
+    CPU cpu;
+    int pc = cpu.get_pc();
+    cpu.set_memory(pc, 0xBC); // absolute X
+    int expected = cpu.get_cycles() + 4;
+    cpu.step();
+    EXPECT_EQ(cpu.get_cycles(), expected);
+  }
+}
+
 //TODO hande instruction cycles with page different
 
 } // namespace nesemu
