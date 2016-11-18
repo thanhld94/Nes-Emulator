@@ -1531,7 +1531,7 @@ TEST (ClockCycleTest, CMP_Compare) {
   {// Indirect X
     CPU cpu;
     int pc = cpu.get_pc();
-    cpu.set_memory(pc, 0xC1); //adc indirect X
+    cpu.set_memory(pc, 0xC1); // indirect X
     int expected = cpu.get_cycles() + 6;
     cpu.step();
     EXPECT_EQ(cpu.get_cycles(), expected);
@@ -1539,7 +1539,7 @@ TEST (ClockCycleTest, CMP_Compare) {
   {// Indirect Y
     CPU cpu;
     int pc = cpu.get_pc();
-    cpu.set_memory(pc, 0xD1); //adc indirect Y
+    cpu.set_memory(pc, 0xD1); // indirect Y
     int expected = cpu.get_cycles() + 5;
     cpu.step();
     EXPECT_EQ(cpu.get_cycles(), expected);
@@ -1705,7 +1705,7 @@ TEST (ClockCycleTest, EOR_ExclusiveOR) {
   {// Indirect X
     CPU cpu;
     int pc = cpu.get_pc();
-    cpu.set_memory(pc, 0x41); //adc indirect X
+    cpu.set_memory(pc, 0x41); // indirect X
     int expected = cpu.get_cycles() + 6;
     cpu.step();
     EXPECT_EQ(cpu.get_cycles(), expected);
@@ -1713,7 +1713,7 @@ TEST (ClockCycleTest, EOR_ExclusiveOR) {
   {// Indirect Y
     CPU cpu;
     int pc = cpu.get_pc();
-    cpu.set_memory(pc, 0x51); //adc indirect Y
+    cpu.set_memory(pc, 0x51); // indirect Y
     int expected = cpu.get_cycles() + 5;
     cpu.step();
     EXPECT_EQ(cpu.get_cycles(), expected);
@@ -1853,7 +1853,7 @@ TEST (ClockCycleTest, LDA_LoadAccumulator) {
   {// Indirect X
     CPU cpu;
     int pc = cpu.get_pc();
-    cpu.set_memory(pc, 0xA1); //adc indirect X
+    cpu.set_memory(pc, 0xA1); //indirect X
     int expected = cpu.get_cycles() + 6;
     cpu.step();
     EXPECT_EQ(cpu.get_cycles(), expected);
@@ -1861,8 +1861,51 @@ TEST (ClockCycleTest, LDA_LoadAccumulator) {
   {// Indirect Y
     CPU cpu;
     int pc = cpu.get_pc();
-    cpu.set_memory(pc, 0xB1); //adc indirect Y
+    cpu.set_memory(pc, 0xB1); //indirect Y
     int expected = cpu.get_cycles() + 5;
+    cpu.step();
+    EXPECT_EQ(cpu.get_cycles(), expected);
+  }
+}
+
+TEST (ClockCycleTest, LDX_LoadXRegister) {
+  {// Immediate
+    CPU cpu;
+    int pc = cpu.get_pc();
+    cpu.set_memory(pc, 0xA2); // immediate
+    int expected = cpu.get_cycles() + 2;
+    cpu.step();
+    EXPECT_EQ(cpu.get_cycles(), expected);
+  }
+  {// Zero Page
+    CPU cpu;
+    int pc = cpu.get_pc();
+    cpu.set_memory(pc, 0xA6); // zero page
+    int expected = cpu.get_cycles() + 3;
+    cpu.step();
+    EXPECT_EQ(cpu.get_cycles(), expected);
+  }
+  {// Zero page Y
+    CPU cpu;
+    int pc = cpu.get_pc();
+    cpu.set_memory(pc, 0xB6); // zero page Y
+    int expected = cpu.get_cycles() + 4;
+    cpu.step();
+    EXPECT_EQ(cpu.get_cycles(), expected);
+  }
+  {// Absolute
+    CPU cpu;
+    int pc = cpu.get_pc();
+    cpu.set_memory(pc, 0xAE); // absolute
+    int expected = cpu.get_cycles() + 4;
+    cpu.step();
+    EXPECT_EQ(cpu.get_cycles(), expected);
+  }
+  {// Absolute Y
+    CPU cpu;
+    int pc = cpu.get_pc();
+    cpu.set_memory(pc, 0xBE); // absolute Y
+    int expected = cpu.get_cycles() + 4;
     cpu.step();
     EXPECT_EQ(cpu.get_cycles(), expected);
   }
