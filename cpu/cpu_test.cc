@@ -2073,6 +2073,33 @@ TEST (ClockCycleTest, ORA_LogicalInclusiveOr) {
   }
 }
 
+TEST (ClockCycleTest, PHA_PushAccumulator) {
+  CPU cpu;
+  int pc = cpu.get_pc();
+  cpu.set_memory(pc, 0x48); // pha
+  int expected = cpu.get_cycles() + 3;
+  cpu.step();
+  EXPECT_EQ(cpu.get_cycles(), expected);
+}
+
+TEST (ClockCycleTest, PHP_PushProcessorStatus) {
+  CPU cpu;
+  int pc = cpu.get_pc();
+  cpu.set_memory(pc, 0x08); // php
+  int expected = cpu.get_cycles() + 3;
+  cpu.step();
+  EXPECT_EQ(cpu.get_cycles(), expected);
+}
+
+TEST (ClockCycleTest, PLP_PullProcessorStatus) {
+  CPU cpu;
+  int pc = cpu.get_pc();
+  cpu.set_memory(pc, 0x28); // plp
+  int expected = cpu.get_cycles() + 4;
+  cpu.step();
+  EXPECT_EQ(cpu.get_cycles(), expected);
+}
+
 //TODO hande instruction cycles with page different
 
 } // namespace nesemu
