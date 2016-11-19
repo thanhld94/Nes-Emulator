@@ -2186,6 +2186,24 @@ TEST (ClockCycleTest, ROR_RotateRight) {
   }
 }
 
+TEST (ClockCycleTest, RTI_ReturnFromInterrupt) {
+  CPU cpu;
+  int pc = cpu.get_pc();
+  cpu.set_memory(pc, 0x40); // rti
+  int expected = cpu.get_cycles() + 6;
+  cpu.step();
+  EXPECT_EQ(cpu.get_cycles(), expected);
+}
+
+TEST (ClockCycleTest, RTS_ReturnFromSubroutine) {
+  CPU cpu;
+  int pc = cpu.get_pc();
+  cpu.set_memory(pc, 0x60); // rts
+  int expected = cpu.get_cycles() + 6;
+  cpu.step();
+  EXPECT_EQ(cpu.get_cycles(), expected);
+}
+
 //TODO hande instruction cycles with page different
 
 } // namespace nesemu
