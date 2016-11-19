@@ -2143,6 +2143,49 @@ TEST (ClockCycleTest, ROL_RotateLeft) {
   }
 }
 
+TEST (ClockCycleTest, ROR_RotateRight) {
+  {// Accumulator
+    CPU cpu;
+    int pc = cpu.get_pc();
+    cpu.set_memory(pc, 0x6A); // accumulator
+    int expected = cpu.get_cycles() + 2;
+    cpu.step();
+    EXPECT_EQ(cpu.get_cycles(), expected);
+  }
+  {// Zero Page
+    CPU cpu;
+    int pc = cpu.get_pc();
+    cpu.set_memory(pc, 0x66); // zero page
+    int expected = cpu.get_cycles() + 5;
+    cpu.step();
+    EXPECT_EQ(cpu.get_cycles(), expected);
+  }
+  {// Zero page X
+    CPU cpu;
+    int pc = cpu.get_pc();
+    cpu.set_memory(pc, 0x76); // zero page X
+    int expected = cpu.get_cycles() + 6;
+    cpu.step();
+    EXPECT_EQ(cpu.get_cycles(), expected);
+  }
+  {// Absolute
+    CPU cpu;
+    int pc = cpu.get_pc();
+    cpu.set_memory(pc, 0x6E); // absolute
+    int expected = cpu.get_cycles() + 6;
+    cpu.step();
+    EXPECT_EQ(cpu.get_cycles(), expected);
+  }
+  {// Absolute X
+    CPU cpu;
+    int pc = cpu.get_pc();
+    cpu.set_memory(pc, 0x7E); // absolute X
+    int expected = cpu.get_cycles() + 7;
+    cpu.step();
+    EXPECT_EQ(cpu.get_cycles(), expected);
+  }
+}
+
 //TODO hande instruction cycles with page different
 
 } // namespace nesemu
