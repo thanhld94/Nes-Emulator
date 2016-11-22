@@ -2280,6 +2280,15 @@ TEST (ClockCycleTest, SEC_SetCarryFlag) {
   EXPECT_EQ(cpu.get_cycles(), expected);
 }
 
+TEST (ClockCycleTest, SED_SetDecimalFlag) {
+  CPU cpu;
+  int pc = cpu.get_pc();
+  cpu.set_memory(pc, 0xF8); // sed
+  int expected = cpu.get_cycles() + 2;
+  cpu.step();
+  EXPECT_EQ(cpu.get_cycles(), expected);
+}
+
 //TODO hande instruction cycles with page different
 
 } // namespace nesemu
