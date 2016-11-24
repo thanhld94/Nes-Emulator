@@ -2447,6 +2447,15 @@ TEST (ClockCycleTest, TXA_TransferXToAccumulator) {
   EXPECT_EQ(cpu.get_cycles(), expected);
 }
 
+TEST (ClockCycleTest, TXS_TransferXToStackPointer) {
+  CPU cpu;
+  int pc = cpu.get_pc();
+  cpu.set_memory(pc, 0x9A); // txs
+  int expected = cpu.get_cycles() + 2;
+  cpu.step();
+  EXPECT_EQ(cpu.get_cycles(), expected);
+}
+
 //TODO hande instruction cycles with page different
 
 } // namespace nesemu
