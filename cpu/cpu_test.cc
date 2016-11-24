@@ -2411,6 +2411,15 @@ TEST (ClockCycleTest, STY_StoreYRegister) {
   }
 }
 
+TEST (ClockCycleTest, TAX_TransferAccumulatorToX) {
+  CPU cpu;
+  int pc = cpu.get_pc();
+  cpu.set_memory(pc, 0xAA); // tax
+  int expected = cpu.get_cycles() + 2;
+  cpu.step();
+  EXPECT_EQ(cpu.get_cycles(), expected);
+}
+
 //TODO hande instruction cycles with page different
 
 } // namespace nesemu
