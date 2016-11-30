@@ -2465,6 +2465,57 @@ TEST (ClockCycleTest, TYA_TransferYToAccumulator) {
   EXPECT_EQ(cpu.get_cycles(), expected);
 }
 
-//TODO hande instruction cycles with page different
+//Testing instruction cycles with page different
+TEST (ClockCyclePageCrossedTest, ADC_AddWithCarry) {
+}
+
+//TODO testing page crossed instructions clock cycles
+TEST (ClockCyclePageCrossedTest, AND_LogicalAnd) {
+}
+
+TEST (ClockCyclePageCrossedTest, BCC_BranchIfCarryClear) {
+}
+
+TEST (ClockCyclePageCrossedTest, BCS_BranchIfCarrySet) {
+}
+
+TEST (ClockCyclePageCrossedTest, BEQ_BranchIfEqual) {
+}
+
+TEST (ClockCyclePageCrossedTest, BMI_BranchIfMinus) {
+}
+
+TEST (ClockCyclePageCrossedTest, BNE_BranchIfNotEqual) {
+}
+
+TEST (ClockCyclePageCrossedTest, BPL_BranchIfPositive) {
+}
+
+TEST (ClockCyclePageCrossedTest, BVC_BranchIfOverflowClear) {
+}
+
+TEST (ClockCyclePageCrossedTest, BVS_BranchIfOverFlowSet) {
+}
+
+TEST (ClockCyclePageCrossedTest, CMP_Compare) {
+}
+
+TEST (ClockCyclePageCrossedTest, EOR_ExclusiveOR) {
+}
+
+TEST (ClockCyclePageCrossedTest, LDA_LoadAccumulator) {
+}
+
+TEST (ClockCyclePageCrossedTest, LDX_LoadXRegister) {
+}
+
+TEST (ClockCyclePageCrossedTest, LDY_LoadYRegister) {
+}
+
+TEST (ClockCyclePageCrossedTest, ORA_LogicalInclusiveOr) {
+}
+
+TEST (ClockCyclePageCrossedTest, SBC_SubtractWithCarry) {
+}
 
 } // namespace nesemu
